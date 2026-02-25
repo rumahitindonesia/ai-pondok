@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TagihanSpp;
 use App\Models\Pembayaran;
 use App\Models\Santri;
+use App\Models\JenisPembayaran;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
@@ -32,14 +33,23 @@ class FinanceController extends Controller
         ]);
     }
 
-    public function billings()
+    public function billings(Request $request)
     {
-        $billings = TagihanSpp::with('santri')
-            ->latest()
-            ->paginate(10);
+        $query = TagihanSpp::with(['santri', 'jenisPembayaran'])->latest();
+
+        if ($request->filled('jenis')) {
+            $query->where('jenis_pembayaran_id', $request->input('jenis'));
+        }
+        if ($request->filled('status')) {
+            $query->where('status', $request->input('status'));
+        }
+
+        $billings = $query->paginate(15)->withQueryString();
 
         return Inertia::render('Finance/Billing', [
-            'billings' => $billings
+            'billings' => $billings,
+            'jenisPembayarans' => JenisPembayaran::orderBy('nama')->get(),
+            'filters' => $request->only(['jenis', 'status']),
         ]);
     }
 
@@ -47,7 +57,7 @@ class FinanceController extends Controller
     {
         $payments = Pembayaran::with('tagihan.santri')
             ->latest()
-            ->paginate(10);
+            ->paginate(15);
 
         return Inertia::render('Finance/Payments', [
             'payments' => $payments
@@ -56,7 +66,7 @@ class FinanceController extends Controller
 
     public function createPayment(TagihanSpp $billing)
     {
-        $billing->load('santri');
+        $billing->load(['santri', 'jenisPembayaran']);
         return Inertia::render('Finance/CreatePayment', [
             'billing' => $billing
         ]);
@@ -79,7 +89,6 @@ class FinanceController extends Controller
 
             Pembayaran::create($validated);
 
-            // Update billing status
             $billing = TagihanSpp::findOrFail($validated['tagihan_id']);
             $totalPaid = $billing->pembayarans()->sum('jumlah_bayar');
             
@@ -98,22 +107,26 @@ class FinanceController extends Controller
             'tahun' => 'required|integer',
             'jumlah' => 'required|numeric|min:0',
             'jatuh_tempo' => 'required|date',
+            'jenis_pembayaran_id' => 'nullable|exists:jenis_pembayarans,id',
         ]);
+
+        $jenisSpp = JenisPembayaran::where('kode', 'spp')->first();
 
         $activeSantris = Santri::where('status', 'aktif')->get();
         $count = 0;
 
         foreach ($activeSantris as $santri) {
-            // Check if bill already exists
             $exists = TagihanSpp::where([
                 'santri_id' => $santri->id,
                 'bulan' => $validated['bulan'],
                 'tahun' => $validated['tahun'],
+                'jenis_pembayaran_id' => $validated['jenis_pembayaran_id'] ?? $jenisSpp?->id,
             ])->exists();
 
             if (!$exists) {
                 TagihanSpp::create([
                     'santri_id' => $santri->id,
+                    'jenis_pembayaran_id' => $validated['jenis_pembayaran_id'] ?? $jenisSpp?->id,
                     'bulan' => $validated['bulan'],
                     'tahun' => $validated['tahun'],
                     'jumlah' => $validated['jumlah'],
@@ -130,34 +143,49 @@ class FinanceController extends Controller
     public function createBilling()
     {
         $santris = Santri::where('status', 'aktif')->get();
+        $jenisPembayarans = JenisPembayaran::orderBy('nama')->get();
         return Inertia::render('Finance/CreateBilling', [
-            'santris' => $santris
+            'santris' => $santris,
+            'jenisPembayarans' => $jenisPembayarans,
         ]);
     }
 
     public function storeBilling(Request $request)
     {
-        $validated = $request->validate([
+        $jenisPembayaran = JenisPembayaran::find($request->input('jenis_pembayaran_id'));
+
+        $rules = [
             'santri_id' => 'required|exists:santris,id',
-            'bulan' => 'required|string',
-            'tahun' => 'required|integer',
+            'jenis_pembayaran_id' => 'required|exists:jenis_pembayarans,id',
             'jumlah' => 'required|numeric|min:0',
             'jatuh_tempo' => 'required|date',
-        ]);
+            'keterangan' => 'nullable|string',
+        ];
 
-        // Check for duplicate
-        $exists = TagihanSpp::where([
-            'santri_id' => $validated['santri_id'],
-            'bulan' => $validated['bulan'],
-            'tahun' => $validated['tahun'],
-        ])->exists();
+        // bulan & tahun only required for bulanan types
+        if ($jenisPembayaran && $jenisPembayaran->sifat === 'bulanan') {
+            $rules['bulan'] = 'required|string';
+            $rules['tahun'] = 'required|integer';
+        }
 
-        if ($exists) {
-            return back()->withErrors(['santri_id' => 'Tagihan untuk periode ini sudah ada untuk santri tersebut.']);
+        $validated = $request->validate($rules);
+
+        // For bulanan: check duplicate per period
+        if ($jenisPembayaran && $jenisPembayaran->sifat === 'bulanan') {
+            $exists = TagihanSpp::where([
+                'santri_id' => $validated['santri_id'],
+                'jenis_pembayaran_id' => $validated['jenis_pembayaran_id'],
+                'bulan' => $validated['bulan'],
+                'tahun' => $validated['tahun'],
+            ])->exists();
+
+            if ($exists) {
+                return back()->withErrors(['bulan' => 'Tagihan periode ini sudah ada untuk santri tersebut.']);
+            }
         }
 
         TagihanSpp::create($validated + ['status' => 'belum_lunas']);
 
-        return redirect()->route('finance.billings')->with('success', 'Tagihan berhasil dibuat secara manual.');
+        return redirect()->route('finance.billings')->with('success', 'Tagihan berhasil dibuat.');
     }
 }

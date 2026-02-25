@@ -19,15 +19,12 @@ class PublicProfileController extends Controller
         // Fetch Santri and eager load relationships
         $santri = Santri::with([
             'wali',
-            'absensis.jenisAbsensi', // Load the activity type name
+            'absensis.jenisAbsensi',
             'pelanggarans',
-            'kelas',
-            'kamar',
             'tagihanSpps' => function($query) {
-                // Order bills by latest
                 $query->orderBy('tahun', 'desc')->orderBy('bulan', 'desc');
             },
-            'tagihanSpps.pembayarans', // Load payments for these bills
+            'tagihanSpps.pembayarans',
             'achievements.materi',
             'portfolios'
         ])->where('nis', $nis)->firstOrFail();

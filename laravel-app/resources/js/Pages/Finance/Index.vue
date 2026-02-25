@@ -53,14 +53,14 @@ const formatCurrency = (value) => {
             </div>
 
             <!-- Quick Actions -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <Link :href="route('finance.billings')" class="flex items-center gap-6 p-8 bg-[#161514] text-white rounded-[40px] shadow-2xl hover:bg-black transition-all group">
                     <div class="w-16 h-16 bg-[#c97e60] rounded-2xl flex items-center justify-center shadow-lg group-hover:rotate-6 transition-transform">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
                     </div>
                     <div>
                         <h4 class="text-xl font-black">Daftar Tagihan</h4>
-                        <p class="text-[#a8a196] text-sm">Kelola dan buat tagihan SPP bulanan</p>
+                        <p class="text-[#a8a196] text-sm">Kelola semua tagihan santri</p>
                     </div>
                 </Link>
 
@@ -71,6 +71,16 @@ const formatCurrency = (value) => {
                     <div>
                         <h4 class="text-xl font-black dark:text-[#f2e8d5]">Riwayat Pembayaran</h4>
                         <p class="text-[#a8a196] text-sm font-medium">Lihat seluruh transaksi pembayaran</p>
+                    </div>
+                </Link>
+
+                <Link :href="route('finance.settings')" class="flex items-center gap-6 p-8 bg-white dark:bg-[#161514] rounded-[40px] border border-[#ebeae8] dark:border-[#3e3c3a] shadow-sm transition-all group hover:border-[#c97e60]">
+                    <div class="w-16 h-16 bg-[#f5f4f2] dark:bg-[#262524] rounded-2xl flex items-center justify-center text-[#c97e60] group-hover:rotate-90 transition-transform duration-500">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-black dark:text-[#f2e8d5]">Jenis Pembayaran</h4>
+                        <p class="text-[#a8a196] text-sm font-medium">Kelola jenis pembayaran dinamis</p>
                     </div>
                 </Link>
             </div>

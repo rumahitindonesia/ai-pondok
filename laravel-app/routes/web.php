@@ -13,6 +13,7 @@ use App\Http\Controllers\KamarController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\CapaianSantriController;
 use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\JenisPembayaranController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -58,6 +59,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/finance/billings/generate', [FinanceController::class, 'generateMonthlyBills'])->name('finance.billings.generate');
     Route::get('/finance/billings/create', [FinanceController::class, 'createBilling'])->name('finance.billings.create');
     Route::post('/finance/billings', [FinanceController::class, 'storeBilling'])->name('finance.billings.store');
+    Route::get('/finance/settings', [JenisPembayaranController::class, 'index'])->name('finance.settings');
+    Route::post('/finance/settings/jenis', [JenisPembayaranController::class, 'store'])->name('finance.jenis.store');
+    Route::patch('/finance/settings/jenis/{jenisPembayaran}', [JenisPembayaranController::class, 'update'])->name('finance.jenis.update');
+    Route::delete('/finance/settings/jenis/{jenisPembayaran}', [JenisPembayaranController::class, 'destroy'])->name('finance.jenis.destroy');
 
     // Attendance & Discipline Routes
     Route::get('/records/attendance', [AbsensiController::class, 'index'])->name('records.attendance');
