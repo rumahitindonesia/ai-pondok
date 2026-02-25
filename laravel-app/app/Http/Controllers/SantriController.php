@@ -1,0 +1,150 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Santri;
+use App\Models\WaliSantri;
+use App\Models\Kelas;
+use App\Models\Kamar;
+use App\Models\Materi;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+
+class SantriController extends Controller
+{
+    public function index(Request $request)
+    {
+        $query = Santri::query()->with('wali');
+
+        // Search
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                  ->orWhere('nis', 'like', "%{$search}%");
+            });
+        }
+
+        // Filters
+        if ($request->filled('status')) {
+            $query->where('status', $request->input('status'));
+        }
+        if ($request->filled('kelas')) {
+            $query->where('kelas', $request->input('kelas'));
+        }
+        if ($request->filled('kamar')) {
+            $query->where('kamar', $request->input('kamar'));
+        }
+
+        // Sorting
+        $sortField = $request->input('sort_by', 'created_at');
+        // Validate sort field to prevent SQL injection
+        $allowedSortFields = ['nama', 'nis', 'kelas', 'kamar', 'status', 'created_at'];
+        if (!in_array($sortField, $allowedSortFields)) {
+            $sortField = 'created_at';
+        }
+        $sortDir = $request->input('sort_dir', 'desc');
+
+        $query->orderBy($sortField, $sortDir);
+
+        $santris = $query->paginate(10)->withQueryString();
+
+        // Filter Options
+        $availableKelas = Kelas::orderBy('nama')->pluck('nama');
+        $availableKamar = Kamar::orderBy('nama')->pluck('nama');
+
+        return Inertia::render('Santri/Index', [
+            'santris' => $santris,
+            'filters' => $request->only(['search', 'status', 'kelas', 'kamar', 'sort_by', 'sort_dir']),
+            'options' => [
+                'kelas' => $availableKelas,
+                'kamar' => $availableKamar
+            ]
+        ]);
+    }
+
+    public function create()
+    {
+        $walis = WaliSantri::all();
+        $kelas = Kelas::orderBy('nama')->get();
+        $kamars = Kamar::orderBy('nama')->get();
+
+        return Inertia::render('Santri/Create', [
+            'walis' => $walis,
+            'kelas' => $kelas,
+            'kamars' => $kamars
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'nis' => 'nullable|string|max:20|unique:santris',
+            'jenis_kelamin' => 'required|in:L,P',
+            'wali_id' => 'required|exists:wali_santris,id',
+            'status' => 'required|in:aktif,alumni,keluar',
+            'kelas' => 'nullable|string',
+            'kamar' => 'nullable|string',
+        ]);
+
+        Santri::create($validated);
+
+        return redirect()->route('santri.index')->with('success', 'Data santri berhasil ditambahkan');
+    }
+
+    public function show(Santri $santri)
+    {
+        $santri->load(['wali', 'absensis', 'pelanggarans', 'tagihanSpps', 'achievements.materi', 'portfolios']);
+        
+        return Inertia::render('Santri/Show', [
+            'santri' => $santri,
+            'materis' => Materi::all()
+        ]);
+    }
+
+    public function edit(Santri $santri)
+    {
+        $walis = WaliSantri::all();
+        $kelas = Kelas::orderBy('nama')->get();
+        $kamars = Kamar::orderBy('nama')->get();
+
+        return Inertia::render('Santri/Edit', [
+            'santri' => $santri,
+            'walis' => $walis,
+            'kelas' => $kelas,
+            'kamars' => $kamars
+        ]);
+    }
+
+    public function update(Request $request, Santri $santri)
+    {
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'nis' => 'nullable|string|max:20|unique:santris,nis,' . $santri->id,
+            'jenis_kelamin' => 'required|in:L,P',
+            'wali_id' => 'required|exists:wali_santris,id',
+            'status' => 'required|in:aktif,alumni,keluar',
+            'kelas' => 'nullable|string',
+            'kamar' => 'nullable|string',
+        ]);
+
+        $santri->update($validated);
+
+        return redirect()->route('santri.index')->with('success', 'Data santri berhasil diperbarui');
+    }
+
+    public function destroy(Santri $santri)
+    {
+        $santri->delete();
+        return redirect()->route('santri.index')->with('success', 'Data santri berhasil dihapus');
+    }
+
+    public function settings()
+    {
+        return Inertia::render('Santri/Settings/Index', [
+            'kelas' => Kelas::orderBy('nama')->get(),
+            'kamars' => Kamar::orderBy('nama')->get(),
+        ]);
+    }
+}

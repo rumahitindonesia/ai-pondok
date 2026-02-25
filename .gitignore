@@ -1,0 +1,31 @@
+# Laravel
+laravel-app/.env
+laravel-app/.env.backup
+laravel-app/.env.production
+laravel-app/node_modules/
+laravel-app/vendor/
+laravel-app/public/storage
+laravel-app/public/build
+laravel-app/public/hot
+laravel-app/storage/*.key
+laravel-app/storage/pail
+laravel-app/.phpunit.result.cache
+laravel-app/.phpunit.cache
+laravel-app/.phpactor.json
+
+# Python
+python-engine/venv/
+python-engine/.env
+python-engine/__pycache__/
+python-engine/*.py[cod]
+python-engine/server.pid
+
+# IDEs and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
+.zed/
+.fleet/
+.nova/
