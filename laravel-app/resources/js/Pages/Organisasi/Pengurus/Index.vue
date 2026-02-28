@@ -68,7 +68,7 @@ const deletePengurus = (id) => {
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                Data <span class="text-[#c97e60]">Pengurus</span>
+                Data <span class="text-[#d02e5c]">Pengurus</span>
             </h2>
         </template>
 
@@ -76,7 +76,7 @@ const deletePengurus = (id) => {
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div class="flex-1 max-w-md relative">
                     <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#a8a196]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                    <input v-model="searchQuery" type="text" placeholder="Cari nama pengurus atau jabatan..." class="w-full bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl pl-12 pr-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#c97e60] focus:border-[#c97e60] transition-all shadow-sm" />
+                    <input v-model="searchQuery" type="text" placeholder="Cari nama pengurus atau jabatan..." class="w-full bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl pl-12 pr-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#d02e5c] focus:border-[#d02e5c] transition-all shadow-sm" />
                 </div>
                 
                 <RedwoodButton @click="openCreateModal">
@@ -108,7 +108,7 @@ const deletePengurus = (id) => {
                                     <div class="flex items-center gap-4">
                                         <div class="w-12 h-12 rounded-2xl bg-[#f5f4f2] dark:bg-[#262524] border border-[#ebeae8] dark:border-[#3e3c3a] overflow-hidden shrink-0 flex items-center justify-center">
                                             <img v-if="pengurus.santri?.foto" :src="`/storage/${pengurus.santri.foto}`" class="w-full h-full object-cover rounded-2xl" />
-                                            <span v-else class="text-[#c97e60] font-black text-lg">{{ pengurus.santri?.nama?.charAt(0) }}</span>
+                                            <span v-else class="text-[#d02e5c] font-black text-lg">{{ pengurus.santri?.nama?.charAt(0) }}</span>
                                         </div>
                                         <div>
                                             <p class="font-bold text-[#161514] dark:text-[#f2e8d5]">{{ pengurus.santri?.nama }}</p>
@@ -122,7 +122,7 @@ const deletePengurus = (id) => {
                                     </div>
                                 </td>
                                 <td class="px-8 py-5">
-                                    <button @click="toggleStatus(pengurus)" class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#c97e60] focus:ring-offset-2" :class="pengurus.status ? 'bg-[#c97e60]' : 'bg-gray-200 dark:bg-[#3e3c3a]'">
+                                    <button @click="toggleStatus(pengurus)" class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#d02e5c] focus:ring-offset-2" :class="pengurus.status ? 'bg-[#d02e5c]' : 'bg-gray-200 dark:bg-[#3e3c3a]'">
                                         <span class="sr-only">Toggle Status</span>
                                         <span class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform" :class="pengurus.status ? 'translate-x-6' : 'translate-x-1'" />
                                     </button>
@@ -153,7 +153,7 @@ const deletePengurus = (id) => {
                     <form @submit.prevent="submit" class="space-y-6">
                         <div class="space-y-1">
                             <label class="text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196]">Pilih Santri</label>
-                            <select v-model="form.santri_id" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#c97e60] transition-all" required>
+                            <select v-model="form.santri_id" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#d02e5c] transition-all" required>
                                 <option value="" disabled>-- Cari/Pilih Santri --</option>
                                 <option v-for="santri in santris" :key="santri.id" :value="santri.id">
                                     {{ santri.nama }} ({{ santri.nis }})
@@ -164,7 +164,7 @@ const deletePengurus = (id) => {
 
                         <div class="space-y-1">
                             <label class="text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196]">Jabatan Organisasi</label>
-                            <select v-model="form.jabatan_id" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#c97e60] transition-all" required>
+                            <select v-model="form.jabatan_id" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#d02e5c] transition-all" required>
                                 <option value="" disabled>-- Pilih Jabatan --</option>
                                 <option v-for="jabatan in jabatans" :key="jabatan.id" :value="jabatan.id">
                                     {{ jabatan.nama }}
@@ -178,7 +178,7 @@ const deletePengurus = (id) => {
                                 <p class="text-sm font-bold text-[#161514] dark:text-[#f2e8d5]">Status Aktif</p>
                                 <p class="text-[11px] text-[#a8a196]">Tandai hijau jika sedang menjabat saat ini.</p>
                             </div>
-                            <button type="button" @click="form.status = !form.status" class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#c97e60] focus:ring-offset-2" :class="form.status ? 'bg-[#c97e60]' : 'bg-gray-200 dark:bg-[#3e3c3a]'">
+                            <button type="button" @click="form.status = !form.status" class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#d02e5c] focus:ring-offset-2" :class="form.status ? 'bg-[#d02e5c]' : 'bg-gray-200 dark:bg-[#3e3c3a]'">
                                 <span class="sr-only">Toggle Status</span>
                                 <span class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform" :class="form.status ? 'translate-x-6' : 'translate-x-1'" />
                             </button>

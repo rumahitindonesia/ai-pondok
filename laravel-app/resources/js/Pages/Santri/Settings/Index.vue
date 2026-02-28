@@ -57,11 +57,11 @@ const deleteKamar = (id) => {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center gap-6">
-                <Link :href="route('santri.index')" class="p-3 text-[#a8a196] hover:text-[#c97e60] transition-all bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl shadow-sm group">
+                <Link :href="route('santri.index')" class="p-3 text-[#a8a196] hover:text-[#d02e5c] transition-all bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl shadow-sm group">
                     <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
                 </Link>
                 <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                    Pengaturan <span class="text-[#c97e60]">Kamar & Kelas</span>
+                    Pengaturan <span class="text-[#d02e5c]">Kamar & Kelas</span>
                 </h2>
             </div>
         </template>
@@ -78,7 +78,7 @@ const deleteKamar = (id) => {
                                 v-model="kelasForm.nama" 
                                 type="text" 
                                 placeholder="Misal: 10-A, Tahfidz B, dll"
-                                class="w-full p-4 bg-[#f8f7f5] dark:bg-[#1a1918] border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#c97e60] transition-all font-bold"
+                                class="w-full p-4 bg-[#f8f7f5] dark:bg-[#1a1918] border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#d02e5c] transition-all font-bold"
                                 required
                             >
                             <div v-if="kelasForm.errors.nama" class="text-xs text-rose-500 font-bold ml-1">{{ kelasForm.errors.nama }}</div>
@@ -87,7 +87,7 @@ const deleteKamar = (id) => {
                             <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196] ml-1">Keterangan (Opsional)</label>
                             <textarea 
                                 v-model="kelasForm.keterangan" 
-                                class="w-full p-4 bg-[#f8f7f5] dark:bg-[#1a1918] border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#c97e60] transition-all font-bold min-h-[100px]"
+                                class="w-full p-4 bg-[#f8f7f5] dark:bg-[#1a1918] border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#d02e5c] transition-all font-bold min-h-[100px]"
                             ></textarea>
                         </div>
                         <RedwoodButton type="submit" class="w-full" :disabled="kelasForm.processing">
@@ -134,7 +134,7 @@ const deleteKamar = (id) => {
                                 v-model="kamarForm.nama" 
                                 type="text" 
                                 placeholder="Misal: Al-Fatih, Maryam 1, dll"
-                                class="w-full p-4 bg-[#f8f7f5] dark:bg-[#1a1918] border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#c97e60] transition-all font-bold"
+                                class="w-full p-4 bg-[#f8f7f5] dark:bg-[#1a1918] border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#d02e5c] transition-all font-bold"
                                 required
                             >
                             <div v-if="kamarForm.errors.nama" class="text-xs text-rose-500 font-bold ml-1">{{ kamarForm.errors.nama }}</div>
@@ -143,7 +143,7 @@ const deleteKamar = (id) => {
                             <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196] ml-1">Keterangan (Opsional)</label>
                             <textarea 
                                 v-model="kamarForm.keterangan" 
-                                class="w-full p-4 bg-[#f8f7f5] dark:bg-[#1a1918] border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#c97e60] transition-all font-bold min-h-[100px]"
+                                class="w-full p-4 bg-[#f8f7f5] dark:bg-[#1a1918] border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#d02e5c] transition-all font-bold min-h-[100px]"
                             ></textarea>
                         </div>
                         <RedwoodButton type="submit" class="w-full" :disabled="kamarForm.processing">

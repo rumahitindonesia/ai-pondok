@@ -20,7 +20,7 @@ const deleteRecord = (id) => {
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                Log <span class="text-[#c97e60]">Kedisiplinan</span>
+                Log <span class="text-[#d02e5c]">Kedisiplinan</span>
             </h2>
         </template>
 

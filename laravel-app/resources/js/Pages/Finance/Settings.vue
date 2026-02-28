@@ -104,11 +104,11 @@ const formatCurrency = (v) => v ? new Intl.NumberFormat('id-ID', { style: 'curre
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center gap-6">
-                <Link :href="route('finance.index')" class="p-3 text-[#a8a196] hover:text-[#c97e60] transition-all bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl shadow-sm group">
+                <Link :href="route('finance.index')" class="p-3 text-[#a8a196] hover:text-[#d02e5c] transition-all bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl shadow-sm group">
                     <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
                 </Link>
                 <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                    Pengaturan <span class="text-[#c97e60]">Jenis Pembayaran</span>
+                    Pengaturan <span class="text-[#d02e5c]">Jenis Pembayaran</span>
                 </h2>
             </div>
         </template>
@@ -120,17 +120,17 @@ const formatCurrency = (v) => v ? new Intl.NumberFormat('id-ID', { style: 'curre
                 <form @submit.prevent="submit" class="space-y-5">
                     <div class="space-y-1">
                         <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Nama</label>
-                        <input v-model="form.nama" type="text" placeholder="Misal: Infak Tahunan" class="w-full p-4 bg-[#f8f7f5] dark:bg-[#1a1918] border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#c97e60]" required>
+                        <input v-model="form.nama" type="text" placeholder="Misal: Infak Tahunan" class="w-full p-4 bg-[#f8f7f5] dark:bg-[#1a1918] border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#d02e5c]" required>
                         <div v-if="form.errors.nama" class="text-xs text-rose-500">{{ form.errors.nama }}</div>
                     </div>
                     <div class="space-y-1">
                         <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Kode (unik)</label>
-                        <input v-model="form.kode" type="text" placeholder="Misal: infak_tahunan" class="w-full p-4 bg-[#f8f7f5] dark:bg-[#1a1918] border-none rounded-2xl text-sm font-mono focus:ring-2 focus:ring-[#c97e60]" required>
+                        <input v-model="form.kode" type="text" placeholder="Misal: infak_tahunan" class="w-full p-4 bg-[#f8f7f5] dark:bg-[#1a1918] border-none rounded-2xl text-sm font-mono focus:ring-2 focus:ring-[#d02e5c]" required>
                         <div v-if="form.errors.kode" class="text-xs text-rose-500">{{ form.errors.kode }}</div>
                     </div>
                     <div class="space-y-1">
                         <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Sifat Pembayaran</label>
-                        <select v-model="form.sifat" class="w-full p-4 bg-[#f8f7f5] dark:bg-[#1a1918] border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#c97e60]" required>
+                        <select v-model="form.sifat" class="w-full p-4 bg-[#f8f7f5] dark:bg-[#1a1918] border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#d02e5c]" required>
                             <option value="sekali">Sekali Bayar</option>
                             <option value="bulanan">Bulanan (tiap bulan)</option>
                             <option value="cicilan">Bisa Dicicil</option>
@@ -138,11 +138,11 @@ const formatCurrency = (v) => v ? new Intl.NumberFormat('id-ID', { style: 'curre
                     </div>
                     <div class="space-y-1">
                         <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Nominal Default (Rp, opsional)</label>
-                        <input v-model="form.nominal_default" type="number" step="1000" placeholder="0" class="w-full p-4 bg-[#f8f7f5] dark:bg-[#1a1918] border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#c97e60]">
+                        <input v-model="form.nominal_default" type="number" step="1000" placeholder="0" class="w-full p-4 bg-[#f8f7f5] dark:bg-[#1a1918] border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#d02e5c]">
                     </div>
                     <div class="space-y-1">
                         <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Keterangan (opsional)</label>
-                        <textarea v-model="form.keterangan" class="w-full p-4 bg-[#f8f7f5] dark:bg-[#1a1918] border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#c97e60] min-h-[80px]"></textarea>
+                        <textarea v-model="form.keterangan" class="w-full p-4 bg-[#f8f7f5] dark:bg-[#1a1918] border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#d02e5c] min-h-[80px]"></textarea>
                     </div>
                     <RedwoodButton type="submit" class="w-full" :disabled="form.processing">
                         {{ form.processing ? 'Menyimpan...' : 'Tambah Jenis Pembayaran' }}
@@ -166,19 +166,19 @@ const formatCurrency = (v) => v ? new Intl.NumberFormat('id-ID', { style: 'curre
                                 <div class="grid grid-cols-2 gap-3">
                                     <div>
                                         <label class="text-[9px] font-black uppercase tracking-widest text-[#a8a196]">Nama</label>
-                                        <input v-model="editForm.nama" type="text" class="w-full p-3 bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-xl text-sm focus:ring-2 focus:ring-[#c97e60]" required>
+                                        <input v-model="editForm.nama" type="text" class="w-full p-3 bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-xl text-sm focus:ring-2 focus:ring-[#d02e5c]" required>
                                         <div v-if="editForm.errors.nama" class="text-xs text-rose-500 mt-1">{{ editForm.errors.nama }}</div>
                                     </div>
                                     <div>
                                         <label class="text-[9px] font-black uppercase tracking-widest text-[#a8a196]">Kode</label>
-                                        <input v-model="editForm.kode" type="text" class="w-full p-3 bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-xl text-sm font-mono focus:ring-2 focus:ring-[#c97e60]" required>
+                                        <input v-model="editForm.kode" type="text" class="w-full p-3 bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-xl text-sm font-mono focus:ring-2 focus:ring-[#d02e5c]" required>
                                         <div v-if="editForm.errors.kode" class="text-xs text-rose-500 mt-1">{{ editForm.errors.kode }}</div>
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-2 gap-3">
                                     <div>
                                         <label class="text-[9px] font-black uppercase tracking-widest text-[#a8a196]">Sifat</label>
-                                        <select v-model="editForm.sifat" class="w-full p-3 bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-xl text-sm focus:ring-2 focus:ring-[#c97e60]">
+                                        <select v-model="editForm.sifat" class="w-full p-3 bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-xl text-sm focus:ring-2 focus:ring-[#d02e5c]">
                                             <option value="sekali">Sekali Bayar</option>
                                             <option value="bulanan">Bulanan</option>
                                             <option value="cicilan">Bisa Dicicil</option>
@@ -186,15 +186,15 @@ const formatCurrency = (v) => v ? new Intl.NumberFormat('id-ID', { style: 'curre
                                     </div>
                                     <div>
                                         <label class="text-[9px] font-black uppercase tracking-widest text-[#a8a196]">Nominal Default</label>
-                                        <input v-model="editForm.nominal_default" type="number" step="1000" class="w-full p-3 bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-xl text-sm focus:ring-2 focus:ring-[#c97e60]">
+                                        <input v-model="editForm.nominal_default" type="number" step="1000" class="w-full p-3 bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-xl text-sm focus:ring-2 focus:ring-[#d02e5c]">
                                     </div>
                                 </div>
                                 <div>
                                     <label class="text-[9px] font-black uppercase tracking-widest text-[#a8a196]">Keterangan</label>
-                                    <input v-model="editForm.keterangan" type="text" class="w-full p-3 bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-xl text-sm focus:ring-2 focus:ring-[#c97e60]">
+                                    <input v-model="editForm.keterangan" type="text" class="w-full p-3 bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-xl text-sm focus:ring-2 focus:ring-[#d02e5c]">
                                 </div>
                                 <div class="flex gap-3 pt-1">
-                                    <button @click="saveEdit(jenis.id)" :disabled="editForm.processing" class="flex-1 py-2 bg-[#c97e60] text-white text-xs font-black rounded-xl hover:bg-[#b06a4f] transition-all disabled:opacity-50">
+                                    <button @click="saveEdit(jenis.id)" :disabled="editForm.processing" class="flex-1 py-2 bg-[#d02e5c] text-white text-xs font-black rounded-xl hover:bg-[#b06a4f] transition-all disabled:opacity-50">
                                         {{ editForm.processing ? 'Menyimpan...' : '✓ Simpan' }}
                                     </button>
                                     <button @click="cancelEdit" class="flex-1 py-2 bg-[#f5f4f2] dark:bg-[#262524] text-[#a8a196] text-xs font-black rounded-xl hover:bg-gray-200 transition-all">
@@ -213,7 +213,7 @@ const formatCurrency = (v) => v ? new Intl.NumberFormat('id-ID', { style: 'curre
                             <div class="absolute inset-y-0 right-0 flex" style="width: 128px">
                                 <button
                                     @click="startEdit(jenis)"
-                                    class="flex-1 flex flex-col items-center justify-center gap-1 bg-[#c97e60] text-white text-[10px] font-black uppercase transition-all hover:brightness-110 active:brightness-90"
+                                    class="flex-1 flex flex-col items-center justify-center gap-1 bg-[#d02e5c] text-white text-[10px] font-black uppercase transition-all hover:brightness-110 active:brightness-90"
                                 >
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
                                     Edit
@@ -245,7 +245,7 @@ const formatCurrency = (v) => v ? new Intl.NumberFormat('id-ID', { style: 'curre
                                         <span :class="['px-2 py-0.5 text-[9px] font-black uppercase rounded-full', sifatColor[jenis.sifat]]">{{ sifatLabel[jenis.sifat] }}</span>
                                     </div>
                                     <p class="text-xs text-[#a8a196] font-mono">{{ jenis.kode }}</p>
-                                    <p v-if="jenis.nominal_default" class="text-xs text-[#c97e60] font-bold mt-0.5">{{ formatCurrency(jenis.nominal_default) }}</p>
+                                    <p v-if="jenis.nominal_default" class="text-xs text-[#d02e5c] font-bold mt-0.5">{{ formatCurrency(jenis.nominal_default) }}</p>
                                     <p v-if="jenis.keterangan" class="text-xs text-[#a8a196] mt-0.5 italic">{{ jenis.keterangan }}</p>
                                 </div>
 

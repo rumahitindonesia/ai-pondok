@@ -111,7 +111,7 @@ const copyLink = async (token) => {
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                Penerimaan <span class="text-[#c97e60]">Santri Baru</span>
+                Penerimaan <span class="text-[#d02e5c]">Santri Baru</span>
             </h2>
         </template>
 
@@ -193,10 +193,10 @@ const copyLink = async (token) => {
                                 </div>
                                 <div class="px-8 py-5 shrink-0 w-[200px]">
                                     <p class="text-sm font-medium truncate">{{ reg.nama_wali }}</p>
-                                    <p class="text-xs text-[#c97e60] font-bold">{{ reg.no_hp_wali }}</p>
+                                    <p class="text-xs text-[#d02e5c] font-bold">{{ reg.no_hp_wali }}</p>
                                 </div>
                                 <div class="px-6 py-4 shrink-0 w-[150px]">
-                                    <div v-if="reg.referrer" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#c97e60]/10 text-[#c97e60] text-xs font-bold">
+                                    <div v-if="reg.referrer" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#d02e5c]/10 text-[#d02e5c] text-xs font-bold">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                                         {{ reg.referrer.name }}
                                     </div>
@@ -204,10 +204,10 @@ const copyLink = async (token) => {
                                 </div>
                                 <div class="px-8 py-5 shrink-0 w-[120px]">
                                     <div class="flex gap-2 text-center items-center justify-center">
-                                        <a v-if="reg.berkas_kk" :href="'/storage/' + reg.berkas_kk" target="_blank" class="w-8 h-8 rounded-lg bg-[#f5f4f2] dark:bg-[#262524] flex items-center justify-center text-[#a8a196] hover:text-[#c97e60] transition-colors border border-transparent hover:border-[#c97e60]/20" title="KK">
+                                        <a v-if="reg.berkas_kk" :href="'/storage/' + reg.berkas_kk" target="_blank" class="w-8 h-8 rounded-lg bg-[#f5f4f2] dark:bg-[#262524] flex items-center justify-center text-[#a8a196] hover:text-[#d02e5c] transition-colors border border-transparent hover:border-[#d02e5c]/20" title="KK">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                                         </a>
-                                        <a v-if="reg.berkas_akta" :href="'/storage/' + reg.berkas_akta" target="_blank" class="w-8 h-8 rounded-lg bg-[#f5f4f2] dark:bg-[#262524] flex items-center justify-center text-[#a8a196] hover:text-[#c97e60] transition-colors border border-transparent hover:border-[#c97e60]/20" title="Akta">
+                                        <a v-if="reg.berkas_akta" :href="'/storage/' + reg.berkas_akta" target="_blank" class="w-8 h-8 rounded-lg bg-[#f5f4f2] dark:bg-[#262524] flex items-center justify-center text-[#a8a196] hover:text-[#d02e5c] transition-colors border border-transparent hover:border-[#d02e5c]/20" title="Akta">
                                              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                                         </a>
                                     </div>
@@ -257,7 +257,7 @@ const copyLink = async (token) => {
                     <div class="sm:flex sm:items-start">
                         <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
                             <h3 class="text-2xl font-black text-[#161514] dark:text-[#f2e8d5] border-b border-[#ebeae8] dark:border-[#3e3c3a] pb-4 mb-6" id="modal-title">
-                                Berkas Profil Lengkap: <span class="text-[#c97e60]">{{ selectedRegistration?.nama_calon }}</span>
+                                Berkas Profil Lengkap: <span class="text-[#d02e5c]">{{ selectedRegistration?.nama_calon }}</span>
                             </h3>
                             <div class="mt-2 space-y-6 max-h-[60vh] overflow-y-auto custom-scrollbar pr-2">
                                 <div v-for="response in selectedRegistration?.responses" :key="response.id" class="mb-4">
@@ -265,7 +265,7 @@ const copyLink = async (token) => {
                                     
                                     <!-- Display File Link if it's a file -->
                                     <div v-if="response.question?.type === 'file' && response.response_file_path" class="mt-1">
-                                        <a :href="'/storage/' + response.response_file_path" target="_blank" class="inline-flex items-center gap-2 text-[#c97e60] hover:text-[#a8654b] font-bold text-sm bg-[#c97e60]/10 px-3 py-1.5 rounded-lg transition-colors">
+                                        <a :href="'/storage/' + response.response_file_path" target="_blank" class="inline-flex items-center gap-2 text-[#d02e5c] hover:text-[#a8654b] font-bold text-sm bg-[#d02e5c]/10 px-3 py-1.5 rounded-lg transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" /></svg>
                                             Lihat File Unduhan
                                         </a>

@@ -52,7 +52,7 @@ const copyToClipboard = async () => {
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-2xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                Pengaturan <span class="text-[#c97e60]">Profil</span>
+                Pengaturan <span class="text-[#d02e5c]">Profil</span>
             </h2>
         </template>
 
@@ -71,7 +71,7 @@ const copyToClipboard = async () => {
                     <section class="max-w-xl">
                         <header>
                             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 flex items-center gap-2">
-                                <svg class="w-5 h-5 text-[#c97e60]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                                <svg class="w-5 h-5 text-[#d02e5c]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                                 Program Referral PSB
                             </h2>
                             <p class="mt-1 text-sm text-[#a8a196]">
@@ -101,10 +101,10 @@ const copyToClipboard = async () => {
                         <div class="mt-6 pt-6 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
                             <div>
                                 <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Pendaftar dari Link Anda:</p>
-                                <p class="text-3xl font-black text-[#161514] dark:text-white mt-1">{{ referralCount }} <span class="text-sm font-bold text-[#c97e60] ml-1">Orang</span></p>
+                                <p class="text-3xl font-black text-[#161514] dark:text-white mt-1">{{ referralCount }} <span class="text-sm font-bold text-[#d02e5c] ml-1">Orang</span></p>
                             </div>
-                            <div class="w-16 h-16 rounded-full bg-[#c97e60]/10 flex items-center justify-center">
-                                <svg class="w-8 h-8 text-[#c97e60]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                            <div class="w-16 h-16 rounded-full bg-[#d02e5c]/10 flex items-center justify-center">
+                                <svg class="w-8 h-8 text-[#d02e5c]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                             </div>
                         </div>
                     </section>

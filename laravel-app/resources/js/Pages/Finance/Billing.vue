@@ -49,7 +49,7 @@ const months = [
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                Daftar <span class="text-[#c97e60]">Tagihan</span>
+                Daftar <span class="text-[#d02e5c]">Tagihan</span>
             </h2>
         </template>
 
@@ -131,39 +131,39 @@ const months = [
         <div v-if="showGenerateModal" class="fixed inset-0 z-[100] flex items-center justify-center p-6">
             <div @click="showGenerateModal = false" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
             <div class="relative bg-white dark:bg-[#161514] w-full max-w-lg rounded-[40px] p-12 shadow-2xl border border-[#ebeae8] dark:border-[#3e3c3a] transform transition-all scale-100">
-                <h3 class="text-3xl font-black tracking-tight mb-8">Generate <span class="text-[#c97e60]">Tagihan</span></h3>
+                <h3 class="text-3xl font-black tracking-tight mb-8">Generate <span class="text-[#d02e5c]">Tagihan</span></h3>
                 
                 <form @submit.prevent="generateBills" class="space-y-6">
                     <div class="grid grid-cols-2 gap-6">
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Bulan</label>
-                            <select v-model="genForm.bulan" class="w-full bg-[#fcf8f5] dark:bg-[#1a1918] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#c97e60]" required>
+                            <select v-model="genForm.bulan" class="w-full bg-[#fcf8f5] dark:bg-[#1a1918] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#d02e5c]" required>
                                 <option value="" disabled>Pilih Bulan</option>
                                 <option v-for="m in months" :key="m" :value="m">{{ m }}</option>
                             </select>
                         </div>
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Tahun</label>
-                            <input v-model="genForm.tahun" type="number" class="w-full bg-[#fcf8f5] dark:bg-[#1a1918] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#c97e60]" required>
+                            <input v-model="genForm.tahun" type="number" class="w-full bg-[#fcf8f5] dark:bg-[#1a1918] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#d02e5c]" required>
                         </div>
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Nominal SPP (Rp)</label>
-                        <input v-model="genForm.jumlah" type="number" class="w-full bg-[#fcf8f5] dark:bg-[#1a1918] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#c97e60]" required>
+                        <input v-model="genForm.jumlah" type="number" class="w-full bg-[#fcf8f5] dark:bg-[#1a1918] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#d02e5c]" required>
                     </div>
 
                     <div class="grid grid-cols-2 gap-6">
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Filter Entitas</label>
-                            <select v-model="genForm.entitas" class="w-full bg-[#fcf8f5] dark:bg-[#1a1918] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#c97e60]">
+                            <select v-model="genForm.entitas" class="w-full bg-[#fcf8f5] dark:bg-[#1a1918] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#d02e5c]">
                                 <option value="">Semua Entitas</option>
                                 <option v-for="ent in entitasOptions" :key="ent" :value="ent">{{ ent }}</option>
                             </select>
                         </div>
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Filter Status</label>
-                            <select v-model="genForm.status" class="w-full bg-[#fcf8f5] dark:bg-[#1a1918] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#c97e60]">
+                            <select v-model="genForm.status" class="w-full bg-[#fcf8f5] dark:bg-[#1a1918] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#d02e5c]">
                                 <option value="">Semua Status Aktif</option>
                                 <option v-for="st in statusOptions" :key="st" :value="st">{{ st }}</option>
                             </select>
@@ -173,12 +173,12 @@ const months = [
 
                     <div class="space-y-2">
                         <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Jatuh Tempo</label>
-                        <input v-model="genForm.jatuh_tempo" type="date" class="w-full bg-[#fcf8f5] dark:bg-[#1a1918] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#c97e60]" required>
+                        <input v-model="genForm.jatuh_tempo" type="date" class="w-full bg-[#fcf8f5] dark:bg-[#1a1918] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#d02e5c]" required>
                     </div>
 
                     <div class="flex items-center justify-end gap-4 pt-6">
                         <button type="button" @click="showGenerateModal = false" class="px-8 py-4 text-xs font-black uppercase tracking-widest text-[#a8a196] hover:text-[#161514] transition-all">Batal</button>
-                        <button type="submit" :disabled="genForm.processing" class="px-10 py-4 bg-[#c97e60] text-white font-black rounded-2xl shadow-xl hover:bg-[#b06a4f] transition-all disabled:opacity-50">
+                        <button type="submit" :disabled="genForm.processing" class="px-10 py-4 bg-[#d02e5c] text-white font-black rounded-2xl shadow-xl hover:bg-[#b06a4f] transition-all disabled:opacity-50">
                             {{ genForm.processing ? 'Sabar ya...' : 'Terbitkan Sekarang' }}
                         </button>
                     </div>

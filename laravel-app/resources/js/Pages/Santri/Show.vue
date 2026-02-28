@@ -84,11 +84,11 @@ const formatDate = (date) => {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center gap-6">
-                <Link :href="route('santri.index')" class="p-2 text-[#a8a196] hover:text-[#c97e60] transition-colors bg-white dark:bg-[#161514] rounded-xl border border-[#ebeae8] dark:border-[#3e3c3a] shadow-sm">
+                <Link :href="route('santri.index')" class="p-2 text-[#a8a196] hover:text-[#d02e5c] transition-colors bg-white dark:bg-[#161514] rounded-xl border border-[#ebeae8] dark:border-[#3e3c3a] shadow-sm">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                 </Link>
                 <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                    Manajemen <span class="text-[#c97e60]">Santri</span>
+                    Manajemen <span class="text-[#d02e5c]">Santri</span>
                 </h2>
             </div>
         </template>
@@ -97,18 +97,18 @@ const formatDate = (date) => {
             <!-- Header Profile Card -->
             <div class="bg-white dark:bg-[#161514] shadow-[0_20px_50px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-[32px] border border-[#ebeae8] dark:border-[#3e3c3a] p-10 relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-64 h-64 opacity-[0.03] dark:opacity-10 pointer-events-none">
-                    <svg viewBox="0 0 100 100" fill="#c97e60"><circle cx="80" cy="20" r="50" /></svg>
+                    <svg viewBox="0 0 100 100" fill="#d02e5c"><circle cx="80" cy="20" r="50" /></svg>
                 </div>
 
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-10 relative z-10">
-                    <div class="w-40 h-40 rounded-[32px] bg-[#f5f4f2] dark:bg-[#262524] border-4 border-white dark:border-[#161514] shadow-2xl overflow-hidden flex items-center justify-center text-5xl font-black text-[#c97e60] shrink-0">
+                    <div class="w-40 h-40 rounded-[32px] bg-[#f5f4f2] dark:bg-[#262524] border-4 border-white dark:border-[#161514] shadow-2xl overflow-hidden flex items-center justify-center text-5xl font-black text-[#d02e5c] shrink-0">
                         <img v-if="santri.foto" :src="`/storage/${santri.foto}`" class="w-full h-full object-cover">
                         <span v-else>{{ santri.nama.charAt(0) }}</span>
                     </div>
                     
                     <div class="flex-1 text-center md:text-left space-y-4">
                         <div>
-                            <span class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-[#c97e60]/10 text-[#c97e60] mb-2 inline-block">
+                            <span class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-[#d02e5c]/10 text-[#d02e5c] mb-2 inline-block">
                                 {{ santri.nis || 'BELUM ADA NIS' }}
                             </span>
                             <h1 class="text-4xl font-black text-[#161514] dark:text-[#f2e8d5] tracking-tight">{{ santri.nama }}</h1>
@@ -118,11 +118,11 @@ const formatDate = (date) => {
                         <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 pt-4">
                             <div class="px-6 py-3 bg-[#fcf8f5] dark:bg-[#1a1918] rounded-2xl border border-[#ebeae8] dark:border-[#3e3c3a]">
                                 <p class="text-[9px] font-black uppercase tracking-widest text-[#a8a196] mb-1">Status</p>
-                                <p class="font-bold text-[#c97e60] uppercase">{{ santri.status }}</p>
+                                <p class="font-bold text-[#d02e5c] uppercase">{{ santri.status }}</p>
                             </div>
                             <div class="px-6 py-3 bg-[#fcf8f5] dark:bg-[#1a1918] rounded-2xl border border-[#ebeae8] dark:border-[#3e3c3a]">
                                 <p class="text-[9px] font-black uppercase tracking-widest text-[#a8a196] mb-1">Public Profile</p>
-                                <a :href="route('public.santri.profile', santri.nis)" target="_blank" class="font-bold text-[#161514] dark:text-[#f2e8d5] hover:text-[#c97e60] flex items-center gap-1 transition-colors">
+                                <a :href="route('public.santri.profile', santri.nis)" target="_blank" class="font-bold text-[#161514] dark:text-[#f2e8d5] hover:text-[#d02e5c] flex items-center gap-1 transition-colors">
                                     View Live <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
                                 </a>
                             </div>
@@ -130,7 +130,7 @@ const formatDate = (date) => {
                     </div>
 
                     <div class="flex flex-col gap-3">
-                        <Link :href="route('santri.edit', santri.id)" class="px-8 py-4 bg-[#c97e60] text-white font-bold rounded-[24px] hover:bg-[#b06a4f] transition-all shadow-lg shadow-[#c97e60]/20 text-center">
+                        <Link :href="route('santri.edit', santri.id)" class="px-8 py-4 bg-[#d02e5c] text-white font-bold rounded-[24px] hover:bg-[#b06a4f] transition-all shadow-lg shadow-[#d02e5c]/20 text-center">
                             Edit Profil Dasar
                         </Link>
                     </div>
@@ -140,19 +140,19 @@ const formatDate = (date) => {
             <!-- Tab Navigation -->
             <div class="flex border-b border-[#ebeae8] dark:border-[#3e3c3a] gap-10">
                 <button @click="activeTab = 'profile'" 
-                    :class="[activeTab === 'profile' ? 'text-[#c97e60] border-b-4 border-[#c97e60]' : 'text-[#a8a196] hover:text-[#161514] dark:hover:text-white']"
+                    :class="[activeTab === 'profile' ? 'text-[#d02e5c] border-b-4 border-[#d02e5c]' : 'text-[#a8a196] hover:text-[#161514] dark:hover:text-white']"
                     class="pb-4 text-sm font-black uppercase tracking-widest transition-all"
                 >
                     Ringkasan
                 </button>
                 <button @click="activeTab = 'academic'" 
-                    :class="[activeTab === 'academic' ? 'text-[#c97e60] border-b-4 border-[#c97e60]' : 'text-[#a8a196] hover:text-[#161514] dark:hover:text-white']"
+                    :class="[activeTab === 'academic' ? 'text-[#d02e5c] border-b-4 border-[#d02e5c]' : 'text-[#a8a196] hover:text-[#161514] dark:hover:text-white']"
                     class="pb-4 text-sm font-black uppercase tracking-widest transition-all"
                 >
                     Akademik & Skill
                 </button>
                 <button @click="activeTab = 'portfolio'" 
-                    :class="[activeTab === 'portfolio' ? 'text-[#c97e60] border-b-4 border-[#c97e60]' : 'text-[#a8a196] hover:text-[#161514] dark:hover:text-white']"
+                    :class="[activeTab === 'portfolio' ? 'text-[#d02e5c] border-b-4 border-[#d02e5c]' : 'text-[#a8a196] hover:text-[#161514] dark:hover:text-white']"
                     class="pb-4 text-sm font-black uppercase tracking-widest transition-all"
                 >
                     Portofolio
@@ -182,7 +182,7 @@ const formatDate = (date) => {
                     <!-- About Me Section -->
                     <div class="bg-white dark:bg-[#161514] p-10 rounded-[40px] border border-[#ebeae8] dark:border-[#3e3c3a] shadow-sm">
                         <div class="flex items-center gap-4 mb-8">
-                            <div class="w-10 h-10 bg-[#c97e60]/10 rounded-xl flex items-center justify-center text-[#c97e60]">
+                            <div class="w-10 h-10 bg-[#d02e5c]/10 rounded-xl flex items-center justify-center text-[#d02e5c]">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                             </div>
                             <h4 class="text-lg font-black tracking-tight">Tentang Santri (Bio)</h4>
@@ -193,7 +193,7 @@ const formatDate = (date) => {
                             </p>
                             <div v-else class="flex flex-col items-center justify-center py-10 bg-[#fcf8f5] dark:bg-[#1a1918] rounded-3xl border-2 border-dashed border-[#ebeae8] dark:border-[#3e3c3a]">
                                 <p class="text-[#a8a196] font-bold italic text-sm">Belum ada informasi biografi.</p>
-                                <Link :href="route('santri.edit', santri.id)" class="mt-4 text-[#c97e60] font-black text-[10px] uppercase tracking-widest hover:underline">
+                                <Link :href="route('santri.edit', santri.id)" class="mt-4 text-[#d02e5c] font-black text-[10px] uppercase tracking-widest hover:underline">
                                     Lengkapi Profil Sekarang →
                                 </Link>
                             </div>
@@ -213,7 +213,7 @@ const formatDate = (date) => {
                                 class="bg-white dark:bg-[#161514] p-6 rounded-3xl border border-[#ebeae8] dark:border-[#3e3c3a] flex items-center justify-between shadow-sm group"
                             >
                                 <div class="flex items-center gap-5">
-                                    <div class="w-12 h-12 bg-[#c97e60]/10 text-[#c97e60] rounded-2xl flex items-center justify-center font-bold">
+                                    <div class="w-12 h-12 bg-[#d02e5c]/10 text-[#d02e5c] rounded-2xl flex items-center justify-center font-bold">
                                         {{ ach.materi?.kategori.charAt(0) }}
                                     </div>
                                     <div>
@@ -237,20 +237,20 @@ const formatDate = (date) => {
                             <form @submit.prevent="submitAchievement" class="space-y-4">
                                 <div>
                                     <label class="block text-[10px] font-black uppercase tracking-widest text-[#a8a196] mb-2 px-1">Pilih Materi</label>
-                                    <select v-model="achievementForm.materi_id" class="w-full border-none bg-[#f5f4f2] dark:bg-[#262524] rounded-2xl p-4 font-bold text-sm focus:ring-2 focus:ring-[#c97e60]">
+                                    <select v-model="achievementForm.materi_id" class="w-full border-none bg-[#f5f4f2] dark:bg-[#262524] rounded-2xl p-4 font-bold text-sm focus:ring-2 focus:ring-[#d02e5c]">
                                         <option value="" disabled>Pilih Materi</option>
                                         <option v-for="m in materis" :key="m.id" :value="m.id">{{ m.nama }} ({{ m.kategori }})</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label class="block text-[10px] font-black uppercase tracking-widest text-[#a8a196] mb-2 px-1">Tanggal Lulus</label>
-                                    <input v-model="achievementForm.tanggal_selesai" type="date" class="w-full border-none bg-[#f5f4f2] dark:bg-[#262524] rounded-2xl p-4 font-bold text-sm focus:ring-2 focus:ring-[#c97e60]" />
+                                    <input v-model="achievementForm.tanggal_selesai" type="date" class="w-full border-none bg-[#f5f4f2] dark:bg-[#262524] rounded-2xl p-4 font-bold text-sm focus:ring-2 focus:ring-[#d02e5c]" />
                                 </div>
                                 <div>
                                     <label class="block text-[10px] font-black uppercase tracking-widest text-[#a8a196] mb-2 px-1">Nilai (0-100)</label>
-                                    <input v-model="achievementForm.nilai" type="number" class="w-full border-none bg-[#f5f4f2] dark:bg-[#262524] rounded-2xl p-4 font-bold text-sm focus:ring-2 focus:ring-[#c97e60]" />
+                                    <input v-model="achievementForm.nilai" type="number" class="w-full border-none bg-[#f5f4f2] dark:bg-[#262524] rounded-2xl p-4 font-bold text-sm focus:ring-2 focus:ring-[#d02e5c]" />
                                 </div>
-                                <button type="submit" class="w-full py-4 bg-[#c97e60] text-white font-bold rounded-2xl mt-4 shadow-lg shadow-[#c97e60]/20 hover:bg-[#b06a4f] transition-all" :disabled="achievementForm.processing">
+                                <button type="submit" class="w-full py-4 bg-[#d02e5c] text-white font-bold rounded-2xl mt-4 shadow-lg shadow-[#d02e5c]/20 hover:bg-[#b06a4f] transition-all" :disabled="achievementForm.processing">
                                     Simpan Pencapaian
                                 </button>
                             </form>
@@ -262,7 +262,7 @@ const formatDate = (date) => {
                 <div v-if="activeTab === 'portfolio'" class="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-500">
                     <div class="flex justify-between items-center">
                         <h3 class="text-xl font-black text-[#161514] dark:text-[#f2e8d5] tracking-tight">Karya & Project</h3>
-                        <button @click="openPortfolioModal()" class="px-6 py-3 bg-[#c97e60]/10 text-[#c97e60] font-bold rounded-2xl hover:bg-[#c97e60] hover:text-white transition-all transition-all flex items-center gap-2">
+                        <button @click="openPortfolioModal()" class="px-6 py-3 bg-[#d02e5c]/10 text-[#d02e5c] font-bold rounded-2xl hover:bg-[#d02e5c] hover:text-white transition-all transition-all flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
                             Tambah Project
                         </button>
@@ -270,13 +270,13 @@ const formatDate = (date) => {
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div v-for="project in santri.portfolios" :key="project.id" 
-                            class="bg-white dark:bg-[#161514] p-8 rounded-[32px] border border-[#ebeae8] dark:border-[#3e3c3a] shadow-sm group hover:border-[#c97e60] transition-colors relative"
+                            class="bg-white dark:bg-[#161514] p-8 rounded-[32px] border border-[#ebeae8] dark:border-[#3e3c3a] shadow-sm group hover:border-[#d02e5c] transition-colors relative"
                         >
                             <div class="space-y-4">
                                 <p class="text-[10px] font-bold text-[#a8a196] uppercase tracking-widest">{{ formatDate(project.tanggal) }}</p>
                                 <h4 class="text-2xl font-black text-[#161514] dark:text-[#f2e8d5] tracking-tight">{{ project.judul }}</h4>
                                 <p class="text-[#5a5753] text-sm leading-relaxed line-clamp-3">{{ project.deskripsi }}</p>
-                                <a v-if="project.link_url" :href="project.link_url" target="_blank" class="text-[10px] font-black uppercase tracking-widest text-[#c97e60] hover:underline flex items-center gap-1">
+                                <a v-if="project.link_url" :href="project.link_url" target="_blank" class="text-[10px] font-black uppercase tracking-widest text-[#d02e5c] hover:underline flex items-center gap-1">
                                     Link Project <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
                                 </a>
                             </div>
@@ -306,30 +306,30 @@ const formatDate = (date) => {
             <div class="relative bg-white dark:bg-[#161514] w-full max-w-lg rounded-[32px] shadow-2xl border border-[#ebeae8] dark:border-[#3e3c3a] overflow-hidden">
                 <div class="p-8 space-y-6">
                     <h3 class="text-2xl font-black text-[#161514] dark:text-[#f2e8d5]">
-                        {{ editingPortfolio ? 'Edit' : 'Tambah' }} <span class="text-[#c97e60]">Project</span>
+                        {{ editingPortfolio ? 'Edit' : 'Tambah' }} <span class="text-[#d02e5c]">Project</span>
                     </h3>
                     <form @submit.prevent="submitPortfolio" class="space-y-4">
                         <div>
                             <label class="block text-[10px] font-black uppercase tracking-widest text-[#a8a196] mb-2 px-1">Judul Project</label>
-                            <input v-model="portfolioForm.judul" type="text" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#c97e60] font-bold" required />
+                            <input v-model="portfolioForm.judul" type="text" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#d02e5c] font-bold" required />
                         </div>
                         <div>
                             <label class="block text-[10px] font-black uppercase tracking-widest text-[#a8a196] mb-2 px-1">Deskripsi</label>
-                            <textarea v-model="portfolioForm.deskripsi" rows="4" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#c97e60] font-bold text-sm"></textarea>
+                            <textarea v-model="portfolioForm.deskripsi" rows="4" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#d02e5c] font-bold text-sm"></textarea>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-[10px] font-black uppercase tracking-widest text-[#a8a196] mb-2 px-1">Link URL</label>
-                                <input v-model="portfolioForm.link_url" type="text" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#c97e60] font-bold" placeholder="https://..." />
+                                <input v-model="portfolioForm.link_url" type="text" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#d02e5c] font-bold" placeholder="https://..." />
                             </div>
                             <div>
                                 <label class="block text-[10px] font-black uppercase tracking-widest text-[#a8a196] mb-2 px-1">Tanggal</label>
-                                <input v-model="portfolioForm.tanggal" type="date" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#c97e60] font-bold" />
+                                <input v-model="portfolioForm.tanggal" type="date" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#d02e5c] font-bold" />
                             </div>
                         </div>
                         <div class="pt-4 flex gap-3">
                             <button type="button" @click="isPortfolioModalOpen = false" class="flex-1 px-6 py-4 bg-[#f5f4f2] dark:bg-[#262524] text-[#a8a196] font-bold rounded-2xl hover:bg-[#ebeae8] dark:hover:bg-[#3e3c3a] transition-all">Batal</button>
-                            <button type="submit" class="flex-1 px-6 py-4 bg-[#c97e60] text-white font-bold rounded-2xl hover:bg-[#b06a4f] shadow-lg shadow-[#c97e60]/20 transition-all">Simpan</button>
+                            <button type="submit" class="flex-1 px-6 py-4 bg-[#d02e5c] text-white font-bold rounded-2xl hover:bg-[#b06a4f] shadow-lg shadow-[#d02e5c]/20 transition-all">Simpan</button>
                         </div>
                     </form>
                 </div>

@@ -90,7 +90,7 @@ const months = [
                     </template>
                 </RedwoodButton>
                 <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                    Input Tagihan <span class="text-[#c97e60]">Manual</span>
+                    Input Tagihan <span class="text-[#d02e5c]">Manual</span>
                 </h2>
             </div>
         </template>
@@ -101,7 +101,7 @@ const months = [
                     <!-- Jenis Pembayaran -->
                     <div class="space-y-2">
                         <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Jenis Pembayaran</label>
-                        <select v-model="form.jenis_pembayaran_id" @change="onJenisChange" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-5 outline-none focus:ring-4 focus:ring-[#c97e60]/10 focus:border-[#c97e60] transition-all font-bold" required>
+                        <select v-model="form.jenis_pembayaran_id" @change="onJenisChange" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-5 outline-none focus:ring-4 focus:ring-[#d02e5c]/10 focus:border-[#d02e5c] transition-all font-bold" required>
                             <option value="" disabled>-- Pilih Jenis Pembayaran --</option>
                             <option v-for="jenis in jenisPembayarans" :key="jenis.id" :value="jenis.id">
                                 {{ jenis.nama }}
@@ -117,14 +117,14 @@ const months = [
                     <div class="grid grid-cols-2 gap-6 bg-[#fcf8f5]/50 dark:bg-[#21201f]/50 p-6 rounded-[28px] border border-[#ebeae8] dark:border-[#3e3c3a]">
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Filter Entitas</label>
-                            <select v-model="selectedEntitas" class="w-full bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#c97e60] transition-all font-bold">
+                            <select v-model="selectedEntitas" class="w-full bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#d02e5c] transition-all font-bold">
                                 <option value="">Semua Entitas</option>
                                 <option v-for="ent in entitasOptions" :key="ent" :value="ent">{{ ent }}</option>
                             </select>
                         </div>
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Filter Angkatan</label>
-                            <select v-model="selectedAngkatan" :disabled="!selectedEntitas" class="w-full bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#c97e60] transition-all font-bold disabled:opacity-50">
+                            <select v-model="selectedAngkatan" :disabled="!selectedEntitas" class="w-full bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#d02e5c] transition-all font-bold disabled:opacity-50">
                                 <option value="">Semua Angkatan</option>
                                 <option v-for="ang in availableAngkatans" :key="ang" :value="ang">Angkatan {{ ang }}</option>
                             </select>
@@ -134,7 +134,7 @@ const months = [
                     <!-- Pilih Santri -->
                     <div class="space-y-2">
                         <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Pilih Santri ({{ filteredSantris.length }} Orang)</label>
-                        <select v-model="form.santri_id" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-5 outline-none focus:ring-4 focus:ring-[#c97e60]/10 focus:border-[#c97e60] transition-all" required>
+                        <select v-model="form.santri_id" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-5 outline-none focus:ring-4 focus:ring-[#d02e5c]/10 focus:border-[#d02e5c] transition-all" required>
                             <option value="" disabled>-- Pilih Nama Santri --</option>
                             <option v-for="santri in filteredSantris" :key="santri.id" :value="santri.id">
                                 {{ santri.nama }} ({{ santri.nis || 'No NIS' }}) - {{ santri.entitas }} {{ santri.angkatan ? 'Akt. ' + santri.angkatan : '' }}
@@ -147,7 +147,7 @@ const months = [
                     <div v-if="isBulanan" class="grid grid-cols-2 gap-6">
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Bulan</label>
-                            <select v-model="form.bulan" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#c97e60]" :required="isBulanan">
+                            <select v-model="form.bulan" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#d02e5c]" :required="isBulanan">
                                 <option value="" disabled>Pilih Bulan</option>
                                 <option v-for="m in months" :key="m" :value="m">{{ m }}</option>
                             </select>
@@ -155,27 +155,27 @@ const months = [
                         </div>
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Tahun</label>
-                            <input v-model="form.tahun" type="number" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#c97e60]" :required="isBulanan">
+                            <input v-model="form.tahun" type="number" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#d02e5c]" :required="isBulanan">
                         </div>
                     </div>
 
                     <!-- Nominal -->
                     <div class="space-y-2">
                         <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Nominal Tagihan (Rp)</label>
-                        <input v-model="form.jumlah" type="number" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-5 outline-none font-bold text-xl text-[#c97e60] focus:ring-4 focus:ring-[#c97e60]/10 focus:border-[#c97e60] transition-all" required>
+                        <input v-model="form.jumlah" type="number" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-5 outline-none font-bold text-xl text-[#d02e5c] focus:ring-4 focus:ring-[#d02e5c]/10 focus:border-[#d02e5c] transition-all" required>
                         <div v-if="form.errors.jumlah" class="text-xs text-rose-500">{{ form.errors.jumlah }}</div>
                     </div>
 
                     <!-- Jatuh Tempo -->
                     <div class="space-y-2">
                         <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Jatuh Tempo</label>
-                        <input v-model="form.jatuh_tempo" type="date" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#c97e60]" required>
+                        <input v-model="form.jatuh_tempo" type="date" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#d02e5c]" required>
                     </div>
 
                     <!-- Keterangan -->
                     <div class="space-y-2">
                         <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Keterangan (opsional)</label>
-                        <textarea v-model="form.keterangan" placeholder="Misal: cicilan ke-2, dll" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#c97e60] min-h-[80px] text-sm"></textarea>
+                        <textarea v-model="form.keterangan" placeholder="Misal: cicilan ke-2, dll" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 outline-none focus:ring-2 focus:ring-[#d02e5c] min-h-[80px] text-sm"></textarea>
                     </div>
 
                     <div class="pt-2">

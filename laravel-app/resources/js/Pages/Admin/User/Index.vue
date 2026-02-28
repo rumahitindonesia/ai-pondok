@@ -71,7 +71,7 @@ const deleteUser = (id) => {
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                Manajemen <span class="text-[#c97e60]">User</span>
+                Manajemen <span class="text-[#d02e5c]">User</span>
             </h2>
         </template>
 
@@ -104,28 +104,28 @@ const deleteUser = (id) => {
                         <tr v-for="user in users" :key="user.id" class="group hover:bg-[#fcf8f5] dark:hover:bg-[#1d1c1b] transition-colors">
                             <td class="px-8 py-5">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 rounded-full bg-[#f5f4f2] dark:bg-[#262524] border border-[#ebeae8] dark:border-[#3e3c3a] flex items-center justify-center text-[#c97e60] font-bold">
+                                    <div class="w-10 h-10 rounded-full bg-[#f5f4f2] dark:bg-[#262524] border border-[#ebeae8] dark:border-[#3e3c3a] flex items-center justify-center text-[#d02e5c] font-bold">
                                         {{ user.name.charAt(0) }}
                                     </div>
                                     <div class="min-w-0">
                                         <p class="font-bold text-[#161514] dark:text-[#f2e8d5] truncate">{{ user.name }}</p>
                                         <p class="text-[10px] text-[#a8a196] truncate">{{ user.email }}</p>
                                         <div v-if="user.santri" class="flex items-center gap-1 mt-1">
-                                            <svg class="w-3 h-3 text-[#c97e60]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
-                                            <span class="text-[9px] font-bold text-[#c97e60] uppercase tracking-wider truncate">Terkait: {{ user.santri.nama }}</span>
+                                            <svg class="w-3 h-3 text-[#d02e5c]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                                            <span class="text-[9px] font-bold text-[#d02e5c] uppercase tracking-wider truncate">Terkait: {{ user.santri.nama }}</span>
                                         </div>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-8 py-5">
                                 <span v-for="role in user.roles" :key="role.id" 
-                                      class="px-3 py-1 bg-[#c97e60]/10 text-[#c97e60] text-[10px] font-black uppercase tracking-wider rounded-lg border border-[#c97e60]/20">
+                                      class="px-3 py-1 bg-[#d02e5c]/10 text-[#d02e5c] text-[10px] font-black uppercase tracking-wider rounded-lg border border-[#d02e5c]/20">
                                     {{ role.name }}
                                 </span>
                             </td>
                             <td class="px-8 py-5 text-right">
                                 <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <button @click="openEditModal(user)" class="p-2 text-[#a8a196] hover:text-[#c97e60] transition-colors">
+                                    <button @click="openEditModal(user)" class="p-2 text-[#a8a196] hover:text-[#d02e5c] transition-colors">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
                                     </button>
                                     <button v-if="user.id !== $page.props.auth.user.id" @click="deleteUser(user.id)" class="p-2 text-[#a8a196] hover:text-rose-500 transition-colors">
@@ -151,20 +151,20 @@ const deleteUser = (id) => {
                     <form @submit.prevent="submit" class="space-y-6">
                         <div class="space-y-1">
                             <label class="text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196]">Nama Lengkap</label>
-                            <input v-model="form.name" type="text" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#c97e60] transition-all" placeholder="Masukkan nama..." required />
+                            <input v-model="form.name" type="text" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#d02e5c] transition-all" placeholder="Masukkan nama..." required />
                             <p v-if="form.errors.name" class="text-xs text-rose-500 font-bold mt-1">{{ form.errors.name }}</p>
                         </div>
 
                         <div class="space-y-1">
                             <label class="text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196]">Email</label>
-                            <input v-model="form.email" type="email" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#c97e60] transition-all" placeholder="email@example.com" required />
+                            <input v-model="form.email" type="email" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#d02e5c] transition-all" placeholder="email@example.com" required />
                             <p v-if="form.errors.email" class="text-xs text-rose-500 font-bold mt-1">{{ form.errors.email }}</p>
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
                             <div class="space-y-1">
                                 <label class="text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196]">Role / Akses</label>
-                                <select v-model="form.role" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#c97e60] transition-all" required>
+                                <select v-model="form.role" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#d02e5c] transition-all" required>
                                     <option value="" disabled>Pilih Role</option>
                                     <option v-for="role in roles" :key="role.id" :value="role.name">{{ role.name }}</option>
                                 </select>
@@ -174,7 +174,7 @@ const deleteUser = (id) => {
                             <!-- Link to Santri Dropdown -->
                             <div class="space-y-1">
                                 <label class="text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196]">Hubungkan ke Santri (Opsional)</label>
-                                <select v-model="form.santri_id" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#c97e60] transition-all">
+                                <select v-model="form.santri_id" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#d02e5c] transition-all">
                                     <option value="">-- Tidak Dihubungkan --</option>
                                     <option v-for="santri in santris" :key="santri.id" :value="santri.id">
                                         {{ santri.nama }} ({{ santri.nis }})
@@ -187,11 +187,11 @@ const deleteUser = (id) => {
                         <div class="grid grid-cols-2 gap-4">
                             <div class="space-y-1">
                                 <label class="text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196]">Password {{ editingUser ? '(Optional)' : '' }}</label>
-                                <input v-model="form.password" type="password" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#c97e60] transition-all" placeholder="********" :required="!editingUser" />
+                                <input v-model="form.password" type="password" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#d02e5c] transition-all" placeholder="********" :required="!editingUser" />
                             </div>
                             <div class="space-y-1">
                                 <label class="text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196]">Konfirmasi Password</label>
-                                <input v-model="form.password_confirmation" type="password" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#c97e60] transition-all" placeholder="********" :required="!editingUser" />
+                                <input v-model="form.password_confirmation" type="password" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#d02e5c] transition-all" placeholder="********" :required="!editingUser" />
                             </div>
                             <p v-if="form.errors.password" class="col-span-2 text-xs text-rose-500 font-bold mt-1">{{ form.errors.password }}</p>
                         </div>

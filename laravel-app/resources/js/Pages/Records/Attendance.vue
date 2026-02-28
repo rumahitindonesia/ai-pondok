@@ -70,7 +70,7 @@ const statusOptions = [
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                Absensi <span class="text-[#c97e60]">Harian</span>
+                Absensi <span class="text-[#d02e5c]">Harian</span>
             </h2>
         </template>
 
@@ -91,7 +91,7 @@ const statusOptions = [
                 <!-- Class Filter -->
                 <select 
                     v-model="form.kelas" 
-                    class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#c97e60] shadow-sm"
+                    class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#d02e5c] shadow-sm"
                 >
                     <option value="">Semua Kelas</option>
                     <option v-for="k in options.kelas" :key="k" :value="k">{{ k }}</option>
@@ -100,7 +100,7 @@ const statusOptions = [
                 <!-- Room Filter -->
                 <select 
                     v-model="form.kamar" 
-                    class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#c97e60] shadow-sm"
+                    class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#d02e5c] shadow-sm"
                 >
                     <option value="">Semua Kamar</option>
                     <option v-for="k in options.kamar" :key="k" :value="k">{{ k }}</option>
@@ -109,11 +109,11 @@ const statusOptions = [
                 <input 
                     v-model="form.tanggal" 
                     type="date" 
-                    class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#c97e60] shadow-sm"
+                    class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#d02e5c] shadow-sm"
                 >
                 <select 
                     v-model="form.jenis" 
-                    class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#c97e60] shadow-sm"
+                    class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#d02e5c] shadow-sm"
                 >
                     <option v-for="act in activities" :key="act.id" :value="act.nama">{{ act.nama }}</option>
                 </select>

@@ -30,11 +30,11 @@ const isLink = computed(() => props.as === 'Link' || !!props.href);
 const baseClasses = 'inline-flex items-center justify-center gap-2 transition-all transform active:scale-95 shrink-0 font-bold';
 
 const variantClasses = {
-    primary: 'bg-[#c97e60] !text-white hover:bg-[#b06a4f] shadow-lg shadow-[#c97e60]/20',
+    primary: 'bg-brand-rose !text-white hover:bg-brand-rose-deep shadow-lg shadow-brand-rose/20 dark:bg-brand-rose-vibrant dark:hover:bg-brand-rose',
     secondary: 'bg-[#161514] !text-white hover:bg-black shadow-xl',
-    outline: 'bg-white dark:bg-[#161514] text-[#161514] dark:text-[#f2e8d5] border border-[#ebeae8] dark:border-[#3e3c3a] hover:bg-gray-50 dark:hover:bg-[#1d1c1b] shadow-sm',
+    outline: 'bg-white dark:bg-[#161514] text-[#161514] dark:text-[#f2e8d5] border border-[#ebeae8] dark:border-[#3e3c3a] hover:bg-brand-rose-muted dark:hover:bg-brand-rose-surface shadow-sm',
     danger: 'bg-rose-500 text-white hover:bg-rose-600 shadow-lg shadow-rose-500/20',
-    ghost: 'p-2 text-[#a8a196] hover:text-[#c97e60] hover:bg-[#c97e60]/10 rounded-lg'
+    ghost: 'p-2 text-[#a8a196] hover:text-brand-rose dark:hover:text-brand-rose-vibrant hover:bg-brand-rose-muted dark:hover:bg-brand-rose-surface rounded-lg'
 };
 
 const sizeClasses = {

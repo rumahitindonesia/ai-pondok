@@ -132,28 +132,28 @@ onMounted(() => {
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                Ringkasan <span class="text-[#c97e60]">Dashboard</span>
+                Ringkasan <span class="text-[#d02e5c]">Dashboard</span>
             </h2>
         </template>
 
         <div class="space-y-8 lg:space-y-12">
             <!-- Stats Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-                <div class="bg-white dark:bg-[#161514] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-[32px] p-6 lg:p-10 border border-[#ebeae8] dark:border-[#3e3c3a] relative group hover:border-[#c97e60] transition-all duration-500 lg:hover:-translate-y-1">
+                <div class="bg-white dark:bg-[#161514] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-[32px] p-6 lg:p-10 border border-[#ebeae8] dark:border-[#3e3c3a] relative group hover:border-[#d02e5c] transition-all duration-500 lg:hover:-translate-y-1">
                      <!-- Redwood Organic Pattern -->
                     <div class="absolute top-0 right-0 w-32 lg:w-40 h-32 lg:h-40 opacity-[0.03] dark:opacity-10 pointer-events-none transition-opacity group-hover:opacity-20">
-                        <svg viewBox="0 0 100 100" fill="#c97e60"><circle cx="70" cy="30" r="50" /></svg>
+                        <svg viewBox="0 0 100 100" fill="#d02e5c"><circle cx="70" cy="30" r="50" /></svg>
                     </div>
                     <div class="text-[10px] font-black uppercase tracking-[0.4em] text-[#a8a196] mb-3 lg:mb-4 transition-colors">Total Santri</div>
                     <div class="text-4xl lg:text-6xl font-bold text-[#161514] dark:text-[#f2e8d5] tracking-tighter transition-colors">{{ stats.total_santri }}</div>
                 </div>
                 
-                <div class="bg-white dark:bg-[#161514] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-[32px] p-6 lg:p-10 border border-[#ebeae8] dark:border-[#3e3c3a] group hover:border-[#c97e60] transition-all duration-500 lg:hover:-translate-y-1">
+                <div class="bg-white dark:bg-[#161514] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-[32px] p-6 lg:p-10 border border-[#ebeae8] dark:border-[#3e3c3a] group hover:border-[#d02e5c] transition-all duration-500 lg:hover:-translate-y-1">
                     <div class="text-[10px] font-black uppercase tracking-[0.4em] text-[#a8a196] mb-3 lg:mb-4 transition-colors">Santri Aktif</div>
-                    <div class="text-4xl lg:text-6xl font-bold text-[#c97e60] tracking-tighter transition-colors">{{ stats.active_santri }}</div>
+                    <div class="text-4xl lg:text-6xl font-bold text-[#d02e5c] tracking-tighter transition-colors">{{ stats.active_santri }}</div>
                 </div>
                 
-                <div class="bg-white dark:bg-[#161514] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-[32px] p-6 lg:p-10 border border-[#ebeae8] dark:border-[#3e3c3a] group hover:border-[#c97e60] transition-all duration-500 lg:hover:-translate-y-1">
+                <div class="bg-white dark:bg-[#161514] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-[32px] p-6 lg:p-10 border border-[#ebeae8] dark:border-[#3e3c3a] group hover:border-[#d02e5c] transition-all duration-500 lg:hover:-translate-y-1">
                     <div class="text-[10px] font-black uppercase tracking-[0.4em] text-[#a8a196] mb-3 lg:mb-4 transition-colors">Pendaftaran Baru</div>
                     <div class="text-4xl lg:text-6xl font-bold text-[#161514] dark:text-[#f2e8d5] tracking-tighter transition-colors">{{ stats.new_registrations }}</div>
                 </div>
@@ -162,7 +162,7 @@ onMounted(() => {
             <!-- Chart Section (Oracle JET) -->
             <div class="bg-white dark:bg-[#161514] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-[32px] lg:rounded-[40px] p-6 lg:p-12 border border-[#ebeae8] dark:border-[#3e3c3a] transition-all duration-500">
                 <h3 class="text-xl lg:text-2xl font-bold text-[#161514] dark:text-[#f2e8d5] mb-8 lg:mb-10 tracking-tight flex items-center gap-4 transition-colors">
-                    <span class="w-2.5 h-8 lg:h-10 bg-[#c97e60] rounded-full shadow-[0_0_15px_rgba(201,126,96,0.5)]"></span>
+                    <span class="w-2.5 h-8 lg:h-10 bg-[#d02e5c] rounded-full shadow-[0_0_15px_rgba(201,126,96,0.5)]"></span>
                     Pembayaran Bulan Ini (Harian)
                 </h3>
                 
@@ -171,8 +171,8 @@ onMounted(() => {
                     <template v-if="isJetLoaded">
                         <div id="jetChartContainer" class="w-full h-full" v-show="chartSeries.length > 0"></div>
                         <div v-show="chartSeries.length === 0" class="flex flex-col items-center justify-center h-full text-[#a8a196] space-y-4">
-                            <div class="w-16 h-16 bg-[#c97e60]/5 rounded-3xl flex items-center justify-center border border-[#ebeae8] dark:border-[#3e3c3a]">
-                                <svg class="w-8 h-8 text-[#c97e60]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <div class="w-16 h-16 bg-[#d02e5c]/5 rounded-3xl flex items-center justify-center border border-[#ebeae8] dark:border-[#3e3c3a]">
+                                <svg class="w-8 h-8 text-[#d02e5c]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                             </div>
                             <span class="text-sm font-bold tracking-wider">Belum ada aktivitas pembayaran hari ini.</span>
                             <span class="text-xs">Data akan otomatis muncul setelah ada santri yang membayar.</span>
@@ -185,7 +185,7 @@ onMounted(() => {
                     </div>
                     <div v-else class="flex items-center justify-center h-full text-[#a8a196]">
                         <div class="flex flex-col items-center gap-6">
-                            <div class="w-12 lg:w-16 h-12 lg:h-16 border-4 border-[#ebeae8] dark:border-[#3e3c3a] border-t-[#c97e60] rounded-full animate-spin"></div>
+                            <div class="w-12 lg:w-16 h-12 lg:h-16 border-4 border-[#ebeae8] dark:border-[#3e3c3a] border-t-[#d02e5c] rounded-full animate-spin"></div>
                             <span class="text-sm lg:text-base font-semibold tracking-wider">Memuat Oracle JET Engine...</span>
                         </div>
                     </div>
@@ -199,6 +199,6 @@ onMounted(() => {
 /* Oracle JET Custom Styling to match our dark theme */
 .oj-chart-redwood {
     --oj-chart-bg-color: transparent;
-    --oj-chart-series-color-1: #c97e60;
+    --oj-chart-series-color-1: #d02e5c;
 }
 </style>

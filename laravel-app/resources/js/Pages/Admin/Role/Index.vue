@@ -66,7 +66,7 @@ const isPermitted = (action, module) => {
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                Hak Akses <span class="text-[#c97e60]">& Roles</span>
+                Hak Akses <span class="text-[#d02e5c]">& Roles</span>
             </h2>
         </template>
 
@@ -79,8 +79,8 @@ const isPermitted = (action, module) => {
                         :class="[
                             'w-full text-left p-6 rounded-[24px] border transition-all flex items-center justify-between group',
                             activeRoleId === role.id 
-                                ? 'bg-[#c97e60] border-[#c97e60] text-white shadow-xl shadow-[#c97e60]/20' 
-                                : 'bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] text-[#161514] dark:text-[#f2e8d5] hover:border-[#c97e60]'
+                                ? 'bg-[#d02e5c] border-[#d02e5c] text-white shadow-xl shadow-[#d02e5c]/20' 
+                                : 'bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] text-[#161514] dark:text-[#f2e8d5] hover:border-[#d02e5c]'
                         ]"
                 >
                     <div class="min-w-0">
@@ -130,8 +130,8 @@ const isPermitted = (action, module) => {
                                             :class="[
                                                 'w-8 h-8 rounded-full border-2 transition-all flex items-center justify-center mx-auto',
                                                 isPermitted(action.key, module.key) 
-                                                    ? 'bg-[#c97e60] border-[#c97e60] text-white' 
-                                                    : 'border-[#ebeae8] dark:border-[#3e3c3a] text-transparent hover:border-[#c97e60]/50'
+                                                    ? 'bg-[#d02e5c] border-[#d02e5c] text-white' 
+                                                    : 'border-[#ebeae8] dark:border-[#3e3c3a] text-transparent hover:border-[#d02e5c]/50'
                                             ]"
                                         >
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>

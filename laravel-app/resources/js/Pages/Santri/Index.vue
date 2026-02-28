@@ -142,7 +142,7 @@ const applyBulkStatus = () => {
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                Database <span class="text-[#c97e60]">Santri</span>
+                Database <span class="text-[#d02e5c]">Santri</span>
             </h2>
         </template>
 
@@ -160,7 +160,7 @@ const applyBulkStatus = () => {
                         v-model="search"
                         type="text" 
                         placeholder="Cari nama atau NIS secara cepat..."
-                        class="block w-full pl-12 pr-4 py-4 bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl text-base focus:ring-2 focus:ring-[#c97e60] focus:border-transparent transition-all shadow-sm font-bold"
+                        class="block w-full pl-12 pr-4 py-4 bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl text-base focus:ring-2 focus:ring-[#d02e5c] focus:border-transparent transition-all shadow-sm font-bold"
                     >
                 </div>
 
@@ -181,7 +181,7 @@ const applyBulkStatus = () => {
                         <!-- Status Filter -->
                         <select 
                             v-model="status" 
-                            class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#c97e60] shadow-sm min-w-[150px]"
+                            class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#d02e5c] shadow-sm min-w-[150px]"
                         >
                             <option value="">Semua Status</option>
                             <option value="Santri Aktif">Santri Aktif</option>
@@ -196,7 +196,7 @@ const applyBulkStatus = () => {
                         <!-- Kelas Filter -->
                         <select 
                             v-model="kelas" 
-                            class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#c97e60] shadow-sm min-w-[150px]"
+                            class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#d02e5c] shadow-sm min-w-[150px]"
                         >
                             <option value="">Semua Kelas</option>
                             <option v-for="k in options.kelas" :key="k" :value="k">{{ k }}</option>
@@ -205,7 +205,7 @@ const applyBulkStatus = () => {
                         <!-- Kamar Filter -->
                         <select 
                             v-model="kamar" 
-                            class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#c97e60] shadow-sm min-w-[150px]"
+                            class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#d02e5c] shadow-sm min-w-[150px]"
                         >
                             <option value="">Semua Kamar</option>
                             <option v-for="k in options.kamar" :key="k" :value="k">{{ k }}</option>
@@ -214,7 +214,7 @@ const applyBulkStatus = () => {
                         <!-- Angkatan Filter -->
                         <select 
                             v-model="angkatan" 
-                            class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#c97e60] shadow-sm min-w-[150px]"
+                            class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#d02e5c] shadow-sm min-w-[150px]"
                         >
                             <option value="">Semua Angkatan</option>
                             <option v-for="a in options.angkatan" :key="a" :value="a">Angkatan {{ a }}</option>
@@ -223,7 +223,7 @@ const applyBulkStatus = () => {
                         <!-- Entitas Filter -->
                         <select 
                             v-model="entitas" 
-                            class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#c97e60] shadow-sm min-w-[150px]"
+                            class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#d02e5c] shadow-sm min-w-[150px]"
                         >
                             <option value="">Semua Entitas</option>
                             <option v-for="e in options.entitas" :key="e" :value="e">{{ e }}</option>
@@ -248,7 +248,7 @@ const applyBulkStatus = () => {
             <!-- Stats Summary Cards -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Total -->
-                <div class="bg-white dark:bg-[#161514] p-6 rounded-[24px] border border-[#ebeae8] dark:border-[#3e3c3a] shadow-sm group hover:border-[#c97e60] transition-all">
+                <div class="bg-white dark:bg-[#161514] p-6 rounded-[24px] border border-[#ebeae8] dark:border-[#3e3c3a] shadow-sm group hover:border-[#d02e5c] transition-all">
                     <p class="text-[9px] font-black uppercase tracking-[0.2em] text-[#a8a196] mb-2">Total Santri</p>
                     <div class="flex items-end gap-2">
                         <span class="text-3xl font-black text-[#161514] dark:text-[#f2e8d5] tracking-tighter">{{ stats.total }}</span>
@@ -291,13 +291,13 @@ const applyBulkStatus = () => {
                             type="checkbox" 
                             :checked="isAllSelected"
                             @change="toggleSelectAll"
-                            class="w-5 h-5 rounded-lg border-[#ebeae8] dark:border-[#3e3c3a] text-[#c97e60] focus:ring-[#c97e60] dark:bg-[#161514] transition-all cursor-pointer"
+                            class="w-5 h-5 rounded-lg border-[#ebeae8] dark:border-[#3e3c3a] text-[#d02e5c] focus:ring-[#d02e5c] dark:bg-[#161514] transition-all cursor-pointer"
                         >
                     </div>
-                    <div @click="sort('nama')" class="flex-1 min-w-0 px-4 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] cursor-pointer hover:text-[#c97e60] transition-colors flex items-center gap-1">
+                    <div @click="sort('nama')" class="flex-1 min-w-0 px-4 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] cursor-pointer hover:text-[#d02e5c] transition-colors flex items-center gap-1">
                         Informasi Santri / Nama <svg v-if="filters.sort_by === 'nama'" class="w-3 h-3" :class="filters.sort_dir === 'asc' ? 'rotate-180' : ''" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
                     </div>
-                    <div @click="sort('status')" class="w-48 shrink-0 px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] cursor-pointer hover:text-[#c97e60] transition-colors hidden lg:flex items-center gap-1">
+                    <div @click="sort('status')" class="w-48 shrink-0 px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] cursor-pointer hover:text-[#d02e5c] transition-colors hidden lg:flex items-center gap-1">
                         Status <svg v-if="filters.sort_by === 'status'" class="w-3 h-3" :class="filters.sort_dir === 'asc' ? 'rotate-180' : ''" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
                     </div>
                     <div class="w-44 shrink-0 px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] hidden lg:block">Kelas / Kamar</div>
@@ -319,7 +319,7 @@ const applyBulkStatus = () => {
                                 @change="toggleSelect(santri.id)"
                                 @pointerdown.stop
                                 @mousedown.stop
-                                class="w-5 h-5 rounded-lg border-[#ebeae8] dark:border-[#3e3c3a] text-[#c97e60] focus:ring-[#c97e60] dark:bg-[#161514] transition-all cursor-pointer relative z-30"
+                                class="w-5 h-5 rounded-lg border-[#ebeae8] dark:border-[#3e3c3a] text-[#d02e5c] focus:ring-[#d02e5c] dark:bg-[#161514] transition-all cursor-pointer relative z-30"
                             >
                         </div>
 
@@ -358,19 +358,19 @@ const applyBulkStatus = () => {
                                 <!-- Nama & Info -->
                                 <div class="flex-1 min-w-0 px-4 py-5">
                                     <div class="flex items-center gap-4">
-                                        <div class="w-10 h-10 rounded-full bg-[#c97e60]/10 flex items-center justify-center overflow-hidden border border-[#ebeae8] dark:border-[#3e3c3a] shrink-0">
+                                        <div class="w-10 h-10 rounded-full bg-[#d02e5c]/10 flex items-center justify-center overflow-hidden border border-[#ebeae8] dark:border-[#3e3c3a] shrink-0">
                                             <img v-if="santri.foto" :src="`/storage/${santri.foto}`" class="w-full h-full object-cover">
-                                            <span v-else class="text-[#c97e60] font-bold text-xs uppercase">{{ santri.nama?.charAt(0) ?? '?' }}</span>
+                                            <span v-else class="text-[#d02e5c] font-bold text-xs uppercase">{{ santri.nama?.charAt(0) ?? '?' }}</span>
                                         </div>
                                         <div class="min-w-0">
                                             <p class="font-bold text-[#161514] dark:text-[#f2e8d5] truncate flex items-center gap-2">
                                                 {{ santri.nama }}
-                                                <span v-if="santri.entitas" class="font-mono text-[9px] px-1.5 py-0.5 rounded bg-[#f2e8d5] dark:bg-[#3e3c3a] text-[#c97e60]">{{ santri.entitas }}</span>
+                                                <span v-if="santri.entitas" class="font-mono text-[9px] px-1.5 py-0.5 rounded bg-[#f2e8d5] dark:bg-[#3e3c3a] text-[#d02e5c]">{{ santri.entitas }}</span>
                                             </p>
                                             <div class="flex items-center gap-2 text-[10px] text-[#a8a196] font-medium">
                                                 <span>{{ santri.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan' }}</span>
                                                 <span class="text-[#ebeae8] dark:text-[#3e3c3a]">•</span>
-                                                <span v-if="santri.angkatan" class="text-[#c97e60]">Akt. {{ santri.angkatan }}</span>
+                                                <span v-if="santri.angkatan" class="text-[#d02e5c]">Akt. {{ santri.angkatan }}</span>
                                                 <span v-if="santri.angkatan && santri.nis" class="text-[#ebeae8] dark:text-[#3e3c3a]">•</span>
                                                 <span class="font-mono text-[9px]">{{ santri.nis || 'N/A' }}</span>
                                             </div>
@@ -393,7 +393,7 @@ const applyBulkStatus = () => {
                                 <div class="w-44 shrink-0 px-8 py-5 hidden lg:block">
                                     <div class="flex flex-col gap-1.5">
                                         <div class="flex items-center gap-2 text-xs font-bold text-[#161514] dark:text-[#f2e8d5]">
-                                            <svg class="w-3.5 h-3.5 text-[#c97e60] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                                            <svg class="w-3.5 h-3.5 text-[#d02e5c] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
                                             <span class="truncate">{{ santri.kelas || '-' }}</span>
                                         </div>
                                         <div class="flex items-center gap-2 text-[10px] font-medium text-[#a8a196]">
@@ -428,7 +428,7 @@ const applyBulkStatus = () => {
                                 v-html="link.label"
                                 :class="[
                                     'px-4 py-2 text-xs font-bold rounded-xl transition-all',
-                                    link.active ? 'bg-[#c97e60] text-white shadow-md' : 'bg-white dark:bg-[#262524] text-[#a8a196] hover:text-[#c97e60] border border-[#ebeae8] dark:border-[#3e3c3a]'
+                                    link.active ? 'bg-[#d02e5c] text-white shadow-md' : 'bg-white dark:bg-[#262524] text-[#a8a196] hover:text-[#d02e5c] border border-[#ebeae8] dark:border-[#3e3c3a]'
                                 ]"
                             />
                         </template>
@@ -449,7 +449,7 @@ const applyBulkStatus = () => {
             <div v-if="selectedIds.length > 0" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-2xl px-4">
                 <div class="bg-[#161514] dark:bg-[#f2e8d5] text-[#f2e8d5] dark:text-[#161514] rounded-[32px] p-4 shadow-[0_25px_60px_rgba(0,0,0,0.5)] border border-[#3e3c3a] dark:border-white/20 flex flex-col md:flex-row items-center gap-4">
                     <div class="flex items-center gap-4 px-4 border-r border-[#3e3c3a] dark:border-gray-200/20">
-                        <div class="w-10 h-10 rounded-full bg-[#c97e60] text-white flex items-center justify-center font-black text-sm">
+                        <div class="w-10 h-10 rounded-full bg-[#d02e5c] text-white flex items-center justify-center font-black text-sm">
                             {{ selectedIds.length }}
                         </div>
                         <div class="hidden sm:block">
@@ -492,7 +492,7 @@ const applyBulkStatus = () => {
 
                     <button 
                         @click="selectedIds = []" 
-                        class="p-4 hover:text-[#c97e60] transition-colors"
+                        class="p-4 hover:text-[#d02e5c] transition-colors"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
                     </button>

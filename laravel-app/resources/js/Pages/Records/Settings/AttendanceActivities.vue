@@ -33,11 +33,11 @@ const deleteActivity = (id) => {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center gap-6">
-                <Link :href="route('records.attendance')" class="p-2 text-[#a8a196] hover:text-[#c97e60] transition-colors bg-white dark:bg-[#161514] rounded-xl border border-[#ebeae8] dark:border-[#3e3c3a] shadow-sm">
+                <Link :href="route('records.attendance')" class="p-2 text-[#a8a196] hover:text-[#d02e5c] transition-colors bg-white dark:bg-[#161514] rounded-xl border border-[#ebeae8] dark:border-[#3e3c3a] shadow-sm">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                 </Link>
                 <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                    Pengaturan <span class="text-[#c97e60]">Jenis Alat/Kegiatan</span>
+                    Pengaturan <span class="text-[#d02e5c]">Jenis Alat/Kegiatan</span>
                 </h2>
             </div>
         </template>
@@ -50,13 +50,13 @@ const deleteActivity = (id) => {
                     <form @submit.prevent="submit" class="space-y-6">
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Nama Kegiatan</label>
-                            <input v-model="form.nama" type="text" placeholder="Contoh: Sholat Subuh" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-xl p-4 outline-none focus:ring-4 focus:ring-[#c97e60]/10 focus:border-[#c97e60] transition-all font-bold" required>
+                            <input v-model="form.nama" type="text" placeholder="Contoh: Sholat Subuh" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-xl p-4 outline-none focus:ring-4 focus:ring-[#d02e5c]/10 focus:border-[#d02e5c] transition-all font-bold" required>
                             <div v-if="form.errors.nama" class="text-xs text-rose-500 font-medium">{{ form.errors.nama }}</div>
                         </div>
 
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Keterangan (Opsional)</label>
-                            <textarea v-model="form.keterangan" rows="3" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-xl p-4 outline-none focus:ring-4 focus:ring-[#c97e60]/10 focus:border-[#c97e60] transition-all resize-none"></textarea>
+                            <textarea v-model="form.keterangan" rows="3" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-xl p-4 outline-none focus:ring-4 focus:ring-[#d02e5c]/10 focus:border-[#d02e5c] transition-all resize-none"></textarea>
                         </div>
 
                         <RedwoodButton 

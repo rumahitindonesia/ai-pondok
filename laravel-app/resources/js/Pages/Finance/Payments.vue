@@ -21,7 +21,7 @@ const formatCurrency = (value) => {
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                Riwayat <span class="text-[#c97e60]">Pembayaran</span>
+                Riwayat <span class="text-[#d02e5c]">Pembayaran</span>
             </h2>
         </template>
 
@@ -60,7 +60,7 @@ const formatCurrency = (value) => {
                                     {{ formatCurrency(payment.jumlah_bayar) }}
                                 </td>
                                 <td class="px-8 py-5 text-center">
-                                    <a v-if="payment.bukti_pembayaran" :href="'/storage/' + payment.bukti_pembayaran" target="_blank" class="w-10 h-10 rounded-xl bg-[#c97e60]/10 flex items-center justify-center text-[#c97e60] mx-auto hover:bg-[#c97e60]/20 transition-all border border-transparent hover:border-[#c97e60]/20">
+                                    <a v-if="payment.bukti_pembayaran" :href="'/storage/' + payment.bukti_pembayaran" target="_blank" class="w-10 h-10 rounded-xl bg-[#d02e5c]/10 flex items-center justify-center text-[#d02e5c] mx-auto hover:bg-[#d02e5c]/20 transition-all border border-transparent hover:border-[#d02e5c]/20">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                                     </a>
                                 </td>

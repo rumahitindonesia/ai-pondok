@@ -111,7 +111,7 @@ const saveReorder = (ids) => {
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                Form Builder <span class="text-[#c97e60]">PSB</span>
+                Form Builder <span class="text-[#d02e5c]">PSB</span>
             </h2>
         </template>
 
@@ -143,8 +143,8 @@ const saveReorder = (ids) => {
                 <!-- Left: Order Controls & Icon -->
                 <div class="flex items-center gap-4">
                     <div class="flex flex-col text-[#a8a196] opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button @click="moveUp(index)" :disabled="index === 0" class="hover:text-[#c97e60] disabled:opacity-20"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" /></svg></button>
-                        <button @click="moveDown(index)" :disabled="index === questions.length - 1" class="hover:text-[#c97e60] disabled:opacity-20"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></button>
+                        <button @click="moveUp(index)" :disabled="index === 0" class="hover:text-[#d02e5c] disabled:opacity-20"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" /></svg></button>
+                        <button @click="moveDown(index)" :disabled="index === questions.length - 1" class="hover:text-[#d02e5c] disabled:opacity-20"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></button>
                     </div>
                     
                     <div>

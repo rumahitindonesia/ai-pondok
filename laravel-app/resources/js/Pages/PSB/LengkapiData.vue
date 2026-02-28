@@ -30,12 +30,12 @@ const submit = () => {
 <template>
     <Head title="Lengkapi Data Pendaftaran" />
 
-    <div class="min-h-screen bg-[#f5f4f2] text-[#161514] font-sans selection:bg-[#c97e60] selection:text-white pb-20">
+    <div class="min-h-screen bg-[#f5f4f2] text-[#161514] font-sans selection:bg-[#d02e5c] selection:text-white pb-20">
         
         <!-- Header Section -->
         <div class="bg-white border-b border-[#ebeae8] sticky top-0 z-30 shadow-sm relative overflow-hidden">
              <!-- Abstract Pattern Background -->
-             <div class="absolute inset-0 opacity-[0.03] pointer-events-none overflow-hidden text-[#c97e60]">
+             <div class="absolute inset-0 opacity-[0.03] pointer-events-none overflow-hidden text-[#d02e5c]">
                 <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-full fill-current">
                     <path d="M0,0 Q200,100 400,0 V400 H0 Z" />
                 </svg>
@@ -44,7 +44,7 @@ const submit = () => {
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 class="text-2xl sm:text-3xl font-black tracking-tight mb-1 text-[#161514]">
-                        Lengkapi Profil <span class="text-[#c97e60]">{{ registration.nama_calon }}</span>
+                        Lengkapi Profil <span class="text-[#d02e5c]">{{ registration.nama_calon }}</span>
                     </h1>
                     <p class="text-[#a8a196] font-medium text-sm sm:text-base">Penerimaan Santri Baru Rumah IT Hub</p>
                 </div>
@@ -53,14 +53,14 @@ const submit = () => {
 
         <!-- Main Form Content -->
         <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <div class="bg-white rounded-3xl shadow-xl shadow-[#c97e60]/5 border border-[#ebeae8] p-6 sm:p-10 relative overflow-hidden">
+            <div class="bg-white rounded-3xl shadow-xl shadow-[#d02e5c]/5 border border-[#ebeae8] p-6 sm:p-10 relative overflow-hidden">
                 
                 <form @submit.prevent="submit" class="space-y-8 relative z-10">
                     
                     <div v-for="(question, index) in questions" :key="question.id" class="p-6 bg-[#f5f4f2] rounded-2xl border border-[#ebeae8] shadow-sm hover:shadow-md transition-shadow">
                         
                         <label class="block text-base sm:text-lg font-bold text-[#161514] mb-3 relative">
-                            <span class="inline-flex w-6 h-6 items-center justify-center bg-[#c97e60] text-white text-xs rounded-full mr-2 shadow-sm font-black">{{ index + 1 }}</span>
+                            <span class="inline-flex w-6 h-6 items-center justify-center bg-[#d02e5c] text-white text-xs rounded-full mr-2 shadow-sm font-black">{{ index + 1 }}</span>
                             {{ question.question_text }}
                             <span v-if="question.is_required" class="text-red-500 ml-1 text-xl leading-none">*</span>
                         </label>
@@ -71,7 +71,7 @@ const submit = () => {
                                 type="text" 
                                 v-model="form['question_' + question.id]" 
                                 :required="question.is_required"
-                                class="w-full px-4 py-3 sm:py-4 rounded-xl border border-[#ebeae8] bg-white text-[#161514] font-medium focus:outline-none focus:ring-2 focus:ring-[#c97e60] focus:border-transparent transition-all shadow-sm"
+                                class="w-full px-4 py-3 sm:py-4 rounded-xl border border-[#ebeae8] bg-white text-[#161514] font-medium focus:outline-none focus:ring-2 focus:ring-[#d02e5c] focus:border-transparent transition-all shadow-sm"
                                 placeholder="Jawaban Anda"
                             />
                         </div>
@@ -82,7 +82,7 @@ const submit = () => {
                                 type="date" 
                                 v-model="form['question_' + question.id]" 
                                 :required="question.is_required"
-                                class="w-full sm:w-auto px-4 py-3 sm:py-4 rounded-xl border border-[#ebeae8] bg-white text-[#161514] font-medium focus:outline-none focus:ring-2 focus:ring-[#c97e60] focus:border-transparent transition-all shadow-sm cursor-pointer"
+                                class="w-full sm:w-auto px-4 py-3 sm:py-4 rounded-xl border border-[#ebeae8] bg-white text-[#161514] font-medium focus:outline-none focus:ring-2 focus:ring-[#d02e5c] focus:border-transparent transition-all shadow-sm cursor-pointer"
                             />
                         </div>
 
@@ -92,7 +92,7 @@ const submit = () => {
                                 v-model="form['question_' + question.id]" 
                                 :required="question.is_required"
                                 rows="3"
-                                class="w-full px-4 py-3 sm:py-4 rounded-xl border border-[#ebeae8] bg-white text-[#161514] font-medium focus:outline-none focus:ring-2 focus:ring-[#c97e60] focus:border-transparent transition-all shadow-sm resize-y"
+                                class="w-full px-4 py-3 sm:py-4 rounded-xl border border-[#ebeae8] bg-white text-[#161514] font-medium focus:outline-none focus:ring-2 focus:ring-[#d02e5c] focus:border-transparent transition-all shadow-sm resize-y"
                                 placeholder="Tuliskan jawaban lengkap Anda"
                             ></textarea>
                         </div>
@@ -107,7 +107,7 @@ const submit = () => {
                                         :value="opt" 
                                         v-model="form['question_' + question.id]"
                                         :required="question.is_required"
-                                        class="peer appearance-none w-5 h-5 border-2 border-[#a8a196] rounded-full checked:border-[#c97e60] checked:border-[5px] transition-all"
+                                        class="peer appearance-none w-5 h-5 border-2 border-[#a8a196] rounded-full checked:border-[#d02e5c] checked:border-[5px] transition-all"
                                     />
                                 </div>
                                 <span class="ml-3 font-semibold text-[#4e4b47] group-hover:text-[#161514] peer-checked:text-[#161514]">{{ opt }}</span>
@@ -122,7 +122,7 @@ const submit = () => {
                                     :value="opt" 
                                     v-model="form['question_' + question.id]"
                                     aria-label="opt"
-                                    class="w-5 h-5 text-[#c97e60] bg-white border-[#a8a196] rounded focus:ring-[#c97e60] transition-all cursor-pointer"
+                                    class="w-5 h-5 text-[#d02e5c] bg-white border-[#a8a196] rounded focus:ring-[#d02e5c] transition-all cursor-pointer"
                                 />
                                 <span class="ml-3 font-semibold text-[#4e4b47] group-hover:text-[#161514]">{{ opt }}</span>
                             </label>
@@ -132,12 +132,12 @@ const submit = () => {
                         <!-- File Upload -->
                         <div v-else-if="question.type === 'file'" class="mt-3">
                             <div class="relative items-center justify-center w-full">
-                                <label class="flex flex-col w-full h-32 border-2 border-[#a8a196] border-dashed hover:border-[#c97e60] hover:bg-white rounded-xl transition-all cursor-pointer overflow-hidden group">
+                                <label class="flex flex-col w-full h-32 border-2 border-[#a8a196] border-dashed hover:border-[#d02e5c] hover:bg-white rounded-xl transition-all cursor-pointer overflow-hidden group">
                                     <div class="flex flex-col items-center justify-center pt-7 pb-6 h-full w-full">
-                                        <svg class="w-8 h-8 text-[#a8a196] group-hover:text-[#c97e60] mb-2 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-8 h-8 text-[#a8a196] group-hover:text-[#d02e5c] mb-2 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                         </svg>
-                                        <p class="text-sm font-semibold text-[#4e4b47] group-hover:text-[#c97e60] transition-colors">
+                                        <p class="text-sm font-semibold text-[#4e4b47] group-hover:text-[#d02e5c] transition-colors">
                                             <span v-if="form['question_' + question.id]">{{ form['question_' + question.id].name }}</span>
                                             <span v-else>Klik atau *drag* file ke sini</span>
                                         </p>

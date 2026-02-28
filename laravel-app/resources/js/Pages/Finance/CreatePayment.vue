@@ -46,7 +46,7 @@ const formatCurrency = (value) => {
                     </template>
                 </RedwoodButton>
                 <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                    Catat <span class="text-[#c97e60]">Pembayaran</span>
+                    Catat <span class="text-[#d02e5c]">Pembayaran</span>
                 </h2>
             </div>
         </template>
@@ -62,24 +62,24 @@ const formatCurrency = (value) => {
                     <div class="space-y-1">
                         <h4 class="text-2xl font-black">{{ props.billing.santri.nama }}</h4>
                         <p class="text-[#a8a196] font-medium italic whitespace-nowrap">Periode: {{ props.billing.bulan }} {{ props.billing.tahun }}</p>
-                        <p class="text-2xl font-black text-[#c97e60] pt-2">{{ formatCurrency(props.billing.jumlah) }}</p>
+                        <p class="text-2xl font-black text-[#d02e5c] pt-2">{{ formatCurrency(props.billing.jumlah) }}</p>
                     </div>
                 </div>
 
                 <form @submit.prevent="submit" class="space-y-8">
                     <div class="space-y-2">
                         <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Tanggal Bayar</label>
-                        <input v-model="form.tanggal_bayar" type="date" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-5 outline-none focus:ring-4 focus:ring-[#c97e60]/10 focus:border-[#c97e60] transition-all" required>
+                        <input v-model="form.tanggal_bayar" type="date" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-5 outline-none focus:ring-4 focus:ring-[#d02e5c]/10 focus:border-[#d02e5c] transition-all" required>
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Jumlah Bayar (Rp)</label>
-                        <input v-model="form.jumlah_bayar" type="number" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-5 outline-none font-bold text-xl text-[#c97e60] focus:ring-4 focus:ring-[#c97e60]/10 focus:border-[#c97e60] transition-all" required>
+                        <input v-model="form.jumlah_bayar" type="number" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-5 outline-none font-bold text-xl text-[#d02e5c] focus:ring-4 focus:ring-[#d02e5c]/10 focus:border-[#d02e5c] transition-all" required>
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Metode Pembayaran</label>
-                        <select v-model="form.metode_pembayaran" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-5 outline-none focus:ring-4 focus:ring-[#c97e60]/10 focus:border-[#c97e60] transition-all" required>
+                        <select v-model="form.metode_pembayaran" class="w-full bg-[#fcf8f5] dark:bg-[#21201f] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-5 outline-none focus:ring-4 focus:ring-[#d02e5c]/10 focus:border-[#d02e5c] transition-all" required>
                             <option value="" disabled>Pilih Metode</option>
                             <option value="Transfer Bank">Transfer Bank</option>
                             <option value="Tunai / Cash">Tunai / Cash</option>
@@ -89,7 +89,7 @@ const formatCurrency = (value) => {
 
                     <div class="space-y-2">
                         <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Bukti Pembayaran (Opsional)</label>
-                        <input type="file" @input="form.bukti_pembayaran = $event.target.files[0]" class="block w-full text-sm text-[#a8a196] file:mr-4 file:py-3 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:uppercase file:bg-[#c97e60]/10 file:text-[#c97e60] hover:file:bg-[#c97e60]/20 transition-all">
+                        <input type="file" @input="form.bukti_pembayaran = $event.target.files[0]" class="block w-full text-sm text-[#a8a196] file:mr-4 file:py-3 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:uppercase file:bg-[#d02e5c]/10 file:text-[#d02e5c] hover:file:bg-[#d02e5c]/20 transition-all">
                     </div>
 
                     <div class="pt-6">

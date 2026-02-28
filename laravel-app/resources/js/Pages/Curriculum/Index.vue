@@ -59,7 +59,7 @@ const deleteMateri = (id) => {
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                Manajemen <span class="text-[#c97e60]">Kurikulum</span>
+                Manajemen <span class="text-[#d02e5c]">Kurikulum</span>
             </h2>
         </template>
 
@@ -69,7 +69,7 @@ const deleteMateri = (id) => {
                 <p class="text-[#a8a196] font-medium text-sm">Kelola daftar materi pendidikan dan skill yang tersedia.</p>
                 <button 
                     @click="openModal()"
-                    class="px-6 py-3 bg-[#c97e60] text-white font-bold rounded-2xl hover:bg-[#b06a4f] transition-all shadow-lg shadow-[#c97e60]/20 flex items-center gap-2"
+                    class="px-6 py-3 bg-[#d02e5c] text-white font-bold rounded-2xl hover:bg-[#b06a4f] transition-all shadow-lg shadow-[#d02e5c]/20 flex items-center gap-2"
                 >
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
                     Tambah Materi
@@ -82,12 +82,12 @@ const deleteMateri = (id) => {
                     class="bg-white dark:bg-[#161514] p-6 rounded-[28px] border border-[#ebeae8] dark:border-[#3e3c3a] shadow-sm hover:shadow-xl transition-all group relative overflow-hidden"
                 >
                     <!-- Category Badge -->
-                    <div class="absolute top-0 right-0 px-4 py-1.5 bg-[#c97e60]/10 text-[#c97e60] text-[9px] font-black uppercase tracking-widest rounded-bl-2xl">
+                    <div class="absolute top-0 right-0 px-4 py-1.5 bg-[#d02e5c]/10 text-[#d02e5c] text-[9px] font-black uppercase tracking-widest rounded-bl-2xl">
                         {{ materi.kategori }}
                     </div>
 
                     <div class="flex items-start gap-5">
-                        <div class="w-14 h-14 bg-[#f5f4f2] dark:bg-[#262524] rounded-2xl flex items-center justify-center text-[#c97e60] group-hover:scale-110 transition-transform border border-[#ebeae8] dark:border-[#3e3c3a]">
+                        <div class="w-14 h-14 bg-[#f5f4f2] dark:bg-[#262524] rounded-2xl flex items-center justify-center text-[#d02e5c] group-hover:scale-110 transition-transform border border-[#ebeae8] dark:border-[#3e3c3a]">
                             <svg v-if="materi.kategori === 'IT'" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
                             <svg v-else-if="materi.kategori === 'Kitab'" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.168.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
                             <svg v-else class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
@@ -113,7 +113,7 @@ const deleteMateri = (id) => {
             <div v-if="materis.length === 0" class="flex flex-col items-center justify-center py-20 text-[#a8a196] space-y-4">
                 <svg class="w-20 h-20 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
                 <p class="font-bold text-lg">Belum ada materi terdaftar.</p>
-                <button @click="openModal()" class="text-[#c97e60] font-bold hover:underline">Klik di sini untuk menambah materi pertama</button>
+                <button @click="openModal()" class="text-[#d02e5c] font-bold hover:underline">Klik di sini untuk menambah materi pertama</button>
             </div>
 
             <!-- Modal -->
@@ -124,9 +124,9 @@ const deleteMateri = (id) => {
                     <div class="p-8 space-y-6">
                         <div class="flex justify-between items-center">
                             <h3 class="text-2xl font-black text-[#161514] dark:text-[#f2e8d5]">
-                                {{ editingMateri ? 'Edit' : 'Tambah' }} <span class="text-[#c97e60]">Materi</span>
+                                {{ editingMateri ? 'Edit' : 'Tambah' }} <span class="text-[#d02e5c]">Materi</span>
                             </h3>
-                            <button @click="isModalOpen = false" class="text-[#a8a196] hover:text-[#c97e60]">
+                            <button @click="isModalOpen = false" class="text-[#a8a196] hover:text-[#d02e5c]">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
                             </button>
                         </div>
@@ -135,14 +135,14 @@ const deleteMateri = (id) => {
                             <div>
                                 <label class="block text-[10px] font-black uppercase tracking-widest text-[#a8a196] mb-2 px-1">Nama Materi</label>
                                 <input v-model="form.nama" type="text" 
-                                    class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#c97e60] transition-all font-bold"
+                                    class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#d02e5c] transition-all font-bold"
                                     placeholder="Contoh: Laravel Framework" required />
                             </div>
 
                             <div>
                                 <label class="block text-[10px] font-black uppercase tracking-widest text-[#a8a196] mb-2 px-1">Kategori</label>
                                 <select v-model="form.kategori" 
-                                    class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#c97e60] transition-all font-bold">
+                                    class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#d02e5c] transition-all font-bold">
                                     <option value="IT">IT (Programming/Design)</option>
                                     <option value="Kitab">Kitab (Agama)</option>
                                     <option value="Umum">Umum / Bahasa</option>
@@ -153,7 +153,7 @@ const deleteMateri = (id) => {
                             <div>
                                 <label class="block text-[10px] font-black uppercase tracking-widest text-[#a8a196] mb-2 px-1">Icon Identifier (Optional)</label>
                                 <input v-model="form.icon" type="text" 
-                                    class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#c97e60] transition-all font-bold"
+                                    class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#d02e5c] transition-all font-bold"
                                     placeholder="Contoh: laravel, vue, kitab" />
                             </div>
 
@@ -163,7 +163,7 @@ const deleteMateri = (id) => {
                                     Batal
                                 </button>
                                 <button type="submit" 
-                                    class="flex-1 px-6 py-4 bg-[#c97e60] text-white font-bold rounded-2xl hover:bg-[#b06a4f] transition-all shadow-lg shadow-[#c97e60]/20"
+                                    class="flex-1 px-6 py-4 bg-[#d02e5c] text-white font-bold rounded-2xl hover:bg-[#b06a4f] transition-all shadow-lg shadow-[#d02e5c]/20"
                                     :disabled="form.processing"
                                 >
                                     {{ editingMateri ? 'Simpan' : 'Tambah' }}

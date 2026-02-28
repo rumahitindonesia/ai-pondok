@@ -17,6 +17,15 @@ export default {
                 sans: ['Inter', ...defaultTheme.fontFamily.sans],
                 display: ['Plus Jakarta Sans', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                'brand-rose': {
+                    DEFAULT: '#d02e5c',
+                    vibrant: '#f33a6a',
+                    muted: '#fceef2',
+                    deep: '#9b1c3d',
+                    surface: '#2d0a15',
+                }
+            }
         },
     },
 
