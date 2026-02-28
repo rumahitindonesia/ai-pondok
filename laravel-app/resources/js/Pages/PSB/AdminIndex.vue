@@ -210,6 +210,9 @@ const copyLink = async (token) => {
                                         <a v-if="reg.berkas_akta" :href="'/storage/' + reg.berkas_akta" target="_blank" class="w-8 h-8 rounded-lg bg-[#f5f4f2] dark:bg-[#262524] flex items-center justify-center text-[#a8a196] hover:text-[#d02e5c] transition-colors border border-transparent hover:border-[#d02e5c]/20" title="Akta">
                                              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                                         </a>
+                                        <a v-if="reg.berkas_ijazah" :href="'/storage/' + reg.berkas_ijazah" target="_blank" class="w-8 h-8 rounded-lg bg-[#f5f4f2] dark:bg-[#262524] flex items-center justify-center text-[#a8a196] hover:text-[#d02e5c] transition-colors border border-transparent hover:border-[#d02e5c]/20" title="Ijazah">
+                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z" /><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /></svg>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="px-8 py-5 shrink-0 w-[150px]">
@@ -253,34 +256,91 @@ const copyLink = async (token) => {
             <div class="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 transition-opacity bg-black/60 backdrop-blur-sm" aria-hidden="true" @click="closeModal"></div>
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-                <div class="inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white dark:bg-[#161514] rounded-2xl shadow-xl shadow-black/20 sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full sm:p-8 border border-[#ebeae8] dark:border-[#3e3c3a]">
+                <div class="inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white dark:bg-[#161514] rounded-2xl shadow-xl shadow-black/20 sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full sm:p-8 border border-[#ebeae8] dark:border-[#3e3c3a]">
                     <div class="sm:flex sm:items-start">
                         <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
                             <h3 class="text-2xl font-black text-[#161514] dark:text-[#f2e8d5] border-b border-[#ebeae8] dark:border-[#3e3c3a] pb-4 mb-6" id="modal-title">
-                                Berkas Profil Lengkap: <span class="text-[#d02e5c]">{{ selectedRegistration?.nama_calon }}</span>
+                                Detail Pendaftar: <span class="text-brand-rose dark:text-brand-rose-dark">{{ selectedRegistration?.nama_calon }}</span>
                             </h3>
-                            <div class="mt-2 space-y-6 max-h-[60vh] overflow-y-auto custom-scrollbar pr-2">
-                                <div v-for="response in selectedRegistration?.responses" :key="response.id" class="mb-4">
-                                    <h4 class="text-sm font-bold text-[#a8a196] uppercase tracking-wider">{{ response.question?.question_text }}</h4>
-                                    
-                                    <!-- Display File Link if it's a file -->
-                                    <div v-if="response.question?.type === 'file' && response.response_file_path" class="mt-1">
-                                        <a :href="'/storage/' + response.response_file_path" target="_blank" class="inline-flex items-center gap-2 text-[#d02e5c] hover:text-[#a8654b] font-bold text-sm bg-[#d02e5c]/10 px-3 py-1.5 rounded-lg transition-colors">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" /></svg>
-                                            Lihat File Unduhan
-                                        </a>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-h-[70vh] overflow-y-auto custom-scrollbar pr-4">
+                                <!-- Stage 1: Basic Info -->
+                                <div class="space-y-6">
+                                    <div class="bg-gray-50 dark:bg-[#1a1918] p-6 rounded-2xl border border-[#ebeae8] dark:border-[#3e3c3a]">
+                                        <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] mb-4">Informasi Dasar</h4>
+                                        <div class="space-y-4">
+                                            <div>
+                                                <p class="text-xs text-[#a8a196]">Nama Lengkap</p>
+                                                <p class="text-base font-bold text-[#161514] dark:text-[#f2e8d5]">{{ selectedRegistration?.nama_calon }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-xs text-[#a8a196]">Jenis Kelamin</p>
+                                                <p class="text-base font-bold text-[#161514] dark:text-[#f2e8d5]">{{ selectedRegistration?.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan' }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-xs text-[#a8a196]">Nama Wali</p>
+                                                <p class="text-base font-bold text-[#161514] dark:text-[#f2e8d5]">{{ selectedRegistration?.nama_wali }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-xs text-[#a8a196]">Kontak Wali</p>
+                                                <p class="text-base font-bold text-brand-rose dark:text-brand-rose-dark">{{ selectedRegistration?.no_hp_wali }}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    
-                                    <!-- Display Text Response -->
-                                    <div v-else class="mt-1 text-base font-semibold text-[#161514] dark:text-[#f2e8d5]">
-                                        {{ response.response_text || '-' }}
+
+                                    <div class="bg-gray-50 dark:bg-[#1a1918] p-6 rounded-2xl border border-[#ebeae8] dark:border-[#3e3c3a]">
+                                        <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] mb-4">Dokumen Tahap 1</h4>
+                                        <div class="flex flex-wrap gap-3">
+                                            <a v-if="selectedRegistration?.berkas_kk" :href="'/storage/' + selectedRegistration.berkas_kk" target="_blank" class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-xl text-sm font-bold hover:text-brand-rose dark:hover:text-brand-rose-vibrant transition-colors">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                                Kartu Keluarga
+                                            </a>
+                                            <a v-if="selectedRegistration?.berkas_akta" :href="'/storage/' + selectedRegistration.berkas_akta" target="_blank" class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-xl text-sm font-bold hover:text-brand-rose dark:hover:text-brand-rose-vibrant transition-colors">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                                Akta Kelahiran
+                                            </a>
+                                            <a v-if="selectedRegistration?.berkas_ijazah" :href="'/storage/' + selectedRegistration.berkas_ijazah" target="_blank" class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-xl text-sm font-bold hover:text-brand-rose dark:hover:text-brand-rose-vibrant transition-colors">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z" /><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /></svg>
+                                                Ijazah / SKL
+                                            </a>
+                                            <p v-if="!selectedRegistration?.berkas_kk && !selectedRegistration?.berkas_akta && !selectedRegistration?.berkas_ijazah" class="text-xs italic text-[#a8a196]">Belum ada berkas diunggah.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Stage 2: Dynamic Form Responses -->
+                                <div class="space-y-6">
+                                    <div class="bg-gray-50 dark:bg-[#1a1918] p-6 rounded-2xl border border-[#ebeae8] dark:border-[#3e3c3a]">
+                                        <div class="flex items-center justify-between mb-4">
+                                            <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196]">Biodata Lengkap (Tahap 2)</h4>
+                                            <span v-if="selectedRegistration?.responses?.length > 0" class="px-2 py-0.5 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 text-[10px] font-bold rounded-md uppercase">Sudah Diisi</span>
+                                            <span v-else class="px-2 py-0.5 bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400 text-[10px] font-bold rounded-md uppercase">Belum Diisi</span>
+                                        </div>
+                                        
+                                        <div class="space-y-6">
+                                            <div v-for="response in selectedRegistration?.responses" :key="response.id" class="border-b border-[#ebeae8]/50 dark:border-[#3e3c3a]/50 pb-4 last:border-0 last:pb-0">
+                                                <h5 class="text-xs font-bold text-[#a8a196] mb-1.5">{{ response.question?.question_text }}</h5>
+                                                
+                                                <div v-if="response.question?.type === 'file' && response.response_file_path">
+                                                    <a :href="'/storage/' + response.response_file_path" target="_blank" class="inline-flex items-center gap-2 text-brand-rose dark:text-brand-rose-vibrant font-bold text-xs bg-brand-rose-muted dark:bg-brand-rose-surface px-3 py-1.5 rounded-lg transition-colors">
+                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" /></svg>
+                                                        Lihat Dokumen
+                                                    </a>
+                                                </div>
+                                                <div v-else class="text-sm font-bold text-[#161514] dark:text-[#f2e8d5]">
+                                                    {{ response.response_text || '-' }}
+                                                </div>
+                                            </div>
+
+                                            <p v-if="selectedRegistration?.responses?.length === 0" class="text-sm italic text-[#a8a196] text-center py-4">Pendaftar belum mengisi biodata formulir tahap 2.</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="mt-8 sm:flex justify-end gap-3 border-t border-[#ebeae8] dark:border-[#3e3c3a] pt-6">
-                        <RedwoodButton @click="closeModal" class="w-full sm:w-auto">Tutup Berkas</RedwoodButton>
+                        <RedwoodButton @click="closeModal" variant="outline" class="w-full sm:w-auto">Tutup Detail</RedwoodButton>
                     </div>
                 </div>
             </div>
