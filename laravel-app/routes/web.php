@@ -37,6 +37,7 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'sections' => \App\Models\HomepageSection::where('is_active', true)->get()->keyBy('section_key')
     ]);
 });
 
@@ -81,6 +82,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/admin/psb/form-builder/{question}', [\App\Http\Controllers\Admin\FormBuilderController::class, 'update'])->name('admin.psb.form-builder.update');
         Route::delete('/admin/psb/form-builder/{question}', [\App\Http\Controllers\Admin\FormBuilderController::class, 'destroy'])->name('admin.psb.form-builder.destroy');
         Route::post('/admin/psb/form-builder/reorder', [\App\Http\Controllers\Admin\FormBuilderController::class, 'reorder'])->name('admin.psb.form-builder.reorder');
+
+        // Homepage Management
+        Route::get('/admin/homepage', [\App\Http\Controllers\Admin\HomepageController::class, 'index'])->name('admin.homepage.index');
+        Route::put('/admin/homepage/{section}', [\App\Http\Controllers\Admin\HomepageController::class, 'update'])->name('admin.homepage.update');
     });
 
     // Finance Routes

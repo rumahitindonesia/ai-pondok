@@ -12,7 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement("ALTER TABLE santris MODIFY COLUMN status VARCHAR(255) DEFAULT 'Santri Aktif'");
+        Schema::table('santris', function (Blueprint $table) {
+            $table->string('status')->default('Santri Aktif')->change();
+        });
+
         DB::table('santris')->where('status', 'aktif')->update(['status' => 'Santri Aktif']);
         DB::table('santris')->where('status', 'keluar')->update(['status' => 'Santri Keluar']);
         DB::table('santris')->where('status', 'alumni')->update(['status' => 'Santri Lulus - Alumni']);
