@@ -11,6 +11,7 @@ const props = defineProps({
 });
 
 const editingSection = ref(null);
+const jsonText = ref('');
 
 const form = useForm({
     title: '',
@@ -24,6 +25,7 @@ const startEdit = (section) => {
     form.title = section.title;
     form.subtitle = section.subtitle;
     form.content = section.content || {};
+    jsonText.value = JSON.stringify(section.content || {}, null, 2);
     form.is_active = section.is_active;
 };
 
@@ -106,12 +108,12 @@ const submit = () => {
                                 <div>
                                     <InputLabel value="Content (Structured JSON)" />
                                     <textarea 
-                                        v-model="form.content"
+                                        v-model="jsonText"
                                         rows="6"
                                         class="mt-1 block w-full bg-[#fcf8f5] border-[#ebeae8] rounded-2xl p-4 text-[#161514] focus:ring-4 focus:ring-[#c97e60]/10 focus:border-[#c97e60] transition-all outline-none shadow-sm dark:bg-[#0a0a0a] dark:border-[#383736] dark:text-[#f2e8d5] font-mono text-xs"
                                         placeholder='{"key": "value"}'
                                         @input="e => { try { form.content = JSON.parse(e.target.value) } catch(err) {} }"
-                                    >{{ JSON.stringify(form.content, null, 2) }}</textarea>
+                                    ></textarea>
                                     <p class="mt-2 text-[10px] text-gray-400 font-medium">Ubah isi konten dalam format JSON untuk fleksibilitas maksimal.</p>
                                 </div>
 
