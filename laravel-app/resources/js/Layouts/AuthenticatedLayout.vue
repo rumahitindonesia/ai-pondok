@@ -59,10 +59,10 @@ if (typeof window !== 'undefined') {
             <!-- Logo Area -->
             <div class="h-20 flex items-center justify-between px-6 relative z-10 transition-all">
                 <Link :href="route('dashboard')" class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-[#c97e60] rounded-xl flex items-center justify-center shadow-lg transform rotate-3 shrink-0">
-                         <ApplicationLogo class="w-6 h-6 fill-white" />
+                    <div class="w-10 h-10 flex items-center justify-center shrink-0">
+                         <ApplicationLogo class="w-10 h-10 object-contain" />
                     </div>
-                    <span v-if="isSidebarOpen || isMobileMenuOpen" class="font-bold text-lg tracking-tight transition-colors">ERP Pesantren</span>
+                    <span v-if="isSidebarOpen || isMobileMenuOpen" class="font-black text-base tracking-tighter transition-colors uppercase">Rumah IT <span class="text-[#c97e60]">Indonesia</span></span>
                 </Link>
                 
                 <!-- Close Button Mobile -->

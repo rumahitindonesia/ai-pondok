@@ -188,7 +188,7 @@ const latestPayments = computed(() => {
                             {{ santri.bio }}
                         </p>
                         <p v-else class="tracking-tight">
-                            Santri yang saat ini menempuh pendidikan di <span class="text-[#c97e60] font-semibold">Pondok Pesantren BSD</span> dengan Nomor Induk <span class="text-[#161514] underline decoration-[#c97e60] decoration-2">{{ santri.nis }}</span>.
+                            Santri yang saat ini menempuh pendidikan di <span class="text-[#c97e60] font-semibold">Rumah IT Indonesia</span> dengan Nomor Induk <span class="text-[#161514] underline decoration-[#c97e60] decoration-2">{{ santri.nis }}</span>.
                             Lahir di {{ santri.tempat_lahir || '-' }} pada {{ formatDate(santri.tanggal_lahir) }} ({{ age }} tahun).
                         </p>
                     </div>

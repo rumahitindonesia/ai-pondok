@@ -127,7 +127,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <Head title="ERP Dashboard" />
+    <Head title="Dashboard Rumah IT Indonesia" />
 
     <AuthenticatedLayout>
         <template #header>

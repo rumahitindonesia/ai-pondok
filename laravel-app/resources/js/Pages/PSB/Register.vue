@@ -140,7 +140,7 @@ const submit = () => {
                         </template>
                         {{ form.processing ? 'Sedang Mengirim...' : 'Kirim Pendaftaran' }}
                     </RedwoodButton>
-                    <p class="mt-8 text-xs text-[#a8a196] font-medium italic">Dengan mengirimkan form ini, Anda menyetujui ketentuan pendaftaran pesantren kami.</p>
+                    <p class="mt-8 text-xs text-[#a8a196] font-medium italic">Dengan mengirimkan form ini, Anda menyetujui ketentuan pendaftaran di Rumah IT Indonesia.</p>
                 </div>
             </form>
         </div>
