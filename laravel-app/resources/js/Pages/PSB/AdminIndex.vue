@@ -119,126 +119,130 @@ const copyLink = async (token) => {
             <!-- Table Card -->
             <div class="bg-white dark:bg-[#161514] shadow-[0_20px_50px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-[32px] border border-[#ebeae8] dark:border-[#3e3c3a] overflow-hidden">
                 <div class="overflow-x-auto custom-scrollbar">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="border-b border-[#ebeae8] dark:border-[#3e3c3a] bg-gray-50/50 dark:bg-[#1a1918]/50">
-                                <th class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196]">Tgl Daftar</th>
-                                <th class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196]">Calon Santri</th>
-                                <th class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196]">Wali / Kontak</th>
-                                <th class="px-6 py-4 text-left text-xs font-black text-[#a8a196] uppercase tracking-wider">Referensi</th>
-                                <th class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196]">Berkas</th>
-                                <th class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196]">Status Seleksi</th>
-                                <th class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] text-right truncate">←</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-[#ebeae8] dark:divide-[#3e3c3a]">
-                            <tr v-for="reg in registrations.data" :key="reg.id" 
-                                class="relative group bg-white dark:bg-[#161514] hover:bg-[#fcf8f5] dark:hover:bg-[#1d1c1b] transition-colors overflow-hidden"
-                                @mouseenter="hoveredId = reg.id"
-                                @mouseleave="hoveredId = null"
-                            >
-                                <!-- Revealed action buttons (Fixed behind row) -->
-                                <div class="absolute inset-y-0 right-0 flex z-0" :style="{ width: REVEAL_WIDTH + 'px' }">
-                                    <button
-                                        v-if="reg.token"
-                                        @click="copyLink(reg.token)"
-                                        class="flex-1 flex flex-col items-center justify-center gap-1 bg-blue-500 text-white text-[10px] font-black uppercase hover:brightness-110 active:brightness-90 transition-all border-l border-white/10"
-                                    >
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
-                                        Copy
-                                    </button>
-                                    <button
-                                        v-if="reg.responses && reg.responses.length > 0"
-                                        @click="openResponsesModal(reg)"
-                                        class="flex-1 flex flex-col items-center justify-center gap-1 bg-indigo-500 text-white text-[10px] font-black uppercase hover:brightness-110 active:brightness-90 transition-all border-l border-white/10"
-                                    >
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                                        Berkas
-                                    </button>
-                                    <button
-                                        @click="updateStatus(reg.id, 'diterima')"
-                                        class="flex-1 flex flex-col items-center justify-center gap-1 bg-emerald-500 text-white text-[10px] font-black uppercase hover:brightness-110 active:brightness-90 transition-all border-l border-white/10"
-                                    >
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
-                                        Terima
-                                    </button>
-                                    <button
-                                        @click="updateStatus(reg.id, 'ditolak')"
-                                        class="flex-1 flex flex-col items-center justify-center gap-1 bg-rose-500 text-white text-[10px] font-black uppercase hover:brightness-110 active:brightness-90 transition-all border-l border-white/10"
-                                    >
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                                        Tolak
-                                    </button>
-                                </div>
+                    <!-- Header -->
+                    <div class="flex items-center border-b border-[#ebeae8] dark:border-[#3e3c3a] bg-gray-50/50 dark:bg-[#1a1918]/50 min-w-[1000px]">
+                        <div class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] shrink-0 w-[120px]">Tgl Daftar</div>
+                        <div class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] flex-1 min-w-0">Calon Santri</div>
+                        <div class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] shrink-0 w-[200px]">Wali / Kontak</div>
+                        <div class="px-6 py-4 text-left text-xs font-black text-[#a8a196] uppercase tracking-wider shrink-0 w-[150px]">Referensi</div>
+                        <div class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] shrink-0 w-[120px]">Berkas</div>
+                        <div class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] shrink-0 w-[150px]">Status Seleksi</div>
+                        <div class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] shrink-0 w-[60px] text-right truncate">←</div>
+                    </div>
 
-                                <!-- Swipeable content layer -->
-                                <div class="flex-1 flex items-center bg-inherit w-full relative z-10 cursor-grab active:cursor-grabbing"
-                                    :style="{
-                                        transform: `translateX(${rowOffset(reg.id)}px)`,
-                                        transition: dragging ? 'none' : 'transform 0.25s cubic-bezier(0.25,1,0.5,1)',
-                                        touchAction: 'pan-y',
-                                    }"
-                                    @pointerdown="(e) => onPointerDown(e, reg.id)"
-                                    @pointermove="(e) => onPointerMove(e, reg.id)"
-                                    @pointerup="(e) => onPointerUp(e, reg.id)"
+                    <!-- Body -->
+                    <div class="divide-y divide-[#ebeae8] dark:divide-[#3e3c3a] min-w-[1000px]">
+                        <div v-for="reg in registrations.data" :key="reg.id" 
+                            class="relative bg-white dark:bg-[#161514] hover:bg-[#fcf8f5] dark:hover:bg-[#1d1c1b] transition-colors overflow-hidden"
+                            @mouseenter="hoveredId = reg.id"
+                            @mouseleave="hoveredId = null"
+                        >
+                            <!-- Revealed action buttons (Fixed behind row) -->
+                            <div class="absolute inset-y-0 right-0 flex z-0" :style="{ width: REVEAL_WIDTH + 'px' }">
+                                <button
+                                    v-if="reg.token"
+                                    @click="copyLink(reg.token)"
+                                    class="flex-1 flex flex-col items-center justify-center gap-1 bg-blue-500 text-white text-[10px] font-black uppercase hover:brightness-110 active:brightness-90 transition-all border-l border-white/10"
                                 >
-                                    <td class="px-8 py-5">
-                                        <p class="text-xs font-medium">{{ new Date(reg.created_at).toLocaleDateString('id-ID') }}</p>
-                                    </td>
-                                    <td class="px-8 py-5">
-                                        <div>
-                                            <p class="font-bold text-[#161514] dark:text-[#f2e8d5]">{{ reg.nama_calon }}</p>
-                                            <p class="text-[10px] text-[#a8a196]">{{ reg.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan' }}</p>
-                                        </div>
-                                    </td>
-                                    <td class="px-8 py-5">
-                                        <p class="text-sm font-medium">{{ reg.nama_wali }}</p>
-                                        <p class="text-xs text-[#c97e60] font-bold">{{ reg.no_hp_wali }}</p>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div v-if="reg.referrer" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#c97e60]/10 text-[#c97e60] text-xs font-bold">
-                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
-                                            {{ reg.referrer.name }}
-                                        </div>
-                                        <span v-else class="text-sm text-[#a8a196]">-</span>
-                                    </td>
-                                    <td class="px-8 py-5">
-                                        <div class="flex gap-2">
-                                            <a v-if="reg.berkas_kk" :href="'/storage/' + reg.berkas_kk" target="_blank" class="w-8 h-8 rounded-lg bg-[#f5f4f2] dark:bg-[#262524] flex items-center justify-center text-[#a8a196] hover:text-[#c97e60] transition-colors border border-transparent hover:border-[#c97e60]/20" title="KK">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                                            </a>
-                                            <a v-if="reg.berkas_akta" :href="'/storage/' + reg.berkas_akta" target="_blank" class="w-8 h-8 rounded-lg bg-[#f5f4f2] dark:bg-[#262524] flex items-center justify-center text-[#a8a196] hover:text-[#c97e60] transition-colors border border-transparent hover:border-[#c97e60]/20" title="Akta">
-                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td class="px-8 py-5">
-                                        <span 
-                                            :class="[
-                                                'px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-wider',
-                                                reg.status_seleksi === 'pending' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' :
-                                                reg.status_seleksi === 'diterima' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' :
-                                                reg.status_seleksi === 'cadangan' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' :
-                                                'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400'
-                                            ]"
-                                        >
-                                            {{ reg.status_seleksi }}
-                                        </span>
-                                    </td>
-                                    <td class="px-8 py-5 text-right flex items-center justify-end text-[#d0cec9]">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-                                    </td>
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                                    Copy
+                                </button>
+                                <button
+                                    v-if="reg.responses && reg.responses.length > 0"
+                                    @click="openResponsesModal(reg)"
+                                    class="flex-1 flex flex-col items-center justify-center gap-1 bg-indigo-500 text-white text-[10px] font-black uppercase hover:brightness-110 active:brightness-90 transition-all border-l border-white/10"
+                                >
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                    Berkas
+                                </button>
+                                <button
+                                    @click="updateStatus(reg.id, 'diterima')"
+                                    class="flex-1 flex flex-col items-center justify-center gap-1 bg-emerald-500 text-white text-[10px] font-black uppercase hover:brightness-110 active:brightness-90 transition-all border-l border-white/10"
+                                >
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                                    Terima
+                                </button>
+                                <button
+                                    @click="updateStatus(reg.id, 'ditolak')"
+                                    class="flex-1 flex flex-col items-center justify-center gap-1 bg-rose-500 text-white text-[10px] font-black uppercase hover:brightness-110 active:brightness-90 transition-all border-l border-white/10"
+                                >
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    Tolak
+                                </button>
+                            </div>
+
+                            <!-- Swipeable content layer -->
+                            <div class="flex items-center bg-inherit w-full relative z-10 cursor-grab active:cursor-grabbing"
+                                :style="{
+                                    transform: `translateX(${rowOffset(reg.id)}px)`,
+                                    transition: dragging ? 'none' : 'transform 0.25s cubic-bezier(0.25,1,0.5,1)',
+                                    touchAction: 'pan-y',
+                                }"
+                                @pointerdown="(e) => onPointerDown(e, reg.id)"
+                                @pointermove="(e) => onPointerMove(e, reg.id)"
+                                @pointerup="(e) => onPointerUp(e, reg.id)"
+                            >
+                                <div class="px-8 py-5 shrink-0 w-[120px]">
+                                    <p class="text-xs font-medium">{{ new Date(reg.created_at).toLocaleDateString('id-ID') }}</p>
                                 </div>
-                            </tr>
-                        </tbody>
-                    </table>
+                                <div class="px-8 py-5 flex-1 min-w-0">
+                                    <div>
+                                        <p class="font-bold text-[#161514] dark:text-[#f2e8d5] truncate">{{ reg.nama_calon }}</p>
+                                        <p class="text-[10px] text-[#a8a196]">{{ reg.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan' }}</p>
+                                    </div>
+                                </div>
+                                <div class="px-8 py-5 shrink-0 w-[200px]">
+                                    <p class="text-sm font-medium truncate">{{ reg.nama_wali }}</p>
+                                    <p class="text-xs text-[#c97e60] font-bold">{{ reg.no_hp_wali }}</p>
+                                </div>
+                                <div class="px-6 py-4 shrink-0 w-[150px]">
+                                    <div v-if="reg.referrer" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#c97e60]/10 text-[#c97e60] text-xs font-bold">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                                        {{ reg.referrer.name }}
+                                    </div>
+                                    <span v-else class="text-sm text-[#a8a196]">-</span>
+                                </div>
+                                <div class="px-8 py-5 shrink-0 w-[120px]">
+                                    <div class="flex gap-2 text-center items-center justify-center">
+                                        <a v-if="reg.berkas_kk" :href="'/storage/' + reg.berkas_kk" target="_blank" class="w-8 h-8 rounded-lg bg-[#f5f4f2] dark:bg-[#262524] flex items-center justify-center text-[#a8a196] hover:text-[#c97e60] transition-colors border border-transparent hover:border-[#c97e60]/20" title="KK">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                        </a>
+                                        <a v-if="reg.berkas_akta" :href="'/storage/' + reg.berkas_akta" target="_blank" class="w-8 h-8 rounded-lg bg-[#f5f4f2] dark:bg-[#262524] flex items-center justify-center text-[#a8a196] hover:text-[#c97e60] transition-colors border border-transparent hover:border-[#c97e60]/20" title="Akta">
+                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="px-8 py-5 shrink-0 w-[150px]">
+                                    <span 
+                                        :class="[
+                                            'px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-wider block text-center',
+                                            reg.status_seleksi === 'pending' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' :
+                                            reg.status_seleksi === 'diterima' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' :
+                                            reg.status_seleksi === 'cadangan' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' :
+                                            'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400'
+                                        ]"
+                                    >
+                                        {{ reg.status_seleksi }}
+                                    </span>
+                                </div>
+                                <div class="px-8 py-5 shrink-0 w-[60px] text-right flex items-center justify-end text-[#d0cec9]">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Empty state -->
+                        <div v-if="registrations.data.length === 0" class="py-16 text-center text-[#a8a196] font-medium italic">
+                            Belum ada pendaftar yang masuk.
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Pagination -->
                 <div class="px-8 py-6 border-t border-[#ebeae8] dark:border-[#3e3c3a] flex items-center justify-between bg-gray-50/30 dark:bg-[#1a1918]/30">
                     <p class="text-xs text-[#a8a196]">Menampilkan {{ registrations.total }} pendaftar</p>
                     <div class="flex gap-2">
-                         <!-- Pagination links here -->
+                         <!-- Pagination content -->
                     </div>
                 </div>
             </div>
@@ -281,6 +285,5 @@ const copyLink = async (token) => {
                 </div>
             </div>
         </div>
-
     </AuthenticatedLayout>
 </template>
