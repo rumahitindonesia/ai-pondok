@@ -13,19 +13,15 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Try to fetch data from Python engine
-        try {
-            $response = Http::get('http://localhost:8001/api/user-stats');
-            $stats = $response->json();
-        } catch (\Exception $e) {
-            $stats = [
-                'total_santri' => 0,
-                'active_santri' => 0,
-                'new_registrations' => 0,
-                'monthly_revenue' => [],
-                'error' => 'Python engine not reachable'
-            ];
-        }
+        // Fetch real stats directly from the database
+        $stats = [
+            'total_santri' => \App\Models\Santri::count(),
+            'active_santri' => \App\Models\Santri::where('status', 'Santri Aktif')->count(),
+            'new_registrations' => \App\Models\PsbRegistration::whereMonth('created_at', Carbon::now()->month)
+                                    ->whereYear('created_at', Carbon::now()->year)
+                                    ->count(),
+            'monthly_revenue' => [], // Keeping for structure, filled dynamically later if needed
+        ];
 
         // Add daily payments for current month
         $now = Carbon::now();

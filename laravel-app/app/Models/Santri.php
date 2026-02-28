@@ -23,7 +23,43 @@ class Santri extends Model
         'cita_cita',
         'email',
         'no_hp',
+        'entitas',
+        'angkatan',
     ];
+
+    protected static function booted()
+    {
+        static::saving(function ($santri) {
+            // 1. Auto-calculate angkatan from the first 3 digits of NIS if not provided
+            if (empty($santri->angkatan) && !empty($santri->nis) && strlen($santri->nis) >= 3) {
+                $prefix = substr($santri->nis, 0, 3);
+                if (is_numeric($prefix)) {
+                    $santri->angkatan = (int) $prefix;
+                }
+            }
+
+            // 2. Auto-generate NIS from angkatan if NIS is missing
+            if (empty($santri->nis) && !empty($santri->angkatan)) {
+                $angkatanPrefix = str_pad((int)$santri->angkatan, 3, '0', STR_PAD_LEFT);
+
+                // Find the latest NIS for this angkatan to determine the next sequence
+                // We use static::where to avoid issues with $this context in saving event if needed
+                $latestSantri = static::where('nis', 'like', $angkatanPrefix . '%')
+                    ->orderByRaw('CAST(SUBSTRING(nis, 4) AS UNSIGNED) DESC')
+                    ->first();
+
+                $nextSequence = 1;
+                if ($latestSantri && strlen($latestSantri->nis) > 3) {
+                    $lastSequence = (int)substr($latestSantri->nis, 3);
+                    $nextSequence = $lastSequence + 1;
+                }
+
+                // Format sequence as 3 digits
+                $sequenceString = str_pad($nextSequence, 3, '0', STR_PAD_LEFT);
+                $santri->nis = $angkatanPrefix . $sequenceString;
+            }
+        });
+    }
 
     public function wali()
     {
@@ -53,5 +89,29 @@ class Santri extends Model
     public function portfolios()
     {
         return $this->hasMany(Portofolio::class);
+    }
+    
+    /**
+     * Get the user account associated with the santri (if they are a Pengurus).
+     */
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
+
+    /**
+     * Get the pengurus pivot records for the santri.
+     */
+    public function pengurus()
+    {
+        return $this->hasMany(Pengurus::class);
+    }
+
+    /**
+     * Get the jabatans held by the santri.
+     */
+    public function jabatans()
+    {
+        return $this->belongsToMany(Jabatan::class, 'pengurus')->withPivot('status')->withTimestamps();
     }
 }

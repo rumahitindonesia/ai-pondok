@@ -101,8 +101,9 @@ const formatDate = (date) => {
                 </div>
 
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-10 relative z-10">
-                    <div class="w-40 h-40 rounded-[32px] bg-[#f5f4f2] dark:bg-[#262524] border-4 border-white dark:border-[#161514] shadow-2xl flex items-center justify-center text-5xl font-black text-[#c97e60] shrink-0">
-                        {{ santri.nama.charAt(0) }}
+                    <div class="w-40 h-40 rounded-[32px] bg-[#f5f4f2] dark:bg-[#262524] border-4 border-white dark:border-[#161514] shadow-2xl overflow-hidden flex items-center justify-center text-5xl font-black text-[#c97e60] shrink-0">
+                        <img v-if="santri.foto" :src="`/storage/${santri.foto}`" class="w-full h-full object-cover">
+                        <span v-else>{{ santri.nama.charAt(0) }}</span>
                     </div>
                     
                     <div class="flex-1 text-center md:text-left space-y-4">
@@ -175,6 +176,27 @@ const formatDate = (date) => {
                         <div class="bg-white dark:bg-[#161514] p-8 rounded-[32px] border border-[#ebeae8] dark:border-[#3e3c3a] shadow-sm">
                             <h4 class="text-[10px] font-black uppercase tracking-widest text-[#a8a196] mb-4">Status Tagihan</h4>
                             <div class="text-3xl font-black text-emerald-500">Lunas</div>
+                        </div>
+                    </div>
+
+                    <!-- About Me Section -->
+                    <div class="bg-white dark:bg-[#161514] p-10 rounded-[40px] border border-[#ebeae8] dark:border-[#3e3c3a] shadow-sm">
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="w-10 h-10 bg-[#c97e60]/10 rounded-xl flex items-center justify-center text-[#c97e60]">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                            </div>
+                            <h4 class="text-lg font-black tracking-tight">Tentang Santri (Bio)</h4>
+                        </div>
+                        <div class="prose dark:prose-invert max-w-none">
+                            <p v-if="santri.bio" class="text-[#5a5753] dark:text-[#a8a196] leading-relaxed whitespace-pre-wrap font-medium">
+                                {{ santri.bio }}
+                            </p>
+                            <div v-else class="flex flex-col items-center justify-center py-10 bg-[#fcf8f5] dark:bg-[#1a1918] rounded-3xl border-2 border-dashed border-[#ebeae8] dark:border-[#3e3c3a]">
+                                <p class="text-[#a8a196] font-bold italic text-sm">Belum ada informasi biografi.</p>
+                                <Link :href="route('santri.edit', santri.id)" class="mt-4 text-[#c97e60] font-black text-[10px] uppercase tracking-widest hover:underline">
+                                    Lengkapi Profil Sekarang →
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>

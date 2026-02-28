@@ -21,14 +21,11 @@ const toggleTheme = () => {
     }
 };
 
-// Initialize theme
+// Initialize theme state (class is handled by app.blade.php script)
 if (typeof window !== 'undefined') {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light') {
         isDark.value = false;
-        document.documentElement.classList.remove('dark');
-    } else {
-        document.documentElement.classList.add('dark');
     }
 }
 </script>
@@ -94,6 +91,7 @@ if (typeof window !== 'undefined') {
                 </div>
 
                 <Link 
+                    v-if="$page.props.auth.user.permissions.includes('view santri')"
                     :href="route('santri.index')" 
                     :class="[
                         'group flex items-center rounded-xl transition-all hover:bg-[#ebeae8] dark:hover:bg-[#21201f]',
@@ -107,6 +105,35 @@ if (typeof window !== 'undefined') {
                 </Link>
 
                 <Link 
+                    v-if="$page.props.auth.user.permissions.includes('view organisasi')"
+                    :href="route('organisasi.jabatan.index')" 
+                    :class="[
+                        'group flex items-center rounded-xl transition-all hover:bg-[#ebeae8] dark:hover:bg-[#21201f]',
+                        isSidebarOpen || isMobileMenuOpen ? 'px-4 py-3 gap-4' : 'py-3 justify-center'
+                    ]"
+                >
+                    <svg class="w-5 h-5 transition-colors shrink-0" :class="route().current('organisasi.jabatan.*') ? 'text-[#c97e60]' : 'text-[#4e4b47] group-hover:text-[#c97e60] dark:group-hover:text-[#f2e8d5]'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                    <span v-if="isSidebarOpen || isMobileMenuOpen" class="font-bold whitespace-nowrap transition-all duration-300" :class="route().current('organisasi.jabatan.*') ? 'text-[#c97e60]' : 'text-[#4e4b47] dark:text-[#a8a196]'">Struktur Jabatan</span>
+                </Link>
+
+                <Link 
+                    v-if="$page.props.auth.user.permissions.includes('view organisasi')"
+                    :href="route('organisasi.pengurus.index')" 
+                    :class="[
+                        'group flex items-center rounded-xl transition-all hover:bg-[#ebeae8] dark:hover:bg-[#21201f]',
+                        isSidebarOpen || isMobileMenuOpen ? 'px-4 py-3 gap-4' : 'py-3 justify-center'
+                    ]"
+                >
+                    <svg class="w-5 h-5 transition-colors shrink-0" :class="route().current('organisasi.pengurus.*') ? 'text-[#c97e60]' : 'text-[#4e4b47] group-hover:text-[#c97e60] dark:group-hover:text-[#f2e8d5]'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <span v-if="isSidebarOpen || isMobileMenuOpen" class="font-bold whitespace-nowrap transition-all duration-300" :class="route().current('organisasi.pengurus.*') ? 'text-[#c97e60]' : 'text-[#4e4b47] dark:text-[#a8a196]'">Data Pengurus</span>
+                </Link>
+
+                <Link 
+                    v-if="$page.props.auth.user.permissions.includes('view psb')"
                     :href="route('admin.psb.index')" 
                     :class="[
                         'group flex items-center rounded-xl transition-all hover:bg-[#ebeae8] dark:hover:bg-[#21201f]',
@@ -120,6 +147,7 @@ if (typeof window !== 'undefined') {
                 </Link>
 
                 <Link 
+                    v-if="$page.props.auth.user.permissions.includes('view finance')"
                     :href="route('finance.index')" 
                     :class="[
                         'group flex items-center rounded-xl transition-all hover:bg-[#ebeae8] dark:hover:bg-[#21201f]',
@@ -133,6 +161,7 @@ if (typeof window !== 'undefined') {
                 </Link>
 
                 <Link 
+                    v-if="$page.props.auth.user.permissions.includes('view attendance')"
                     :href="route('records.attendance')" 
                     :class="[
                         'group flex items-center rounded-xl transition-all hover:bg-[#ebeae8] dark:hover:bg-[#21201f]',
@@ -146,6 +175,7 @@ if (typeof window !== 'undefined') {
                 </Link>
 
                 <Link 
+                    v-if="$page.props.auth.user.permissions.includes('view materi')"
                     :href="route('materi.index')" 
                     :class="[
                         'group flex items-center rounded-xl transition-all hover:bg-[#ebeae8] dark:hover:bg-[#21201f]',
@@ -159,6 +189,7 @@ if (typeof window !== 'undefined') {
                 </Link>
 
                 <Link 
+                    v-if="$page.props.auth.user.permissions.includes('view discipline')"
                     :href="route('records.discipline')" 
                     :class="[
                         'group flex items-center rounded-xl transition-all hover:bg-[#ebeae8] dark:hover:bg-[#21201f]',
@@ -169,6 +200,38 @@ if (typeof window !== 'undefined') {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                     <span v-if="isSidebarOpen || isMobileMenuOpen" class="font-bold whitespace-nowrap transition-all duration-300" :class="route().current('records.discipline') ? 'text-[#c97e60]' : 'text-[#4e4b47] dark:text-[#a8a196]'">Log Kedisiplinan</span>
+                </Link>
+
+                <div v-if="(isSidebarOpen || isMobileMenuOpen) && $page.props.auth.user.permissions.includes('view users')" class="px-4 py-6">
+                    <p class="text-[9px] font-black uppercase tracking-[0.2em] text-[#a8a196] opacity-50">Administrasi</p>
+                </div>
+
+                <Link 
+                    v-if="$page.props.auth.user.permissions.includes('view users')"
+                    :href="route('admin.users.index')" 
+                    :class="[
+                        'group flex items-center rounded-xl transition-all hover:bg-[#ebeae8] dark:hover:bg-[#21201f]',
+                        isSidebarOpen || isMobileMenuOpen ? 'px-4 py-3 gap-4' : 'py-3 justify-center'
+                    ]"
+                >
+                    <svg class="w-5 h-5 transition-colors shrink-0" :class="route().current('admin.users.*') ? 'text-[#c97e60]' : 'text-[#4e4b47] group-hover:text-[#c97e60] dark:group-hover:text-[#f2e8d5]'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <span v-if="isSidebarOpen || isMobileMenuOpen" class="font-bold whitespace-nowrap transition-all duration-300" :class="route().current('admin.users.*') ? 'text-[#c97e60]' : 'text-[#4e4b47] dark:text-[#a8a196]'">Manajemen User</span>
+                </Link>
+
+                <Link 
+                    v-if="$page.props.auth.user.permissions.includes('view users')"
+                    :href="route('admin.roles.index')" 
+                    :class="[
+                        'group flex items-center rounded-xl transition-all hover:bg-[#ebeae8] dark:hover:bg-[#21201f]',
+                        isSidebarOpen || isMobileMenuOpen ? 'px-4 py-3 gap-4' : 'py-3 justify-center'
+                    ]"
+                >
+                    <svg class="w-5 h-5 transition-colors shrink-0" :class="route().current('admin.roles.*') ? 'text-[#c97e60]' : 'text-[#4e4b47] group-hover:text-[#c97e60] dark:group-hover:text-[#f2e8d5]'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                    <span v-if="isSidebarOpen || isMobileMenuOpen" class="font-bold whitespace-nowrap transition-all duration-300" :class="route().current('admin.roles.*') ? 'text-[#c97e60]' : 'text-[#4e4b47] dark:text-[#a8a196]'">Hak Akses</span>
                 </Link>
             </nav>
 
@@ -188,7 +251,7 @@ if (typeof window !== 'undefined') {
                             </div>
                             <div v-if="isSidebarOpen || isMobileMenuOpen" class="flex-1 overflow-hidden transition-all duration-300">
                                 <p class="text-sm font-bold truncate">{{ $page.props.auth.user.name }}</p>
-                                <p class="text-[10px] text-[#a8a196] truncate font-medium">Administrator</p>
+                                <p class="text-[10px] text-[#a8a196] truncate font-medium">{{ $page.props.auth.user.roles?.[0] || 'Member' }}</p>
                             </div>
                             <svg v-if="isSidebarOpen || isMobileMenuOpen" class="w-4 h-4 text-[#a8a196] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />

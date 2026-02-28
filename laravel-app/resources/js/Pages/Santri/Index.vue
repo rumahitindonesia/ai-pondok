@@ -2,21 +2,24 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import RedwoodButton from '@/Components/RedwoodButton.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 
 const props = defineProps({
     santris: Object,
     filters: Object,
-    options: Object
+    options: Object,
+    stats: Object
 });
 
 const search = ref(props.filters.search || '');
 const status = ref(props.filters.status || '');
 const kelas = ref(props.filters.kelas || '');
 const kamar = ref(props.filters.kamar || '');
+const angkatan = ref(props.filters.angkatan || '');
+const entitas = ref(props.filters.entitas || '');
 
 let timeout = null;
-watch([search, status, kelas, kamar], () => {
+watch([search, status, kelas, kamar, angkatan, entitas], () => {
     if (timeout) clearTimeout(timeout);
     timeout = setTimeout(() => {
         router.get(route('santri.index'), {
@@ -24,6 +27,8 @@ watch([search, status, kelas, kamar], () => {
             status: status.value,
             kelas: kelas.value,
             kamar: kamar.value,
+            angkatan: angkatan.value,
+            entitas: entitas.value,
             sort_by: props.filters.sort_by,
             sort_dir: props.filters.sort_dir,
         }, { 
@@ -84,6 +89,51 @@ const rowOffset = (id) => {
     if (hoveredId.value === id && !dragging.value) return -REVEAL_WIDTH;
     return 0;
 };
+
+// --- Bulk Selection ---
+const selectedIds = ref([]);
+const bulkStatus = ref('');
+const isProcessingBulk = ref(false);
+
+const isAllSelected = computed(() => {
+    return props.santris.data.length > 0 && selectedIds.value.length === props.santris.data.length;
+});
+
+const toggleSelectAll = () => {
+    if (isAllSelected.value) {
+        selectedIds.value = [];
+    } else {
+        selectedIds.value = props.santris.data.map(s => s.id);
+    }
+};
+
+const toggleSelect = (id) => {
+    const index = selectedIds.value.indexOf(id);
+    if (index > -1) {
+        selectedIds.value.splice(index, 1);
+    } else {
+        selectedIds.value.push(id);
+    }
+};
+
+const applyBulkStatus = () => {
+    if (!bulkStatus.value || selectedIds.value.length === 0) return;
+    
+    isProcessingBulk.value = true;
+    router.post(route('santri.bulk-status'), {
+        ids: selectedIds.value,
+        status: bulkStatus.value
+    }, {
+        onSuccess: () => {
+            selectedIds.value = [];
+            bulkStatus.value = '';
+            isProcessingBulk.value = false;
+        },
+        onError: () => {
+            isProcessingBulk.value = false;
+        }
+    });
+};
 </script>
 
 <template>
@@ -134,9 +184,13 @@ const rowOffset = (id) => {
                             class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#c97e60] shadow-sm min-w-[150px]"
                         >
                             <option value="">Semua Status</option>
-                            <option value="aktif">Aktif</option>
-                            <option value="alumni">Alumni</option>
-                            <option value="keluar">Keluar</option>
+                            <option value="Santri Aktif">Santri Aktif</option>
+                            <option value="Santri Keluar">Santri Keluar</option>
+                            <option value="Santri Lulus - Alumni">Santri Lulus - Alumni</option>
+                            <option value="Alumni Aktif - dipondok">Alumni Aktif - dipondok</option>
+                            <option value="Alumni Tidak Aktif - diluar pondok">Alumni Tidak Aktif - diluar pondok</option>
+                            <option value="Santri Magang">Santri Magang</option>
+                            <option value="Alumni Magang">Alumni Magang</option>
                         </select>
 
                         <!-- Kelas Filter -->
@@ -156,6 +210,24 @@ const rowOffset = (id) => {
                             <option value="">Semua Kamar</option>
                             <option v-for="k in options.kamar" :key="k" :value="k">{{ k }}</option>
                         </select>
+
+                        <!-- Angkatan Filter -->
+                        <select 
+                            v-model="angkatan" 
+                            class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#c97e60] shadow-sm min-w-[150px]"
+                        >
+                            <option value="">Semua Angkatan</option>
+                            <option v-for="a in options.angkatan" :key="a" :value="a">Angkatan {{ a }}</option>
+                        </select>
+
+                        <!-- Entitas Filter -->
+                        <select 
+                            v-model="entitas" 
+                            class="bg-white dark:bg-[#161514] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-[#c97e60] shadow-sm min-w-[150px]"
+                        >
+                            <option value="">Semua Entitas</option>
+                            <option v-for="e in options.entitas" :key="e" :value="e">{{ e }}</option>
+                        </select>
                     </div>
                     
                     <RedwoodButton 
@@ -173,108 +245,167 @@ const rowOffset = (id) => {
                 </div>
             </div>
 
+            <!-- Stats Summary Cards -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Total -->
+                <div class="bg-white dark:bg-[#161514] p-6 rounded-[24px] border border-[#ebeae8] dark:border-[#3e3c3a] shadow-sm group hover:border-[#c97e60] transition-all">
+                    <p class="text-[9px] font-black uppercase tracking-[0.2em] text-[#a8a196] mb-2">Total Santri</p>
+                    <div class="flex items-end gap-2">
+                        <span class="text-3xl font-black text-[#161514] dark:text-[#f2e8d5] tracking-tighter">{{ stats.total }}</span>
+                        <span class="text-[10px] font-bold text-[#a8a196] mb-1">Jiwa</span>
+                    </div>
+                </div>
+                <!-- Aktif -->
+                <div class="bg-white dark:bg-[#161514] p-6 rounded-[24px] border border-[#ebeae8] dark:border-[#3e3c3a] shadow-sm group hover:border-emerald-500/30 transition-all">
+                    <p class="text-[9px] font-black uppercase tracking-[0.2em] text-[#a8a196] mb-2 text-emerald-500/70">Santri Aktif</p>
+                    <div class="flex items-end gap-2 text-emerald-500">
+                        <span class="text-3xl font-black tracking-tighter">{{ stats.aktif }}</span>
+                        <span class="text-[10px] font-bold opacity-70 mb-1 text-[#a8a196]">Aktif</span>
+                    </div>
+                </div>
+                <!-- Alumni -->
+                <div class="bg-white dark:bg-[#161514] p-6 rounded-[24px] border border-[#ebeae8] dark:border-[#3e3c3a] shadow-sm group hover:border-blue-500/30 transition-all">
+                    <p class="text-[9px] font-black uppercase tracking-[0.2em] text-[#a8a196] mb-2 text-blue-500/70">Alumni</p>
+                    <div class="flex items-end gap-2 text-blue-500">
+                        <span class="text-3xl font-black tracking-tighter">{{ stats.alumni }}</span>
+                        <span class="text-[10px] font-bold opacity-70 mb-1 text-[#a8a196]">Lulus</span>
+                    </div>
+                </div>
+                <!-- Keluar -->
+                <div class="bg-white dark:bg-[#161514] p-6 rounded-[24px] border border-[#ebeae8] dark:border-[#3e3c3a] shadow-sm group hover:border-rose-500/30 transition-all">
+                    <p class="text-[9px] font-black uppercase tracking-[0.2em] text-[#a8a196] mb-2 text-rose-500/70">Keluar</p>
+                    <div class="flex items-end gap-2 text-rose-500">
+                        <span class="text-3xl font-black tracking-tighter">{{ stats.keluar }}</span>
+                        <span class="text-[10px] font-bold opacity-70 mb-1 text-[#a8a196]">Jiwa</span>
+                    </div>
+                </div>
+            </div>
+
             <!-- Table Card -->
             <div class="bg-white dark:bg-[#161514] shadow-[0_20px_50px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-[32px] border border-[#ebeae8] dark:border-[#3e3c3a] overflow-hidden">
 
                 <!-- Header Row -->
                 <div class="flex items-center border-b border-[#ebeae8] dark:border-[#3e3c3a] bg-gray-50/50 dark:bg-[#1a1918]/50 px-0">
-                    <div @click="sort('nis')" class="w-32 shrink-0 px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] cursor-pointer hover:text-[#c97e60] transition-colors flex items-center gap-1">
-                        NIS <svg v-if="filters.sort_by === 'nis'" class="w-3 h-3" :class="filters.sort_dir === 'asc' ? 'rotate-180' : ''" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
+                    <div class="w-16 shrink-0 flex items-center justify-center py-5">
+                        <input 
+                            type="checkbox" 
+                            :checked="isAllSelected"
+                            @change="toggleSelectAll"
+                            class="w-5 h-5 rounded-lg border-[#ebeae8] dark:border-[#3e3c3a] text-[#c97e60] focus:ring-[#c97e60] dark:bg-[#161514] transition-all cursor-pointer"
+                        >
                     </div>
-                    <div @click="sort('nama')" class="flex-1 min-w-0 px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] cursor-pointer hover:text-[#c97e60] transition-colors flex items-center gap-1">
-                        Nama Santri <svg v-if="filters.sort_by === 'nama'" class="w-3 h-3" :class="filters.sort_dir === 'asc' ? 'rotate-180' : ''" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
+                    <div @click="sort('nama')" class="flex-1 min-w-0 px-4 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] cursor-pointer hover:text-[#c97e60] transition-colors flex items-center gap-1">
+                        Informasi Santri / Nama <svg v-if="filters.sort_by === 'nama'" class="w-3 h-3" :class="filters.sort_dir === 'asc' ? 'rotate-180' : ''" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
                     </div>
-                    <div class="w-40 shrink-0 px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] hidden md:block">Wali</div>
-                    <div @click="sort('status')" class="w-[116px] shrink-0 px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] cursor-pointer hover:text-[#c97e60] transition-colors hidden lg:flex items-center gap-1">
+                    <div @click="sort('status')" class="w-48 shrink-0 px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] cursor-pointer hover:text-[#c97e60] transition-colors hidden lg:flex items-center gap-1">
                         Status <svg v-if="filters.sort_by === 'status'" class="w-3 h-3" :class="filters.sort_dir === 'asc' ? 'rotate-180' : ''" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
                     </div>
-                    <div class="w-36 shrink-0 px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] hidden lg:block">Kelas / Kamar</div>
+                    <div class="w-44 shrink-0 px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] hidden lg:block">Kelas / Kamar</div>
                     <div class="w-10 shrink-0 pr-4 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] text-right">←</div>
                 </div>
 
                 <!-- Swipeable Rows -->
                 <div class="divide-y divide-[#ebeae8] dark:divide-[#3e3c3a]">
                     <div v-for="santri in santris.data" :key="santri.id"
-                         class="relative overflow-hidden"
+                         class="relative flex items-center bg-white dark:bg-[#161514] hover:bg-[#fcf8f5] dark:hover:bg-[#1d1c1b] transition-colors overflow-hidden"
                          @mouseenter="hoveredId = santri.id"
                          @mouseleave="hoveredId = null"
                     >
-                        <!-- Revealed action buttons (hidden behind row) -->
-                        <div class="absolute inset-y-0 right-0 flex" style="width:144px">
-                            <Link
-                                :href="route('santri.show', santri.id)"
-                                class="flex-1 flex flex-col items-center justify-center gap-1 bg-teal-500 text-white text-[10px] font-black uppercase hover:brightness-110 active:brightness-90 transition-all"
+                        <!-- Static Checkbox -->
+                        <div class="w-16 shrink-0 flex items-center justify-center py-5 z-20 bg-inherit border-r border-[#ebeae8]/50 dark:border-[#3e3c3a]/50">
+                            <input 
+                                type="checkbox" 
+                                :checked="selectedIds.includes(santri.id)"
+                                @change="toggleSelect(santri.id)"
+                                @pointerdown.stop
+                                @mousedown.stop
+                                class="w-5 h-5 rounded-lg border-[#ebeae8] dark:border-[#3e3c3a] text-[#c97e60] focus:ring-[#c97e60] dark:bg-[#161514] transition-all cursor-pointer relative z-30"
                             >
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                                Lihat
-                            </Link>
-                            <Link
-                                :href="route('santri.edit', santri.id)"
-                                class="flex-1 flex flex-col items-center justify-center gap-1 bg-blue-500 text-white text-[10px] font-black uppercase hover:brightness-110 active:brightness-90 transition-all"
-                            >
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-                                Edit
-                            </Link>
                         </div>
 
-                        <!-- Swipeable content row -->
-                        <div
-                            class="flex items-center bg-white dark:bg-[#161514] hover:bg-[#fcf8f5] dark:hover:bg-[#1d1c1b] transition-colors cursor-grab active:cursor-grabbing"
-                            :style="{
-                                transform: `translateX(${rowOffset(santri.id)}px)`,
-                                transition: dragging ? 'none' : 'transform 0.25s cubic-bezier(0.25,1,0.5,1)',
-                                touchAction: 'pan-y',
-                            }"
-                            @pointerdown="(e) => onPointerDown(e, santri.id)"
-                            @pointermove="(e) => onPointerMove(e, santri.id)"
-                            @pointerup="(e) => onPointerUp(e, santri.id)"
-                        >
-                            <!-- NIS -->
-                            <div class="w-32 shrink-0 px-8 py-5">
-                                <span class="font-mono text-xs text-[#c97e60] bg-[#c97e60]/10 px-2 py-1 rounded-md">{{ santri.nis || 'N/A' }}</span>
+                        <!-- Swipeable Area -->
+                        <div class="flex-1 relative overflow-hidden">
+                            <!-- Revealed action buttons (Fixed behind row) -->
+                            <div class="absolute inset-y-0 right-0 flex z-0" style="width:144px">
+                                <Link
+                                    :href="route('santri.show', santri.id)"
+                                    class="flex-1 flex flex-col items-center justify-center gap-1 bg-teal-500 text-white text-[10px] font-black uppercase hover:brightness-110 active:brightness-90 transition-all"
+                                >
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                    Lihat
+                                </Link>
+                                <Link
+                                    :href="route('santri.edit', santri.id)"
+                                    class="flex-1 flex flex-col items-center justify-center gap-1 bg-blue-500 text-white text-[10px] font-black uppercase hover:brightness-110 active:brightness-90 transition-all"
+                                >
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                                    Edit
+                                </Link>
                             </div>
-                            <!-- Nama -->
-                            <div class="flex-1 min-w-0 px-8 py-5">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 rounded-full bg-[#f5f4f2] dark:bg-[#262524] flex items-center justify-center text-sm font-bold border border-[#ebeae8] dark:border-[#3e3c3a] shrink-0">
-                                        {{ santri.nama?.charAt(0) ?? '?' }}
-                                    </div>
-                                    <div class="min-w-0">
-                                        <p class="font-bold text-[#161514] dark:text-[#f2e8d5] truncate">{{ santri.nama }}</p>
-                                        <p class="text-[10px] text-[#a8a196]">{{ santri.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan' }}</p>
+
+                            <!-- Swipeable content row -->
+                            <div
+                                class="flex items-center bg-white dark:bg-[#161514] w-full relative z-10 cursor-grab active:cursor-grabbing"
+                                :style="{
+                                    transform: `translateX(${rowOffset(santri.id)}px)`,
+                                    transition: dragging ? 'none' : 'transform 0.25s cubic-bezier(0.25,1,0.5,1)',
+                                    touchAction: 'pan-y',
+                                }"
+                                @pointerdown="(e) => onPointerDown(e, santri.id)"
+                                @pointermove="(e) => onPointerMove(e, santri.id)"
+                                @pointerup="(e) => onPointerUp(e, santri.id)"
+                            >
+                                <!-- Nama & Info -->
+                                <div class="flex-1 min-w-0 px-4 py-5">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 rounded-full bg-[#c97e60]/10 flex items-center justify-center overflow-hidden border border-[#ebeae8] dark:border-[#3e3c3a] shrink-0">
+                                            <img v-if="santri.foto" :src="`/storage/${santri.foto}`" class="w-full h-full object-cover">
+                                            <span v-else class="text-[#c97e60] font-bold text-xs uppercase">{{ santri.nama?.charAt(0) ?? '?' }}</span>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="font-bold text-[#161514] dark:text-[#f2e8d5] truncate flex items-center gap-2">
+                                                {{ santri.nama }}
+                                                <span v-if="santri.entitas" class="font-mono text-[9px] px-1.5 py-0.5 rounded bg-[#f2e8d5] dark:bg-[#3e3c3a] text-[#c97e60]">{{ santri.entitas }}</span>
+                                            </p>
+                                            <div class="flex items-center gap-2 text-[10px] text-[#a8a196] font-medium">
+                                                <span>{{ santri.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan' }}</span>
+                                                <span class="text-[#ebeae8] dark:text-[#3e3c3a]">•</span>
+                                                <span v-if="santri.angkatan" class="text-[#c97e60]">Akt. {{ santri.angkatan }}</span>
+                                                <span v-if="santri.angkatan && santri.nis" class="text-[#ebeae8] dark:text-[#3e3c3a]">•</span>
+                                                <span class="font-mono text-[9px]">{{ santri.nis || 'N/A' }}</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Wali -->
-                            <div class="w-40 shrink-0 px-8 py-5 hidden md:block">
-                                <p class="text-sm font-medium truncate">{{ santri.wali?.nama ?? '-' }}</p>
-                                <p class="text-[10px] text-[#a8a196] italic">{{ santri.wali?.hubungan }}</p>
-                            </div>
-                            <!-- Status -->
-                            <div class="w-[116px] shrink-0 px-8 py-5 hidden lg:block">
-                                <span :class="[
-                                    'px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider',
-                                    santri.status === 'aktif' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' :
-                                    santri.status === 'alumni' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' :
-                                    'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400'
-                                ]">{{ santri.status }}</span>
-                            </div>
-                            <!-- Kelas/Kamar -->
-                            <div class="w-36 shrink-0 px-8 py-5 hidden lg:block">
-                                <div class="flex flex-col gap-1">
-                                    <div class="flex items-center gap-2 text-xs">
-                                        <svg class="w-3 h-3 text-[#c97e60] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
-                                        <span class="truncate">{{ santri.kelas || '-' }}</span>
-                                    </div>
-                                    <div class="flex items-center gap-2 text-xs">
-                                        <svg class="w-3 h-3 text-[#a8a196] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-                                        <span class="truncate">{{ santri.kamar || '-' }}</span>
+
+                                <!-- Status -->
+                                <div class="w-48 shrink-0 px-8 py-5 hidden lg:block">
+                                    <span :class="[
+                                        'px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-wider block text-center shadow-sm',
+                                        santri.status === 'Santri Aktif' || santri.status === 'Alumni Aktif - dipondok' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800/30' :
+                                        santri.status === 'Santri Keluar' || santri.status === 'Alumni Tidak Aktif - diluar pondok' ? 'bg-rose-50 text-rose-600 border border-rose-100 dark:bg-rose-900/20 dark:text-rose-400 dark:border-rose-800/30' :
+                                        santri.status === 'Santri Lulus - Alumni' ? 'bg-blue-50 text-blue-600 border border-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800/30' :
+                                        santri.status === 'Santri Magang' || santri.status === 'Alumni Magang' ? 'bg-amber-50 text-amber-600 border border-amber-100 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800/30' :
+                                        'bg-gray-50 text-gray-600 border border-gray-100'
+                                    ]">{{ santri.status }}</span>
+                                </div>
+                                <!-- Kelas/Kamar -->
+                                <div class="w-44 shrink-0 px-8 py-5 hidden lg:block">
+                                    <div class="flex flex-col gap-1.5">
+                                        <div class="flex items-center gap-2 text-xs font-bold text-[#161514] dark:text-[#f2e8d5]">
+                                            <svg class="w-3.5 h-3.5 text-[#c97e60] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                                            <span class="truncate">{{ santri.kelas || '-' }}</span>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-[10px] font-medium text-[#a8a196]">
+                                            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                                            <span class="truncate">{{ santri.kamar || '-' }}</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Swipe hint -->
-                            <div class="w-10 shrink-0 pr-4 py-5 flex items-center justify-end text-[#d0cec9]">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                                <!-- Swipe hint -->
+                                <div class="w-10 shrink-0 pr-4 py-5 flex items-center justify-end text-[#d0cec9]">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -305,5 +436,68 @@ const rowOffset = (id) => {
                 </div>
             </div>
         </div>
+
+        <!-- Floating Bulk Action Bar -->
+        <Transition
+            enter-active-class="transition duration-500 ease-out"
+            enter-from-class="transform translate-y-24 opacity-0"
+            enter-to-class="transform translate-y-0 opacity-100"
+            leave-active-class="transition duration-400 ease-in"
+            leave-from-class="transform translate-y-0 opacity-100"
+            leave-to-class="transform translate-y-24 opacity-0"
+        >
+            <div v-if="selectedIds.length > 0" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-2xl px-4">
+                <div class="bg-[#161514] dark:bg-[#f2e8d5] text-[#f2e8d5] dark:text-[#161514] rounded-[32px] p-4 shadow-[0_25px_60px_rgba(0,0,0,0.5)] border border-[#3e3c3a] dark:border-white/20 flex flex-col md:flex-row items-center gap-4">
+                    <div class="flex items-center gap-4 px-4 border-r border-[#3e3c3a] dark:border-gray-200/20">
+                        <div class="w-10 h-10 rounded-full bg-[#c97e60] text-white flex items-center justify-center font-black text-sm">
+                            {{ selectedIds.length }}
+                        </div>
+                        <div class="hidden sm:block">
+                            <p class="text-[9px] font-black uppercase tracking-widest opacity-50">Terpilih</p>
+                            <p class="text-xs font-bold uppercase tracking-widest">Santri</p>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 flex items-center gap-2 w-full">
+                        <select 
+                            v-model="bulkStatus"
+                            class="flex-1 bg-transparent border-none text-sm font-bold focus:ring-0 outline-none cursor-pointer py-2 pl-0"
+                        >
+                            <option value="" disabled class="text-[#161514]">Pilih Status Baru...</option>
+                            <option value="Santri Aktif" class="text-[#161514]">Santri Aktif</option>
+                            <option value="Santri Keluar" class="text-[#161514]">Santri Keluar</option>
+                            <option value="Santri Lulus - Alumni" class="text-[#161514]">Santri Lulus - Alumni</option>
+                            <option value="Alumni Aktif - dipondok" class="text-[#161514]">Alumni Aktif - dipondok</option>
+                            <option value="Alumni Tidak Aktif - diluar pondok" class="text-[#161514]">Alumni Tidak Aktif - diluar pondok</option>
+                            <option value="Santri Magang" class="text-[#161514]">Santri Magang</option>
+                            <option value="Alumni Magang" class="text-[#161514]">Alumni Magang</option>
+                        </select>
+                    </div>
+
+                    <RedwoodButton 
+                        @click="applyBulkStatus"
+                        variant="primary"
+                        class="w-full md:w-auto"
+                        :disabled="!bulkStatus || isProcessingBulk"
+                    >
+                        <template #icon>
+                            <svg v-if="!isProcessingBulk" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                            <svg v-else class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </template>
+                        Terapkan
+                    </RedwoodButton>
+
+                    <button 
+                        @click="selectedIds = []" 
+                        class="p-4 hover:text-[#c97e60] transition-colors"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+            </div>
+        </Transition>
     </AuthenticatedLayout>
 </template>

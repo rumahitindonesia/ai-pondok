@@ -77,10 +77,10 @@ const latestPayments = computed(() => {
     </Head>
 
     <!-- Main Foldout Container: Full Screen, Horizontal Scroll with Snapping -->
-    <div class="min-h-screen bg-[#f2e8d5] font-['Inter',sans-serif] overflow-x-auto text-[#161514] flex flex-row snap-x snap-mandatory scroll-smooth">
+    <div class="min-h-[100dvh] bg-[#f2e8d5] font-['Inter',sans-serif] overflow-x-auto overflow-y-hidden text-[#161514] flex flex-row snap-x snap-mandatory scroll-smooth gap-0 md:gap-12">
         
         <!-- Left Fixed Profile Panel (Hearth/Dark Theme) -->
-        <div class="w-[calc(100vw-3rem)] md:w-80 md:min-w-[320px] bg-[#2d2a26] text-[#f2e8d5] p-8 md:p-10 flex flex-col relative shrink-0 font-['Plus_Jakarta_Sans',sans-serif] snap-center md:snap-align-none">
+        <div class="w-screen md:w-80 md:min-w-[320px] bg-[#2d2a26] text-[#f2e8d5] p-8 md:p-10 flex flex-col relative shrink-0 font-['Plus_Jakarta_Sans',sans-serif] snap-start md:snap-align-none min-h-full overflow-y-auto md:rounded-none">
             <!-- Decorative Background Element -->
             <div class="absolute top-0 right-0 w-48 h-48 bg-[#c97e60]/20 rounded-bl-full pointer-events-none"></div>
             
@@ -95,7 +95,10 @@ const latestPayments = computed(() => {
                 
                 <!-- Name & Title -->
                 <h1 class="text-2xl md:text-2xl font-extrabold mb-1 tracking-tight text-center md:text-left font-['Plus_Jakarta_Sans',sans-serif]">{{ santri.nama }}</h1>
-                <p class="text-[#a8a196] font-semibold mb-8 text-center md:text-left text-[10px] uppercase tracking-[0.15em] opacity-80">{{ santri.status }} • {{ santri.jenis_kelamin }}</p>
+                <p class="text-[#a8a196] font-semibold mb-8 text-center md:text-left text-[10px] uppercase tracking-[0.15em] opacity-80">
+                    {{ santri.status }} • {{ santri.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan' }}
+                    <span v-if="santri.angkatan"> • Akt. {{ santri.angkatan }}</span>
+                </p>
                 
                 <!-- Contact Info Blocks -->
                 <div class="space-y-6 text-sm">
@@ -128,13 +131,18 @@ const latestPayments = computed(() => {
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
                 </a>
             </div>
+
+            <!-- Slide Indicator Guide (Mobile Only) -->
+            <div class="md:hidden mt-auto flex flex-col items-center gap-1 opacity-50 animate-bounce pt-8">
+                <p class="text-[8px] font-black uppercase tracking-[0.3em] text-[#a8a196]">Geser Kanan</p>
+                <svg class="w-5 h-5 text-[#c97e60]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </div>
         </div>
 
-        <!-- Right Horizontal Foldout Panels -->
-        <div class="flex-1 flex flex-row p-6 md:p-10 gap-8 md:gap-12 min-h-full">
-            
-            <!-- Column 1: Organization & Placement -->
-            <div class="w-[calc(100vw-3rem)] md:w-72 shrink-0 flex flex-col gap-8 snap-center md:snap-align-none">
+        <!-- Column 1: Organization & Placement -->
+        <div class="w-screen md:w-72 shrink-0 flex flex-col gap-8 snap-start md:snap-align-none overflow-y-auto h-full px-6 md:px-0 md:pr-2 py-6 md:py-0">
                 <div class="header-group">
                     <h2 class="text-2xl font-bold text-[#161514] tracking-tight mb-2 font-['Plus_Jakarta_Sans',sans-serif]">Penempatan</h2>
                     <div class="w-10 h-1.5 bg-[#c97e60] rounded-sm"></div>
@@ -167,8 +175,8 @@ const latestPayments = computed(() => {
                 </div>
             </div>
 
-            <!-- Column 2: About Me & Biodata -->
-            <div class="w-[calc(100vw-3rem)] md:w-[400px] shrink-0 flex flex-col gap-8 snap-center md:snap-align-none">
+        <!-- Column 2: About Me & Biodata -->
+        <div class="w-screen md:w-[400px] shrink-0 flex flex-col gap-8 snap-start md:snap-align-none overflow-y-auto h-full px-6 md:px-0 md:pr-2 py-6 md:py-0">
                 <div class="header-group">
                     <h2 class="text-2xl font-bold text-[#161514] tracking-tight mb-2 font-['Plus_Jakarta_Sans',sans-serif]">About me</h2>
                     <div class="w-10 h-1.5 bg-[#c97e60] rounded-sm"></div>
@@ -193,7 +201,10 @@ const latestPayments = computed(() => {
                     <div>
                         <p class="text-[10px] font-bold text-[#a8a196] uppercase tracking-[0.2em] mb-4 opacity-70">Categories / Tags</p>
                         <div class="flex flex-wrap gap-2.5">
-                            <span v-for="tag in (santri.minat_bakat ? santri.minat_bakat.split(',') : [santri.jenis_kelamin, santri.status])" :key="tag" 
+                            <span v-if="santri.entitas" class="px-5 py-2 bg-[#c97e60] text-white text-[10px] font-black uppercase tracking-[0.1em] rounded-full shadow-lg">
+                                {{ santri.entitas }}
+                            </span>
+                            <span v-for="tag in (santri.minat_bakat ? santri.minat_bakat.split(',') : [santri.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan'])" :key="tag" 
                                   class="px-5 py-2 bg-white border border-[#e1d8c9] text-[#161514] text-[10px] font-bold uppercase tracking-[0.1em] rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:border-[#c97e60] hover:text-[#c97e60] transition-all whitespace-nowrap">
                                 {{ tag.trim() }}
                             </span>
@@ -202,8 +213,8 @@ const latestPayments = computed(() => {
                 </div>
             </div>
 
-            <!-- Column 3: Skills & Development -->
-            <div class="w-[calc(100vw-3rem)] md:w-[400px] shrink-0 flex flex-col gap-8 snap-center md:snap-align-none">
+        <!-- Column 3: Skills & Development -->
+        <div class="w-screen md:w-[400px] shrink-0 flex flex-col gap-8 snap-start md:snap-align-none overflow-y-auto h-full px-6 md:px-0 md:pr-2 py-6 md:py-0">
                 <div class="header-group">
                     <h2 class="text-2xl font-bold text-[#161514] tracking-tight mb-2 font-['Plus_Jakarta_Sans',sans-serif]">Achievement</h2>
                     <div class="w-10 h-1.5 bg-[#c97e60] rounded-sm"></div>
@@ -259,8 +270,8 @@ const latestPayments = computed(() => {
                 </div>
             </div>
 
-            <!-- Column 4: Experience -->
-            <div class="w-[calc(100vw-3rem)] md:w-80 shrink-0 flex flex-col gap-8 snap-center md:snap-align-none">
+        <!-- Column 4: Experience -->
+        <div class="w-screen md:w-80 shrink-0 flex flex-col gap-8 snap-start md:snap-align-none overflow-y-auto h-full px-6 md:px-0 md:pr-2 py-6 md:py-0">
                 <div class="header-group">
                     <h2 class="text-2xl font-bold text-[#161514] tracking-tight mb-2 font-['Plus_Jakarta_Sans',sans-serif]">Experience</h2>
                     <div class="w-10 h-1.5 bg-[#c97e60] rounded-sm"></div>
@@ -293,9 +304,8 @@ const latestPayments = computed(() => {
                 </div>
             </div>
 
-            <!-- Padding element -->
-            <div class="w-10 md:w-16 shrink-0"></div>
+        <!-- Footer Padding/Spacer to prevent rebound -->
+        <div class="w-10 md:w-20 shrink-0 h-1"></div>
 
-        </div>
     </div>
 </template>
