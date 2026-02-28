@@ -74,9 +74,12 @@ if (typeof window !== 'undefined') {
                         <div class="w-10 h-10 flex items-center justify-center shrink-0">
                              <ApplicationLogo class="w-10 h-10 object-contain" />
                         </div>
-                        <span v-if="isSidebarOpen || isMobileMenuOpen" class="font-black text-base tracking-tighter transition-colors uppercase">
-                            <span class="text-brand-teal">Rumah IT</span> <span class="text-brand-rose dark:text-brand-rose-dark">Indonesia</span>
-                        </span>
+                        <div v-if="isSidebarOpen || isMobileMenuOpen" class="flex flex-col">
+                            <span class="font-black text-base tracking-tighter transition-colors uppercase leading-tight">
+                                <span class="text-brand-teal">Rumah IT</span> <span class="text-brand-rose dark:text-brand-rose-dark">Indonesia</span>
+                            </span>
+                            <span class="text-[9px] font-black text-white uppercase tracking-[0.2em] leading-none mt-1 animate-fade-in-slow">Enterprise Solutions</span>
+                        </div>
                     </Link>
                     
                     <!-- Close Button Mobile -->
@@ -85,11 +88,6 @@ if (typeof window !== 'undefined') {
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
-                </div>
-
-                <!-- Subtle Branding Tagline/Area underneath logo if open -->
-                <div v-if="isSidebarOpen || isMobileMenuOpen" class="relative z-10 px-6 -mt-2 opacity-0 animate-fade-in-slow">
-                     <p class="text-[10px] font-bold text-brand-rose dark:text-brand-rose-vibrant uppercase tracking-widest">Enterprise solutions</p>
                 </div>
             </div>
 
