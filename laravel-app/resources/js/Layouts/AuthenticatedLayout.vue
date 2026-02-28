@@ -50,18 +50,19 @@ if (typeof window !== 'undefined') {
             class="fixed lg:relative inset-y-0 left-0 w-72 lg:w-auto bg-white dark:bg-[#161514] flex flex-col transition-all duration-300 z-[70] lg:z-50 border-r border-[#ebeae8] dark:border-[#3e3c3a] shadow-2xl lg:shadow-xl"
         >
             <!-- Brand Identity Area (The "Stage") -->
-            <div class="relative shrink-0 transition-all duration-300" :class="isSidebarOpen || isMobileMenuOpen ? 'h-48' : 'h-24'">
+            <div class="relative shrink-0 transition-all duration-300 bg-brand-rose-muted/30 dark:bg-brand-rose-surface" :class="isSidebarOpen || isMobileMenuOpen ? 'h-48' : 'h-24'">
                 <!-- Organic Pattern & Curve Overlay -->
                 <div class="absolute inset-0 overflow-hidden pointer-events-none">
                     <!-- Top pattern -->
-                    <div class="absolute top-0 left-0 w-full h-full opacity-[0.03] dark:opacity-[0.05] text-brand-rose">
+                    <div class="absolute top-0 left-0 w-full h-full opacity-[0.03] dark:opacity-[0.08] text-brand-rose">
                         <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-full fill-current">
                             <path d="M0,0 Q200,80 400,0 V400 H0 Z" />
                         </svg>
                     </div>
                     <!-- Curved Bottom Divider (Oracle Redwood Style) -->
+                    <!-- This SVG "cuts" the background color above by filling the bottom with the sidebar's main background -->
                     <div class="absolute bottom-0 left-0 w-full translate-y-px">
-                        <svg viewBox="0 0 288 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full dark:text-[#161514] text-white fill-current">
+                        <svg viewBox="0 0 288 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full text-white dark:text-[#161514] fill-current">
                             <path d="M0 48H288V24C288 24 216 0 144 0C72 0 0 24 0 24V48Z" />
                         </svg>
                     </div>
