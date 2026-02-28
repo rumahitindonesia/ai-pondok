@@ -219,6 +219,33 @@ const tracks = computed(() => props.sections.tracks || {});
                     </div>
                 </div>
             </section>
+
+            <!-- Full-width CTA Section -->
+            <section class="relative bg-brand-rose overflow-hidden py-24 lg:py-32 flex items-center justify-center">
+                <!-- Abstract Organic Background Elements -->
+                <div class="absolute inset-0 z-0">
+                    <div class="absolute top-1/2 left-1/4 w-[800px] h-[800px] bg-white opacity-5 rounded-full blur-[100px] transform -translate-x-1/2 -translate-y-1/2"></div>
+                    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-black opacity-10 rounded-full blur-[80px] transform translate-x-1/3 -translate-y-1/3"></div>
+                </div>
+                
+                <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                    <h2 class="text-4xl md:text-5xl lg:text-7xl font-black text-white tracking-tighter leading-tight mb-8 title-shadow">
+                        Siap Memulai Perjalanan <br class="hidden md:block"/> Karir IT Anda Bersama Kami?
+                    </h2>
+                    <p class="text-xl md:text-2xl text-white/90 font-medium mb-12 max-w-3xl mx-auto">
+                        Bergabunglah dengan ratusan santri lainnya dan bentuk masa depan teknologi Islami. Kuota program Ikhwan dan Akhwat terbatas.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                        <Link :href="route('psb.register')" class="bg-white text-brand-rose hover:bg-gray-100 transition-colors duration-300 font-bold text-lg px-10 py-5 rounded-2xl shadow-2xl flex items-center justify-center gap-3 w-full sm:w-auto">
+                            Daftar Sekarang
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </Link>
+                        <a href="#programs" class="bg-transparent text-white border-2 border-white/30 hover:bg-white/10 hover:border-white transition-all duration-300 font-bold text-lg px-10 py-5 rounded-2xl flex items-center justify-center w-full sm:w-auto">
+                            Pelajari Kurikulum
+                        </a>
+                    </div>
+                </div>
+            </section>
         </main>
 
         <!-- Footer -->
