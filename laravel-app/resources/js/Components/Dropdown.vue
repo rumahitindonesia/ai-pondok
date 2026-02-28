@@ -12,7 +12,7 @@ const props = defineProps({
     },
     contentClasses: {
         type: String,
-        default: 'py-1 bg-white dark:bg-gray-700',
+        default: 'py-2 bg-white dark:bg-[#21201f] border border-[#ebeae8] dark:border-[#3e3c3a] shadow-2xl shadow-black/10 dark:shadow-black/50',
     },
 });
 
@@ -33,13 +33,13 @@ const widthClass = computed(() => {
 
 const alignmentClasses = computed(() => {
     if (props.align === 'left') {
-        return 'ltr:origin-top-left rtl:origin-top-right start-0 mt-2';
+        return 'ltr:origin-top-left rtl:origin-top-right start-0 mt-3';
     } else if (props.align === 'right') {
-        return 'ltr:origin-top-right rtl:origin-top-left end-0 mt-2';
+        return 'ltr:origin-top-right rtl:origin-top-left end-0 mt-3';
     } else if (props.align === 'top') {
-        return 'origin-bottom bottom-full mb-2';
+        return 'origin-bottom bottom-full mb-3';
     } else {
-        return 'origin-top mt-2';
+        return 'origin-top mt-3';
     }
 });
 
@@ -60,22 +60,22 @@ const open = ref(false);
         ></div>
 
         <Transition
-            enter-active-class="transition ease-out duration-200"
-            enter-from-class="opacity-0 scale-95"
-            enter-to-class="opacity-100 scale-100"
-            leave-active-class="transition ease-in duration-75"
-            leave-from-class="opacity-100 scale-100"
-            leave-to-class="opacity-0 scale-95"
+            enter-active-class="transition ease-out duration-300"
+            enter-from-class="opacity-0 scale-95 translate-y-2"
+            enter-to-class="opacity-100 scale-100 translate-y-0"
+            leave-active-class="transition ease-in duration-200"
+            leave-from-class="opacity-100 scale-100 translate-y-0"
+            leave-to-class="opacity-0 scale-95 translate-y-2"
         >
             <div
                 v-show="open"
-                class="absolute z-50 rounded-md shadow-lg"
+                class="absolute z-50 rounded-[24px]"
                 :class="[widthClass, alignmentClasses]"
                 style="display: none"
                 @click="open = false"
             >
                 <div
-                    class="rounded-md ring-1 ring-black ring-opacity-5"
+                    class="rounded-[24px] overflow-hidden"
                     :class="contentClasses"
                 >
                     <slot name="content" />
