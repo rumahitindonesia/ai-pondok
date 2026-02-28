@@ -40,7 +40,7 @@ Route::get('/', function () {
         'sections' => \App\Models\HomepageSection::where('is_active', true)->get()->keyBy('section_key'),
         'featuredSantris' => \App\Models\Santri::where('is_portfolio_featured', true)
             ->where('status', '!=', 'Santri Keluar')
-            ->select('id', 'nama', 'foto', 'bio', 'cita_cita', 'entitas', 'angkatan')
+            ->select('id', 'nis', 'nama', 'foto', 'bio', 'cita_cita', 'entitas', 'angkatan')
             ->inRandomOrder()
             ->limit(4)
             ->get()

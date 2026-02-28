@@ -167,7 +167,7 @@ const tracks = computed(() => props.sections.tracks || {});
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        <div v-for="santri in featuredSantris" :key="santri.id" class="bg-[#fcf8f5] dark:bg-[#0a0a0a] rounded-[32px] overflow-hidden shadow-xl shadow-black/5 dark:shadow-black/20 border border-[#ebeae8] dark:border-[#383736] group hover:-translate-y-2 transition-transform duration-500">
+                        <Link v-for="santri in featuredSantris" :key="santri.id" :href="route('public.santri.profile', santri.nis)" class="bg-[#fcf8f5] dark:bg-[#0a0a0a] rounded-[32px] overflow-hidden shadow-xl shadow-black/5 dark:shadow-black/20 border border-[#ebeae8] dark:border-[#383736] group hover:-translate-y-2 transition-transform duration-500 block">
                             <!-- Photo -->
                             <div class="aspect-[4/5] overflow-hidden relative bg-gray-200 dark:bg-gray-800">
                                 <img v-if="santri.foto" :src="`/storage/${santri.foto}`" :alt="`Foto ${santri.nama}`" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
@@ -192,7 +192,7 @@ const tracks = computed(() => props.sections.tracks || {});
                                     {{ santri.bio || 'Mempersiapkan diri menjadi profesional IT yang berakhlak mulia.' }}
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     </div>
                 </div>
             </section>
