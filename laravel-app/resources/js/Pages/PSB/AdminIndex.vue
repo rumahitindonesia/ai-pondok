@@ -1,10 +1,8 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import RedwoodButton from '@/Components/RedwoodButton.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import { ref, inject } from 'vue';
-
-const notify = inject('notify');
+import { ref } from 'vue';
+import { notify } from '@/Utils/toast';
 
 const props = defineProps({
     registrations: Object

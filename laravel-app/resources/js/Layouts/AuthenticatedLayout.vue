@@ -1,10 +1,11 @@
 <script setup>
-import { ref, provide } from 'vue';
+import { ref } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import RedwoodToast from '@/Components/RedwoodToast.vue';
+import { notifications, removeNotification } from '@/Utils/toast';
 import { Link } from '@inertiajs/vue3';
 
 const isSidebarOpen = ref(true);
@@ -29,19 +30,6 @@ if (typeof window !== 'undefined') {
         isDark.value = false;
     }
 }
-
-// Global Notification System
-const notifications = ref([]);
-const notify = (message, type = 'success', duration = 3000) => {
-    const id = Date.now();
-    notifications.value.push({ id, message, type, duration });
-};
-
-const removeNotification = (id) => {
-    notifications.value = notifications.value.filter(n => n.id !== id);
-};
-
-provide('notify', notify);
 </script>
 
 <template>
