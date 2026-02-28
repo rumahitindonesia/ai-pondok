@@ -112,7 +112,7 @@ const deleteUser = (id) => {
                                         <p class="text-[10px] text-[#a8a196] truncate">{{ user.email }}</p>
                                         <div v-if="user.santri" class="flex items-center gap-1 mt-1">
                                             <svg class="w-3 h-3 text-[#c97e60]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
-                                            <span class="text-[9px] font-bold text-[#c97e60] uppercase tracking-wider truncate">Terkait: {{ user.santri.nama_lengkap }}</span>
+                                            <span class="text-[9px] font-bold text-[#c97e60] uppercase tracking-wider truncate">Terkait: {{ user.santri.nama }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -177,7 +177,7 @@ const deleteUser = (id) => {
                                 <select v-model="form.santri_id" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#c97e60] transition-all">
                                     <option value="">-- Tidak Dihubungkan --</option>
                                     <option v-for="santri in santris" :key="santri.id" :value="santri.id">
-                                        {{ santri.nama_lengkap }} ({{ santri.nis }})
+                                        {{ santri.nama }} ({{ santri.nis }})
                                     </option>
                                 </select>
                                 <p v-if="form.errors.santri_id" class="text-xs text-rose-500 font-bold mt-1">{{ form.errors.santri_id }}</p>

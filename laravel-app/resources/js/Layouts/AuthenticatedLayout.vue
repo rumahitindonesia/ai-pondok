@@ -147,6 +147,20 @@ if (typeof window !== 'undefined') {
                 </Link>
 
                 <Link 
+                    v-if="$page.props.auth.user.permissions.includes('view psb')"
+                    :href="route('admin.psb.form-builder')" 
+                    :class="[
+                        'group flex items-center rounded-xl transition-all hover:bg-[#ebeae8] dark:hover:bg-[#21201f]',
+                        isSidebarOpen || isMobileMenuOpen ? 'px-4 py-3 gap-4' : 'py-3 justify-center'
+                    ]"
+                >
+                    <svg class="w-5 h-5 transition-colors shrink-0" :class="route().current('admin.psb.form-builder') ? 'text-[#c97e60]' : 'text-[#4e4b47] group-hover:text-[#c97e60] dark:group-hover:text-[#f2e8d5]'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span v-if="isSidebarOpen || isMobileMenuOpen" class="font-bold whitespace-nowrap transition-all duration-300" :class="route().current('admin.psb.form-builder') ? 'text-[#c97e60]' : 'text-[#4e4b47] dark:text-[#a8a196]'">Form Builder PSB</span>
+                </Link>
+
+                <Link 
                     v-if="$page.props.auth.user.permissions.includes('view finance')"
                     :href="route('finance.index')" 
                     :class="[

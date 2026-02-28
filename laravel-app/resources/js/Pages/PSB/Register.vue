@@ -3,6 +3,10 @@ import { Head, useForm } from '@inertiajs/vue3';
 import RedwoodButton from '@/Components/RedwoodButton.vue';
 import { ref } from 'vue';
 
+const props = defineProps({
+    referrer: Object
+});
+
 const form = useForm({
     nama_calon: '',
     jenis_kelamin: '',
@@ -11,6 +15,7 @@ const form = useForm({
     berkas_kk: null,
     berkas_akta: null,
     berkas_ijazah: null,
+    referred_by: props.referrer ? props.referrer.id : null,
 });
 
 const submit = () => {
@@ -37,6 +42,17 @@ const submit = () => {
             </div>
 
             <form @submit.prevent="submit" class="space-y-12">
+                <!-- Alert Referral -->
+                <div v-if="referrer" class="bg-[#c97e60]/10 border border-[#c97e60]/20 rounded-2xl p-6 mb-8 flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-[#c97e60]/20 flex items-center justify-center shrink-0 mt-1">
+                        <svg class="w-5 h-5 text-[#c97e60]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-[#c97e60] mb-1">Anda Diundang!</h4>
+                        <p class="text-sm font-medium text-[#161514]">Anda mendaftar menggunakan link rujukan dari <span class="font-bold underline decoration-[#c97e60]/30">{{ referrer.name }}</span>.</p>
+                    </div>
+                </div>
+
                 <!-- Data Calon Santri -->
                 <div class="bg-white shadow-[0_30px_60px_rgba(0,0,0,0.05)] rounded-[40px] border border-[#ebeae8] p-10">
                     <div class="flex items-center gap-6 mb-10">

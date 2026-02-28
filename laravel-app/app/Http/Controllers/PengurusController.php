@@ -16,7 +16,7 @@ class PengurusController extends Controller
     public function index()
     {
         // Load pengurus with their related Santri and Jabatan names
-        $pengurus = Pengurus::with(['santri:id,nama_lengkap,nis,foto', 'jabatan:id,nama,parent_id'])
+        $pengurus = Pengurus::with(['santri:id,nama,nis,foto', 'jabatan:id,nama,parent_id'])
             ->orderBy('status', 'desc') // Active first
             ->latest()
             ->get();
@@ -24,7 +24,7 @@ class PengurusController extends Controller
         // For the assignment dropdowns
         $jabatans = Jabatan::select('id', 'nama', 'parent_id')->orderBy('nama')->get();
         // Get all santris that can be assigned
-        $santris = Santri::select('id', 'nama_lengkap', 'nis')->orderBy('nama_lengkap')->get();
+        $santris = Santri::select('id', 'nama', 'nis')->orderBy('nama')->get();
 
         return Inertia::render('Organisasi/Pengurus/Index', [
             'pengurusList' => $pengurus,

@@ -18,13 +18,16 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $fillable = [
         'name',
         'email',
         'password',
-        'santri_id', // Add santri_id to fillable
+        'role',
+        'phone_number',
+        'santri_id',
+        'referral_code',
     ];
 
     /**
@@ -51,10 +54,30 @@ class User extends Authenticatable
     }
     
     /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::creating(function (User $user) {
+            if (empty($user->referral_code)) {
+                $user->referral_code = strtoupper(Str::random(8));
+            }
+        });
+    }
+
+    /**
      * User profile linked to a Santri (for Pengurus logins).
      */
     public function santri()
     {
         return $this->belongsTo(Santri::class);
+    }
+
+    /**
+     * Get the PSB registrations referred by this user.
+     */
+    public function referrals()
+    {
+        return $this->hasMany(PsbRegistration::class, 'referred_by');
     }
 }

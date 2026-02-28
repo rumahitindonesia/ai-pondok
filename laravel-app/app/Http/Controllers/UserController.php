@@ -15,9 +15,9 @@ class UserController extends Controller
     public function index()
     {
         return Inertia::render('Admin/User/Index', [
-            'users' => User::with(['roles', 'santri:id,nama_lengkap,nis'])->get(),
+            'users' => User::with(['roles', 'santri:id,nama,nis'])->get(),
             'roles' => Role::all(),
-            'santris' => Santri::select('id', 'nama_lengkap', 'nis')->orderBy('nama_lengkap')->get(),
+            'santris' => Santri::select('id', 'nama', 'nis')->orderBy('nama')->get(),
         ]);
     }
 

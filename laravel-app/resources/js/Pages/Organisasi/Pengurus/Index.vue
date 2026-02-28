@@ -23,7 +23,7 @@ const filteredPengurus = computed(() => {
     if (!searchQuery.value) return props.pengurusList;
     const lowerQuery = searchQuery.value.toLowerCase();
     return props.pengurusList.filter(p => 
-        p.santri?.nama_lengkap.toLowerCase().includes(lowerQuery) ||
+        p.santri?.nama.toLowerCase().includes(lowerQuery) ||
         p.jabatan?.nama.toLowerCase().includes(lowerQuery) ||
         p.santri?.nis.includes(lowerQuery)
     );
@@ -108,10 +108,10 @@ const deletePengurus = (id) => {
                                     <div class="flex items-center gap-4">
                                         <div class="w-12 h-12 rounded-2xl bg-[#f5f4f2] dark:bg-[#262524] border border-[#ebeae8] dark:border-[#3e3c3a] overflow-hidden shrink-0 flex items-center justify-center">
                                             <img v-if="pengurus.santri?.foto" :src="`/storage/${pengurus.santri.foto}`" class="w-full h-full object-cover rounded-2xl" />
-                                            <span v-else class="text-[#c97e60] font-black text-lg">{{ pengurus.santri?.nama_lengkap?.charAt(0) }}</span>
+                                            <span v-else class="text-[#c97e60] font-black text-lg">{{ pengurus.santri?.nama?.charAt(0) }}</span>
                                         </div>
                                         <div>
-                                            <p class="font-bold text-[#161514] dark:text-[#f2e8d5]">{{ pengurus.santri?.nama_lengkap }}</p>
+                                            <p class="font-bold text-[#161514] dark:text-[#f2e8d5]">{{ pengurus.santri?.nama }}</p>
                                             <p class="text-[11px] text-[#a8a196]">NIS: {{ pengurus.santri?.nis }}</p>
                                         </div>
                                     </div>
@@ -156,7 +156,7 @@ const deletePengurus = (id) => {
                             <select v-model="form.santri_id" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#c97e60] transition-all" required>
                                 <option value="" disabled>-- Cari/Pilih Santri --</option>
                                 <option v-for="santri in santris" :key="santri.id" :value="santri.id">
-                                    {{ santri.nama_lengkap }} ({{ santri.nis }})
+                                    {{ santri.nama }} ({{ santri.nis }})
                                 </option>
                             </select>
                             <p v-if="form.errors.santri_id" class="text-xs text-rose-500 font-bold mt-1">{{ form.errors.santri_id }}</p>

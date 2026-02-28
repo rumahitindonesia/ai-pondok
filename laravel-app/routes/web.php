@@ -24,6 +24,10 @@ Route::get('/register-psb', [PSBController::class, 'register'])->name('psb.regis
 Route::post('/register-psb', [PSBController::class, 'store'])->name('psb.store');
 Route::get('/register-psb/success', [PSBController::class, 'success'])->name('psb.success');
 
+// Tahap 2 Lengkapi Data
+Route::get('/psb/lengkapi-data/{token}', [PSBController::class, 'editLengkap'])->name('psb.lengkapi_data');
+Route::post('/psb/lengkapi-data/{token}', [PSBController::class, 'updateLengkap'])->name('psb.update_lengkapi_data');
+
 // Public Santri Profile
 Route::get('/s/{nis}', [\App\Http\Controllers\PublicProfileController::class, 'show'])->name('public.santri.profile');
 
@@ -70,6 +74,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(['can:view psb'])->group(function () {
         Route::get('/admin/psb', [PSBController::class, 'adminIndex'])->name('admin.psb.index');
         Route::patch('/admin/psb/{psb}/status', [PSBController::class, 'updateStatus'])->name('admin.psb.status');
+        
+        // Form Builder (Dynamic PSB Stage 2)
+        Route::get('/admin/psb/form-builder', [\App\Http\Controllers\Admin\FormBuilderController::class, 'index'])->name('admin.psb.form-builder');
+        Route::post('/admin/psb/form-builder', [\App\Http\Controllers\Admin\FormBuilderController::class, 'store'])->name('admin.psb.form-builder.store');
+        Route::put('/admin/psb/form-builder/{question}', [\App\Http\Controllers\Admin\FormBuilderController::class, 'update'])->name('admin.psb.form-builder.update');
+        Route::delete('/admin/psb/form-builder/{question}', [\App\Http\Controllers\Admin\FormBuilderController::class, 'destroy'])->name('admin.psb.form-builder.destroy');
+        Route::post('/admin/psb/form-builder/reorder', [\App\Http\Controllers\Admin\FormBuilderController::class, 'reorder'])->name('admin.psb.form-builder.reorder');
     });
 
     // Finance Routes
