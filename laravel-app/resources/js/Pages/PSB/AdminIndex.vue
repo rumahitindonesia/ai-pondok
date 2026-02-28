@@ -120,18 +120,18 @@ const copyLink = async (token) => {
             <div class="bg-white dark:bg-[#161514] shadow-[0_20px_50px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-[32px] border border-[#ebeae8] dark:border-[#3e3c3a] overflow-hidden">
                 <div class="overflow-x-auto custom-scrollbar">
                     <!-- Header -->
-                    <div class="flex items-center border-b border-[#ebeae8] dark:border-[#3e3c3a] bg-gray-50/50 dark:bg-[#1a1918]/50 min-w-[1000px]">
-                        <div class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] shrink-0 w-[120px]">Tgl Daftar</div>
+                    <div class="flex items-center border-b border-[#ebeae8] dark:border-[#3e3c3a] bg-gray-50/50 dark:bg-[#1a1918]/50">
+                        <div class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] shrink-0 w-[120px] hidden lg:block">Tgl Daftar</div>
                         <div class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] flex-1 min-w-0">Calon Santri</div>
-                        <div class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] shrink-0 w-[200px]">Wali / Kontak</div>
-                        <div class="px-6 py-4 text-left text-xs font-black text-[#a8a196] uppercase tracking-wider shrink-0 w-[150px]">Referensi</div>
-                        <div class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] shrink-0 w-[120px]">Berkas</div>
-                        <div class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] shrink-0 w-[150px]">Status Seleksi</div>
+                        <div class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] shrink-0 w-[200px] hidden md:block">Wali / Kontak</div>
+                        <div class="px-6 py-4 text-left text-xs font-black text-[#a8a196] uppercase tracking-wider shrink-0 w-[150px] hidden xl:block">Referensi</div>
+                        <div class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] shrink-0 w-[120px] hidden lg:block">Berkas</div>
+                        <div class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] shrink-0 w-[150px] hidden sm:block">Status Seleksi</div>
                         <div class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] shrink-0 w-[60px] text-right truncate">←</div>
                     </div>
 
                     <!-- Body -->
-                    <div class="divide-y divide-[#ebeae8] dark:divide-[#3e3c3a] min-w-[1000px]">
+                    <div class="divide-y divide-[#ebeae8] dark:divide-[#3e3c3a]">
                         <div v-for="reg in registrations.data" :key="reg.id" 
                             class="relative bg-white dark:bg-[#161514] hover:bg-[#fcf8f5] dark:hover:bg-[#1d1c1b] transition-colors overflow-hidden"
                             @mouseenter="hoveredId = reg.id"
@@ -181,7 +181,7 @@ const copyLink = async (token) => {
                                 @pointermove="(e) => onPointerMove(e, reg.id)"
                                 @pointerup="(e) => onPointerUp(e, reg.id)"
                             >
-                                <div class="px-8 py-5 shrink-0 w-[120px]">
+                                <div class="px-8 py-5 shrink-0 w-[120px] hidden lg:block">
                                     <p class="text-xs font-medium">{{ new Date(reg.created_at).toLocaleDateString('id-ID') }}</p>
                                 </div>
                                 <div class="px-8 py-5 flex-1 min-w-0">
@@ -190,18 +190,18 @@ const copyLink = async (token) => {
                                         <p class="text-[10px] text-[#a8a196]">{{ reg.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan' }}</p>
                                     </div>
                                 </div>
-                                <div class="px-8 py-5 shrink-0 w-[200px]">
+                                <div class="px-8 py-5 shrink-0 w-[200px] hidden md:block">
                                     <p class="text-sm font-medium truncate">{{ reg.nama_wali }}</p>
                                     <p class="text-xs text-[#d02e5c] font-bold">{{ reg.no_hp_wali }}</p>
                                 </div>
-                                <div class="px-6 py-4 shrink-0 w-[150px]">
+                                <div class="px-6 py-4 shrink-0 w-[150px] hidden xl:block">
                                     <div v-if="reg.referrer" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#d02e5c]/10 text-[#d02e5c] text-xs font-bold">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                                         {{ reg.referrer.name }}
                                     </div>
                                     <span v-else class="text-sm text-[#a8a196]">-</span>
                                 </div>
-                                <div class="px-8 py-5 shrink-0 w-[120px]">
+                                <div class="px-8 py-5 shrink-0 w-[120px] hidden lg:flex">
                                     <div class="flex gap-2 text-center items-center justify-center">
                                         <a v-if="reg.berkas_kk" :href="'/storage/' + reg.berkas_kk" target="_blank" class="w-8 h-8 rounded-lg bg-[#f5f4f2] dark:bg-[#262524] flex items-center justify-center text-[#a8a196] hover:text-[#d02e5c] transition-colors border border-transparent hover:border-[#d02e5c]/20" title="KK">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
@@ -214,7 +214,7 @@ const copyLink = async (token) => {
                                         </a>
                                     </div>
                                 </div>
-                                <div class="px-8 py-5 shrink-0 w-[150px]">
+                                <div class="px-8 py-5 shrink-0 w-[150px] hidden sm:block">
                                     <span 
                                         :class="[
                                             'px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-wider block text-center',
