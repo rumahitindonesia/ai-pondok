@@ -104,17 +104,46 @@ const submit = () => {
                                     <TextInput id="subtitle" v-model="form.subtitle" class="mt-1 block w-full" />
                                 </div>
 
-                                <!-- Dynamic Content Editor (Simplified: JSON text area for now) -->
-                                <div>
-                                    <InputLabel value="Content (Structured JSON)" />
-                                    <textarea 
-                                        v-model="jsonText"
-                                        rows="6"
-                                        class="mt-1 block w-full bg-[#fcf8f5] border-[#ebeae8] rounded-2xl p-4 text-[#161514] focus:ring-4 focus:ring-[#c97e60]/10 focus:border-[#c97e60] transition-all outline-none shadow-sm dark:bg-[#0a0a0a] dark:border-[#383736] dark:text-[#f2e8d5] font-mono text-xs"
-                                        placeholder='{"key": "value"}'
-                                        @input="e => { try { form.content = JSON.parse(e.target.value) } catch(err) {} }"
-                                    ></textarea>
-                                    <p class="mt-2 text-[10px] text-gray-400 font-medium">Ubah isi konten dalam format JSON untuk fleksibilitas maksimal.</p>
+                                <!-- Dynamic Content Editors Based on Section Key -->
+                                <div v-if="editingSection.section_key === 'hero'" class="space-y-4 border-t border-[#ebeae8] dark:border-[#383736] pt-4">
+                                    <h4 class="font-bold text-[#161514] dark:text-[#f2e8d5]">Pengaturan Konten Hero</h4>
+                                    <div>
+                                        <InputLabel value="Deskripsi Utama" />
+                                        <textarea v-model="form.content.description" rows="3" class="mt-1 block w-full border-[#ebeae8] rounded-xl shadow-sm focus:border-[#c97e60] focus:ring focus:ring-[#c97e60]/20 dark:bg-[#0a0a0a] dark:border-[#383736] dark:text-[#f2e8d5]"></textarea>
+                                    </div>
+                                    <div>
+                                        <InputLabel value="Teks Tombol (Call to Action)" />
+                                        <TextInput v-model="form.content.cta_text" class="mt-1 block w-full" />
+                                    </div>
+                                </div>
+
+                                <div v-else v-for="(categoryData, categoryKey) in form.content" :key="categoryKey" class="space-y-4 border-t border-[#ebeae8] dark:border-[#383736] pt-4">
+                                    <!-- Works for both Programs and Tracks generically -->
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="font-bold text-[#161514] dark:text-[#f2e8d5] capitalize">{{ categoryData.title || categoryData.name }}</h4>
+                                    </div>
+                                    
+                                    <div>
+                                        <InputLabel :value="editingSection.section_key === 'programs' ? 'Nama Kategori' : 'Nama Jurusan'" />
+                                        <TextInput v-if="'title' in categoryData" v-model="categoryData.title" class="mt-1 block w-full" />
+                                        <TextInput v-if="'name' in categoryData" v-model="categoryData.name" class="mt-1 block w-full" />
+                                    </div>
+
+                                    <div>
+                                        <InputLabel :value="editingSection.section_key === 'programs' ? 'Daftar Jurusan (Pisahkan dengan koma)' : 'Materi / Spesialisasi (Pisahkan dengan koma)'" />
+                                        <textarea 
+                                            :value="(categoryData.tracks || categoryData.specializations || []).join(', ')"
+                                            @input="e => { 
+                                                const val = e.target.value.split(',').map(s => s.trim()).filter(s => s);
+                                                if ('tracks' in categoryData) categoryData.tracks = val;
+                                                if ('specializations' in categoryData) categoryData.specializations = val;
+                                            }"
+                                            rows="3" 
+                                            class="mt-1 block w-full border-[#ebeae8] rounded-xl shadow-sm focus:border-[#c97e60] focus:ring focus:ring-[#c97e60]/20 dark:bg-[#0a0a0a] dark:border-[#383736] dark:text-[#f2e8d5]"
+                                            placeholder="Contoh: Programmer, Bisnis Digital"
+                                        ></textarea>
+                                        <p class="mt-1 text-[10px] text-gray-400">Pisahkan setiap item dengan tanda koma (,).</p>
+                                    </div>
                                 </div>
 
                                 <div class="flex items-center gap-4">
