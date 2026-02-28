@@ -2,7 +2,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import RedwoodButton from '@/Components/RedwoodButton.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
+
+const notify = inject('notify');
 
 const props = defineProps({
     registrations: Object
@@ -30,6 +32,37 @@ const updateStatus = (id, status) => {
     statusForm.patch(route('admin.psb.status', id), {
         preserveScroll: true
     });
+};
+
+const copyLink = async (token) => {
+    const url = window.location.origin + '/psb/lengkapi-data/' + token;
+    
+    try {
+        // Try modern clipboard API
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(url);
+            notify('Link formulir tahap 2 berhasil disalin!');
+        } else {
+            throw new Error('Clipboard API unavailable');
+        }
+    } catch (err) {
+        // Fallback for non-secure contexts or older browsers
+        const textArea = document.createElement("textarea");
+        textArea.value = url;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            notify('Link biodata berhasil disalin (fallback mode)');
+        } catch (fallbackErr) {
+            notify('Gagal menyalin link secara otomatis', 'error');
+        }
+        document.body.removeChild(textArea);
+    }
 };
 </script>
 
@@ -109,15 +142,7 @@ const updateStatus = (id, status) => {
                                 <RedwoodButton 
                                     variant="outline"
                                     v-if="reg.token"
-                                    @click="async () => {
-                                        try {
-                                            const url = window.location.origin + '/psb/lengkapi-data/' + reg.token;
-                                            await navigator.clipboard.writeText(url);
-                                            alert('Link formulir tahap 2 berhasil disalin!\\n' + url);
-                                        } catch (err) {
-                                            alert('Gagal menyalin link');
-                                        }
-                                    }"
+                                    @click="copyLink(reg.token)"
                                     class="!text-blue-500 hover:bg-blue-500/10 border-blue-200"
                                     size="sm"
                                     title="Salin Link Biodata (Tahap 2)"

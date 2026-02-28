@@ -1,9 +1,10 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, provide } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
+import RedwoodToast from '@/Components/RedwoodToast.vue';
 import { Link } from '@inertiajs/vue3';
 
 const isSidebarOpen = ref(true);
@@ -28,6 +29,19 @@ if (typeof window !== 'undefined') {
         isDark.value = false;
     }
 }
+
+// Global Notification System
+const notifications = ref([]);
+const notify = (message, type = 'success', duration = 3000) => {
+    const id = Date.now();
+    notifications.value.push({ id, message, type, duration });
+};
+
+const removeNotification = (id) => {
+    notifications.value = notifications.value.filter(n => n.id !== id);
+};
+
+provide('notify', notify);
 </script>
 
 <template>
@@ -336,6 +350,18 @@ if (typeof window !== 'undefined') {
             <main class="flex-1 overflow-y-auto custom-scrollbar p-5 lg:p-10 transition-all duration-500">
                 <slot />
             </main>
+        </div>
+
+        <!-- Global Toasts -->
+        <div class="fixed top-0 left-0 right-0 z-[100] pointer-events-none">
+            <RedwoodToast 
+                v-for="n in notifications" 
+                :key="n.id"
+                :message="n.message"
+                :type="n.type"
+                :duration="n.duration"
+                @close="removeNotification(n.id)"
+            />
         </div>
     </div>
 </template>
