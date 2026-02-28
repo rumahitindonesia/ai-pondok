@@ -41,32 +41,36 @@ const submit = () => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-bold leading-tight text-gray-800 dark:text-gray-200">
-                Manage Homepage Sections
+            <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
+                Manajemen <span class="text-[#d02e5c]">Homepage</span>
             </h2>
         </template>
 
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-6">
                 <!-- Section List -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
                     <div v-for="section in sections" :key="section.id" 
-                        class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 border border-gray-100 dark:border-gray-700 hover:border-brand-rose transition-colors cursor-pointer"
+                        class="bg-white dark:bg-[#161514] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-[32px] p-6 lg:p-10 border border-[#ebeae8] dark:border-[#3e3c3a] relative group hover:border-[#d02e5c] transition-all duration-500 lg:hover:-translate-y-1 cursor-pointer"
                         @click="startEdit(section)">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="text-[10px] uppercase tracking-widest font-black text-brand-rose bg-brand-rose/5 px-2 py-1 rounded-md">
+                        
+                        <!-- Decorative Abstract Shape -->
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-rose/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none transition-transform group-hover:scale-110"></div>
+                        
+                        <div class="flex justify-between items-start mb-6 relative z-10">
+                            <span class="text-[10px] uppercase tracking-widest font-black text-brand-rose bg-brand-rose/10 px-3 py-1.5 rounded-xl border border-brand-rose/20">
                                 {{ section.section_key }}
                             </span>
-                            <span :class="section.is_active ? 'text-emerald-500' : 'text-gray-400'" class="text-xs font-bold">
+                            <span :class="section.is_active ? 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20' : 'text-[#a8a196] bg-[#ebeae8] dark:bg-[#3e3c3a] border-[#ebeae8] dark:border-[#3e3c3a]'" class="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-xl border">
                                 {{ section.is_active ? 'Active' : 'Hidden' }}
                             </span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">{{ section.title }}</h3>
-                        <p class="text-sm text-gray-500 line-clamp-2">{{ section.subtitle }}</p>
+                        <h3 class="text-xl lg:text-2xl font-black text-[#161514] dark:text-[#f2e8d5] mb-3 tracking-tight relative z-10">{{ section.title }}</h3>
+                        <p class="text-sm text-[#4e4b47] dark:text-[#a8a196] line-clamp-2 relative z-10 leading-relaxed">{{ section.subtitle || 'No subtitle configured.' }}</p>
                         
-                        <div class="mt-4 pt-4 border-t border-gray-50 dark:border-gray-700">
+                        <div class="mt-8 pt-6 border-t border-[#ebeae8] dark:border-[#3e3c3a] relative z-10">
                             <RedwoodButton variant="outline" size="sm" class="w-full">
-                                Edit Section
+                                Edit Content
                             </RedwoodButton>
                         </div>
                     </div>
