@@ -49,34 +49,59 @@ if (typeof window !== 'undefined') {
             ]"
             class="fixed lg:relative inset-y-0 left-0 w-72 lg:w-auto bg-white dark:bg-[#161514] flex flex-col transition-all duration-300 z-[70] lg:z-50 border-r border-[#ebeae8] dark:border-[#3e3c3a] shadow-2xl lg:shadow-xl"
         >
-            <!-- Organic Pattern Overlay -->
-            <div class="absolute top-0 left-0 w-full h-64 opacity-[0.02] dark:opacity-[0.03] pointer-events-none overflow-hidden text-brand-rose dark:text-brand-rose-muted">
-                <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-full fill-current">
-                    <path d="M0,0 Q200,100 400,0 V400 H0 Z" />
-                </svg>
-            </div>
-
-            <!-- Logo Area -->
-            <div class="h-20 flex items-center justify-between px-6 relative z-10 transition-all">
-                <Link :href="route('dashboard')" class="flex items-center gap-3">
-                    <div class="w-10 h-10 flex items-center justify-center shrink-0">
-                         <ApplicationLogo class="w-10 h-10 object-contain" />
+            <!-- Brand Identity Area (The "Stage") -->
+            <div class="relative shrink-0 transition-all duration-300" :class="isSidebarOpen || isMobileMenuOpen ? 'h-48' : 'h-24'">
+                <!-- Organic Pattern & Curve Overlay -->
+                <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                    <!-- Top pattern -->
+                    <div class="absolute top-0 left-0 w-full h-full opacity-[0.03] dark:opacity-[0.05] text-brand-rose">
+                        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-full fill-current">
+                            <path d="M0,0 Q200,80 400,0 V400 H0 Z" />
+                        </svg>
                     </div>
-                    <span v-if="isSidebarOpen || isMobileMenuOpen" class="font-black text-base tracking-tighter transition-colors uppercase">
-                        <span class="text-brand-teal">Rumah IT</span> <span class="text-brand-rose dark:text-brand-rose-dark">Indonesia</span>
-                    </span>
-                </Link>
-                
-                <!-- Close Button Mobile -->
-                <button @click="isMobileMenuOpen = false" class="lg:hidden text-[#a8a196] hover:text-brand-rose dark:hover:text-brand-rose-dark">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
+                    <!-- Curved Bottom Divider (Oracle Redwood Style) -->
+                    <div class="absolute bottom-0 left-0 w-full translate-y-px">
+                        <svg viewBox="0 0 288 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full dark:text-[#161514] text-white fill-current">
+                            <path d="M0 48H288V24C288 24 216 0 144 0C72 0 0 24 0 24V48Z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Logo Content -->
+                <div class="relative z-10 h-20 flex items-center justify-between px-6">
+                    <Link :href="route('dashboard')" class="flex items-center gap-3">
+                        <div class="w-10 h-10 flex items-center justify-center shrink-0">
+                             <ApplicationLogo class="w-10 h-10 object-contain" />
+                        </div>
+                        <span v-if="isSidebarOpen || isMobileMenuOpen" class="font-black text-base tracking-tighter transition-colors uppercase">
+                            <span class="text-brand-teal">Rumah IT</span> <span class="text-brand-rose dark:text-brand-rose-dark">Indonesia</span>
+                        </span>
+                    </Link>
+                    
+                    <!-- Close Button Mobile -->
+                    <button @click="isMobileMenuOpen = false" class="lg:hidden text-[#a8a196] hover:text-brand-rose dark:hover:text-brand-rose-dark">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Subtle Branding Tagline/Area underneath logo if open -->
+                <div v-if="isSidebarOpen || isMobileMenuOpen" class="relative z-10 px-6 -mt-2 opacity-0 animate-fade-in-slow">
+                     <p class="text-[10px] font-bold text-brand-rose dark:text-brand-rose-vibrant uppercase tracking-widest">Enterprise solutions</p>
+                </div>
             </div>
 
             <!-- Navigation -->
-            <nav class="flex-1 px-3 py-6 space-y-2 relative z-10 overflow-y-auto custom-scrollbar">
+            <nav class="flex-1 px-3 pb-8 space-y-1 relative z-10 overflow-y-auto custom-scrollbar">
+                <!-- Group Header: Start after the curve -->
+                <div v-if="isSidebarOpen || isMobileMenuOpen" class="px-4 pt-2 pb-4">
+                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] opacity-60 flex items-center gap-2">
+                        <span class="w-1 h-1 rounded-full bg-brand-rose"></span>
+                         Manajemen
+                    </p>
+                </div>
+
                 <Link 
                     :href="route('dashboard')" 
                     :class="[
@@ -89,10 +114,6 @@ if (typeof window !== 'undefined') {
                     </svg>
                     <span v-if="isSidebarOpen || isMobileMenuOpen" class="font-bold whitespace-nowrap transition-all duration-300" :class="route().current('dashboard') ? 'text-brand-rose dark:text-brand-rose-dark' : 'text-[#4e4b47] dark:text-[#a8a196]'">Dashboard</span>
                 </Link>
-
-                <div v-if="isSidebarOpen || isMobileMenuOpen" class="px-4 py-6">
-                    <p class="text-[9px] font-black uppercase tracking-[0.2em] text-[#a8a196] opacity-50">Manajemen</p>
-                </div>
 
                 <Link 
                     v-if="$page.props.auth.user.permissions.includes('view santri')"
