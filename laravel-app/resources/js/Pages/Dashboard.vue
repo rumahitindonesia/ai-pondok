@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 // Oracle JET script loader (simplified for prototype)
 const props = defineProps({
@@ -13,6 +13,18 @@ const chartGroups = ref([]);
 const isJetLoaded = ref(false);
 const jetError = ref(null);
 
+// Store references for cleanup
+const injectedElements = [];
+
+onUnmounted(() => {
+    // Clean up injected JET assets to prevent global CSS leakage
+    injectedElements.forEach(el => {
+        if (el && el.parentNode) {
+            el.parentNode.removeChild(el);
+        }
+    });
+});
+
 onMounted(() => {
     // Load JET from CDN
     const link = document.createElement('link');
@@ -20,6 +32,7 @@ onMounted(() => {
     link.href = 'https://cdn.jsdelivr.net/npm/@oracle/oraclejet@15.1.0/dist/css/redwood/oj-redwood-min.css';
     link.onerror = () => jetError.value = "Gagal memuat CSS JET v15.";
     document.head.appendChild(link);
+    injectedElements.push(link);
 
     const script = document.createElement('script');
     script.src = 'https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js';
@@ -123,6 +136,7 @@ onMounted(() => {
         }
     };
     document.head.appendChild(script);
+    injectedElements.push(script);
 });
 </script>
 
