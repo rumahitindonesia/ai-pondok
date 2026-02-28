@@ -245,6 +245,20 @@ if (typeof window !== 'undefined') {
                 </div>
 
                 <Link 
+                    v-if="$page.props.auth.user.permissions.includes('view psb')"
+                    :href="route('admin.homepage.index')" 
+                    :class="[
+                        'group flex items-center rounded-xl transition-all hover:bg-[#ebeae8] dark:hover:bg-[#21201f]',
+                        isSidebarOpen || isMobileMenuOpen ? 'px-4 py-3 gap-4' : 'py-3 justify-center'
+                    ]"
+                >
+                    <svg class="w-5 h-5 transition-colors shrink-0" :class="route().current('admin.homepage.*') ? 'text-[#d02e5c]' : 'text-[#4e4b47] group-hover:text-[#d02e5c] dark:group-hover:text-[#f2e8d5]'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                    </svg>
+                    <span v-if="isSidebarOpen || isMobileMenuOpen" class="font-bold whitespace-nowrap transition-all duration-300" :class="route().current('admin.homepage.*') ? 'text-[#d02e5c]' : 'text-[#4e4b47] dark:text-[#a8a196]'">Manajemen Homepage</span>
+                </Link>
+
+                <Link 
                     v-if="$page.props.auth.user.permissions.includes('view users')"
                     :href="route('admin.users.index')" 
                     :class="[
