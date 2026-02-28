@@ -62,7 +62,7 @@ const classes = computed(() => {
         <div v-if="$slots.icon" class="shrink-0 flex items-center justify-center">
             <slot name="icon" />
         </div>
-        <span v-if="$slots.default" class="hidden md:inline">
+        <span v-if="$slots.default" :class="[$slots.icon ? 'hidden md:inline' : '']">
             <slot />
         </span>
     </component>
