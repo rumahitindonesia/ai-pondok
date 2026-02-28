@@ -24,6 +24,11 @@ export default {
                     muted: '#fceef2',
                     deep: '#9b1c3d',
                     surface: '#2d0a15',
+                },
+                'brand-teal': {
+                    DEFAULT: '#00667e',
+                    light: '#e6f0f2',
+                    dark: '#004d5f',
                 }
             }
         },

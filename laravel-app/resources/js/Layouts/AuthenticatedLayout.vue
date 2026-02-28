@@ -50,7 +50,7 @@ if (typeof window !== 'undefined') {
             class="fixed lg:relative inset-y-0 left-0 w-72 lg:w-auto bg-white dark:bg-[#161514] flex flex-col transition-all duration-300 z-[70] lg:z-50 border-r border-[#ebeae8] dark:border-[#3e3c3a] shadow-2xl lg:shadow-xl"
         >
             <!-- Organic Pattern Overlay -->
-            <div class="absolute top-0 left-0 w-full h-64 opacity-[0.03] dark:opacity-5 pointer-events-none overflow-hidden text-[#d02e5c]">
+            <div class="absolute top-0 left-0 w-full h-64 opacity-[0.02] dark:opacity-[0.03] pointer-events-none overflow-hidden text-brand-rose dark:text-brand-rose-muted">
                 <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-full fill-current">
                     <path d="M0,0 Q200,100 400,0 V400 H0 Z" />
                 </svg>
@@ -62,7 +62,9 @@ if (typeof window !== 'undefined') {
                     <div class="w-10 h-10 flex items-center justify-center shrink-0">
                          <ApplicationLogo class="w-10 h-10 object-contain" />
                     </div>
-                    <span v-if="isSidebarOpen || isMobileMenuOpen" class="font-black text-base tracking-tighter transition-colors uppercase">Rumah IT <span class="text-brand-rose dark:text-brand-rose-dark">Indonesia</span></span>
+                    <span v-if="isSidebarOpen || isMobileMenuOpen" class="font-black text-base tracking-tighter transition-colors uppercase">
+                        <span class="text-brand-teal">Rumah IT</span> <span class="text-brand-rose dark:text-brand-rose-dark">Indonesia</span>
+                    </span>
                 </Link>
                 
                 <!-- Close Button Mobile -->
