@@ -22,6 +22,7 @@ const form = useForm({
     entitas: props.santri.entitas,
     angkatan: props.santri.angkatan,
     bio: props.santri.bio || '',
+    is_portfolio_featured: props.santri.is_portfolio_featured || false,
     foto: null,
 });
 
@@ -189,6 +190,20 @@ const submit = () => {
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">Angkatan (Otomatis jika kosong)</label>
                             <input v-model="form.angkatan" type="number" class="w-full bg-[#fcf8f5] dark:bg-[#1a1918] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 focus:ring-2 focus:ring-[#d02e5c] focus:border-transparent transition-all font-bold" placeholder="Contoh: 23">
+                        </div>
+
+                        <div class="md:col-span-3 pt-6 border-t border-[#ebeae8] dark:border-[#3e3c3a]">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <div class="relative">
+                                    <input type="checkbox" v-model="form.is_portfolio_featured" class="sr-only">
+                                    <div class="w-11 h-6 bg-gray-200 dark:bg-gray-700 rounded-full transition-colors duration-200 ease-in-out group-hover:bg-gray-300 dark:group-hover:bg-gray-600 peer-focus:ring-2 peer-focus:ring-[#d02e5c] peer-focus:ring-offset-2" :class="{'!bg-[#d02e5c]': form.is_portfolio_featured}"></div>
+                                    <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 ease-in-out shadow-sm" :class="{'translate-x-5': form.is_portfolio_featured}"></div>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-[#161514] dark:text-[#f2e8d5]">Tampilkan di Homepage (Portofolio Sukses)</p>
+                                    <p class="text-xs text-[#a8a196]">Santri ini akan muncul di bagian Portofolio Santri di halaman depan.</p>
+                                </div>
+                            </label>
                         </div>
                     </div>
                 </div>

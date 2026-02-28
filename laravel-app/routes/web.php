@@ -37,7 +37,13 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-        'sections' => \App\Models\HomepageSection::where('is_active', true)->get()->keyBy('section_key')
+        'sections' => \App\Models\HomepageSection::where('is_active', true)->get()->keyBy('section_key'),
+        'featuredSantris' => \App\Models\Santri::where('is_portfolio_featured', true)
+            ->where('status', '!=', 'Santri Keluar')
+            ->select('id', 'nama', 'foto', 'bio', 'cita_cita', 'entitas', 'angkatan')
+            ->inRandomOrder()
+            ->limit(4)
+            ->get()
     ]);
 });
 

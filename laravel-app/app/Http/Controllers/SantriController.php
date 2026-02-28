@@ -110,6 +110,7 @@ class SantriController extends Controller
             'angkatan' => 'nullable|integer',
             'bio' => 'nullable|string|max:1000',
             'foto' => 'nullable|image|max:2048',
+            'is_portfolio_featured' => 'boolean',
         ]);
 
         if ($request->hasFile('foto')) {
@@ -159,6 +160,7 @@ class SantriController extends Controller
             'angkatan' => 'nullable|integer',
             'bio' => 'nullable|string|max:1000',
             'foto' => 'nullable|image|max:2048',
+            'is_portfolio_featured' => 'boolean',
         ]);
 
         if ($request->hasFile('foto')) {

@@ -25,6 +25,11 @@ class Santri extends Model
         'no_hp',
         'entitas',
         'angkatan',
+        'is_portfolio_featured',
+    ];
+
+    protected $casts = [
+        'is_portfolio_featured' => 'boolean',
     ];
 
     protected static function booted()

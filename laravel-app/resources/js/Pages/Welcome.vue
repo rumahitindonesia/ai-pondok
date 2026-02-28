@@ -13,6 +13,10 @@ const props = defineProps({
     sections: {
         type: Object,
         default: () => ({})
+    },
+    featuredSantris: {
+        type: Array,
+        default: () => []
     }
 });
 
@@ -148,6 +152,46 @@ const tracks = computed(() => props.sections.tracks || {});
                                     <span class="font-bold text-lg text-[#4e4b47] dark:text-[#a8a196]">{{ track }}</span>
                                 </li>
                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Portfolio Section -->
+            <section v-if="featuredSantris && featuredSantris.length > 0" class="py-24 relative bg-white dark:bg-[#161514] border-t border-[#ebeae8] dark:border-[#383736]">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto mb-16">
+                        <h2 class="text-sm font-black text-brand-rose uppercase tracking-widest mb-2">Portofolio & Prestasi</h2>
+                        <h3 class="text-4xl md:text-5xl font-black tracking-tight">Karya Nyata Santri Sukses</h3>
+                        <p class="mt-4 text-lg text-[#4e4b47] dark:text-[#a8a196]">Mengenal lebih dekat santri-santri pilihan yang telah menunjukkan dedikasi dan karya gemilang di Rumah IT Indonesia.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div v-for="santri in featuredSantris" :key="santri.id" class="bg-[#fcf8f5] dark:bg-[#0a0a0a] rounded-[32px] overflow-hidden shadow-xl shadow-black/5 dark:shadow-black/20 border border-[#ebeae8] dark:border-[#383736] group hover:-translate-y-2 transition-transform duration-500">
+                            <!-- Photo -->
+                            <div class="aspect-[4/5] overflow-hidden relative bg-gray-200 dark:bg-gray-800">
+                                <img v-if="santri.foto" :src="`/storage/${santri.foto}`" :alt="`Foto ${santri.nama}`" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                <div v-else class="w-full h-full flex flex-col items-center justify-center text-[#a8a196]">
+                                    <svg class="w-16 h-16 mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                </div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                                <div class="absolute bottom-4 left-4 right-4 text-white">
+                                    <h4 class="text-xl font-black mb-1 line-clamp-1 title-shadow">{{ santri.nama }}</h4>
+                                    <p v-if="santri.entitas || santri.angkatan" class="text-xs font-bold text-white/80 uppercase tracking-widest">
+                                        {{ santri.entitas }} <span v-if="santri.entitas && santri.angkatan">•</span> {{ santri.angkatan ? `Angkatan ${santri.angkatan}` : '' }}
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Content -->
+                            <div class="p-6">
+                                <div v-if="santri.cita_cita" class="mb-4">
+                                    <div class="text-[10px] font-black uppercase tracking-widest text-[#a8a196] mb-1">Cita-cita / Fokus</div>
+                                    <p class="font-bold text-brand-teal line-clamp-2">{{ santri.cita_cita }}</p>
+                                </div>
+                                <div class="text-sm text-[#4e4b47] dark:text-[#a8a196] line-clamp-3 leading-relaxed">
+                                    {{ santri.bio || 'Mempersiapkan diri menjadi profesional IT yang berakhlak mulia.' }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
