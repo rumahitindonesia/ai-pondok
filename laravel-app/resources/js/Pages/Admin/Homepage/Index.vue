@@ -78,11 +78,12 @@ const submit = () => {
                     </div>
                 </div>
 
-                <!-- Edit Modal / Form (Simplified for this task) -->
-                <div v-if="editingSection" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-                    <div class="bg-white dark:bg-[#161514] w-full max-w-2xl rounded-[32px] shadow-2xl overflow-hidden animate-fade-in-up">
-                        <div class="p-8">
-                            <div class="flex justify-between items-center mb-6">
+                <!-- Edit Modal / Form -->
+                <div v-if="editingSection" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+                    <div class="bg-white dark:bg-[#161514] w-full max-w-2xl max-h-[90vh] flex flex-col rounded-[32px] shadow-2xl animate-fade-in-up">
+                        <!-- Modal Header -->
+                        <div class="p-6 lg:p-8 border-b border-[#ebeae8] dark:border-[#383736] shrink-0">
+                            <div class="flex justify-between items-center">
                                 <h3 class="text-2xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
                                     Edit Section: <span class="text-brand-rose uppercase">{{ editingSection.section_key }}</span>
                                 </h3>
@@ -92,8 +93,11 @@ const submit = () => {
                                     </svg>
                                 </button>
                             </div>
+                        </div>
 
-                            <form @submit.prevent="submit" class="space-y-6">
+                        <!-- Modal Body (Scrollable) -->
+                        <div class="p-6 lg:p-8 overflow-y-auto custom-scrollbar flex-1">
+                            <form @submit.prevent="submit" class="space-y-6" id="edit-section-form">
                                 <div>
                                     <InputLabel for="title" value="Section Title" />
                                     <TextInput id="title" v-model="form.title" class="mt-1 block w-full" />
@@ -146,22 +150,23 @@ const submit = () => {
                                     </div>
                                 </div>
 
-                                <div class="flex items-center gap-4">
+                                <div class="flex items-center gap-4 border-t border-[#ebeae8] dark:border-[#383736] pt-4">
                                     <label class="flex items-center gap-2 cursor-pointer">
                                         <input type="checkbox" v-model="form.is_active" class="rounded-lg text-brand-rose focus:ring-brand-rose" />
                                         <span class="text-sm font-bold text-gray-700 dark:text-gray-300">Tampilkan di Homepage</span>
                                     </label>
                                 </div>
-
-                                <div class="flex justify-end gap-3 pt-4">
-                                    <RedwoodButton type="button" variant="outline" @click="editingSection = null">
-                                        Batal
-                                    </RedwoodButton>
-                                    <RedwoodButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                                        Simpan Perubahan
-                                    </RedwoodButton>
-                                </div>
                             </form>
+                        </div>
+
+                        <!-- Modal Footer (Fixed) -->
+                        <div class="p-6 lg:p-8 border-t border-[#ebeae8] dark:border-[#383736] shrink-0 bg-gray-50 dark:bg-[#0a0a0a] rounded-b-[32px] flex justify-end gap-3 rounded-b-3xl">
+                            <RedwoodButton type="button" variant="outline" @click="editingSection = null">
+                                Batal
+                            </RedwoodButton>
+                            <RedwoodButton type="submit" form="edit-section-form" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                Simpan Perubahan
+                            </RedwoodButton>
                         </div>
                     </div>
                 </div>
