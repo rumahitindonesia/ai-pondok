@@ -110,12 +110,17 @@ const saveReorder = (ids) => {
 
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex items-center justify-between">
+            <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
+                Form Builder <span class="text-[#c97e60]">PSB</span>
+            </h2>
+        </template>
+
+        <div class="max-w-5xl mx-auto space-y-8">
+            <!-- Action Bar -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-[#161514] p-6 rounded-3xl border border-[#ebeae8] dark:border-[#3e3c3a] shadow-sm">
                 <div>
-                    <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                        Form Builder <span class="text-[#c97e60]">PSB</span>
-                    </h2>
-                    <p class="text-sm font-medium text-[#a8a196] mt-1">Atur daftar pertanyaan dinamis untuk form registrasi Tahap 2.</p>
+                    <h3 class="text-lg font-black text-[#161514] dark:text-[#f2e8d5]">Konfigurasi Pertanyaan</h3>
+                    <p class="text-xs font-medium text-[#a8a196] mt-1">Atur daftar pertanyaan dinamis untuk form registrasi Tahap 2.</p>
                 </div>
                 <RedwoodButton @click="openAddModal">
                     <template #icon>
@@ -124,9 +129,6 @@ const saveReorder = (ids) => {
                     Tambah Pertanyaan
                 </RedwoodButton>
             </div>
-        </template>
-
-        <div class="max-w-5xl mx-auto space-y-4">
             
             <div v-if="questions.length === 0" class="text-center py-16 bg-white dark:bg-[#161514] border border-[#ebeae8] dark:border-[#3e3c3a] rounded-3xl">
                 <p class="text-[#a8a196] font-medium">Belum ada pertanyaan. Silakan tambah pertanyaan baru.</p>
