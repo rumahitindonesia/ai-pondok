@@ -64,18 +64,44 @@ class ContentAnalyticsController extends Controller
             ->orderBy('published_at')
             ->get();
 
-        // 5. AI Strategic Advice
-        $aiInsight = "Data tidak mencukupi untuk analisis AI saat ini.";
-        if ($overallStats->total_posts > 0) {
-            $aiInsight = $this->gemini->generateStrategicAdvice($formatStats->toArray(), $topContent);
-        }
-
+        // 5. AI Strategic Advice - moved to separate async endpoint
         return Inertia::render('Admin/Content/ContentAnalytics', [
             'overallStats' => $overallStats,
             'formatStats' => $formatStats,
             'topContent' => $topContent,
             'monthlyTrend' => $monthlyTrend,
-            'aiInsight' => $aiInsight,
         ]);
+    }
+
+    public function getAiInsight()
+    {
+        $overallStats = ContentRequest::where('status', 'Selesai')
+            ->select([\Illuminate\Support\Facades\DB::raw('COUNT(*) as total_posts')])
+            ->first();
+
+        if (!$overallStats || $overallStats->total_posts === 0) {
+            return response()->json(['insight' => "Data tidak mencukupi untuk analisis AI saat ini."]);
+        }
+
+        $formatStats = ContentRequest::where('status', 'Selesai')
+            ->select([
+                'output_format',
+                \Illuminate\Support\Facades\DB::raw('AVG(reach_count) as avg_reach'),
+                \Illuminate\Support\Facades\DB::raw('AVG(engagement_count) as avg_engagement'),
+                \Illuminate\Support\Facades\DB::raw('AVG(saved_count) as avg_saved'),
+                \Illuminate\Support\Facades\DB::raw('COUNT(*) as count')
+            ])
+            ->groupBy('output_format')
+            ->get();
+
+        $topContent = ContentRequest::where('status', 'Selesai')
+            ->with(['requester', 'assignedTo'])
+            ->orderByDesc('reach_count')
+            ->limit(5)
+            ->get();
+
+        $aiInsight = $this->gemini->generateStrategicAdvice($formatStats->toArray(), $topContent);
+
+        return response()->json(['insight' => $aiInsight]);
     }
 }

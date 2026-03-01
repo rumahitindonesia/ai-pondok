@@ -1,7 +1,8 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import axios from 'axios';
 import moment from 'moment';
 
 const props = defineProps({
@@ -9,7 +10,27 @@ const props = defineProps({
     formatStats: Array,
     topContent: Array,
     monthlyTrend: Array,
-    aiInsight: String,
+});
+
+const aiInsight = ref('');
+const isLoadingAi = ref(true);
+const aiError = ref(false);
+
+const fetchAiInsight = async () => {
+    try {
+        const response = await axios.get(route('admin.content.analytics.ai'));
+        aiInsight.value = response.data.insight;
+    } catch (error) {
+        console.error("Failed to fetch AI insights", error);
+        aiInsight.value = "Gagal memuat analisis AI saat ini. Silakan coba lagi nanti.";
+        aiError.value = true;
+    } finally {
+        isLoadingAi.value = false;
+    }
+};
+
+onMounted(() => {
+    fetchAiInsight();
 });
 
 const markdownToHtml = (text) => {
@@ -143,7 +164,7 @@ const engagementRate = computed(() => {
                                                 stat.output_format.includes('Video') ? 'bg-rose-100 dark:bg-rose-900/30 text-rose-600' : 'bg-amber-100 dark:bg-amber-900/30 text-amber-600'
                                             ]">
                                                 <svg v-if="stat.output_format.includes('Video')" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M10 15.5v-7l6 3.5-6 3.5z"/><path d="M21 19V5H3v14h18zm0-16c1.1 0 2 .9 2 2v14c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h18z"/></svg>
-                                                <svg v-else class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4 2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z"/></svg>
+                                                <svg v-else class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2-2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4 2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z"/></svg>
                                             </div>
                                             <span class="text-sm font-black text-[#161514] dark:text-[#f2e8d5]">{{ stat.output_format }}</span>
                                         </div>
@@ -174,15 +195,24 @@ const engagementRate = computed(() => {
                         
                         <h3 class="text-2xl font-black mb-6 leading-tight text-white">Rekomendasi Strategis</h3>
                         
-                        <div class="prose prose-sm prose-invert max-w-none">
-                            <div v-html="markdownToHtml(aiInsight)" class="text-[#f2e8d5]/90 space-y-4 text-sm leading-relaxed"></div>
+                        <div v-if="isLoadingAi" class="animate-pulse space-y-3">
+                            <div class="h-4 bg-white/10 rounded w-3/4"></div>
+                            <div class="h-4 bg-white/10 rounded w-1/2"></div>
+                            <div class="h-4 bg-white/10 rounded w-5/6"></div>
+                            <div class="h-4 bg-white/10 rounded w-2/3 mt-4"></div>
+                            <div class="h-4 bg-white/10 rounded w-1/2"></div>
+                            <div class="text-xs text-center text-gray-500 mt-6 pt-4 font-bold tracking-widest uppercase">Menganalisis Data...</div>
+                        </div>
+
+                        <div v-else class="prose prose-sm prose-invert max-w-none">
+                            <div v-html="markdownToHtml(aiInsight)" class="text-[#f2e8d5]/90 space-y-4 text-sm leading-relaxed" :class="{'text-red-400': aiError}"></div>
                         </div>
                     </div>
 
                     <div class="mt-8 pt-6 border-t border-white/5 relative z-10 flex items-center justify-between">
                         <p class="text-[9px] text-gray-500 italic font-medium">Data-driven analysis from latest performance</p>
                         <div class="flex items-center gap-1 opacity-50">
-                            <div class="w-1 h-1 bg-green-500 rounded-full animate-pulse"></div>
+                            <div :class="['w-1 h-1 rounded-full animate-pulse', isLoadingAi ? 'bg-amber-500' : (aiError ? 'bg-red-500' : 'bg-green-500')]"></div>
                             <span class="text-[8px] font-bold uppercase tracking-tighter">Live Analysis</span>
                         </div>
                     </div>
