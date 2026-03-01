@@ -12,7 +12,7 @@ class ContentRequestController extends Controller
     // Form submission for users
     public function create()
     {
-        $user = Auth::user()->load('jabatan');
+        $user = Auth::user()->load('santri.jabatans');
         return Inertia::render('Content/Create', [
             'user' => $user,
         ]);
@@ -38,7 +38,7 @@ class ContentRequestController extends Controller
         ]);
 
         $validated['user_id'] = Auth::id();
-        $validated['jabatan_id'] = Auth::user()->jabatan_id;
+        $validated['jabatan_id'] = Auth::user()->santri->jabatans->first()->id ?? null;
         $validated['status'] = 'Menunggu Assign';
 
         ContentRequest::create($validated);

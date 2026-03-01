@@ -74,7 +74,7 @@ const submit = () => {
                                 <div>
                                     <InputLabel value="Divisi / Amanah" class="dark:text-[#f2e8d5]" />
                                     <div class="mt-1 block w-full px-4 py-2 bg-gray-100 dark:bg-[#2d2c2a] border border-gray-300 dark:border-[#4e4d4a] rounded-md shadow-sm text-gray-600 dark:text-gray-400 cursor-not-allowed">
-                                        {{ user.jabatan ? user.jabatan.nama : 'Santri' }}
+                                        {{ user.santri && user.santri.jabatans && user.santri.jabatans.length > 0 ? user.santri.jabatans[0].nama : 'Santri/Lainnya' }}
                                     </div>
                                     <p class="text-xs text-gray-500 mt-1">Terisi otomatis sesuai akun Anda.</p>
                                 </div>
