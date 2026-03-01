@@ -18,10 +18,8 @@ class ContentManagerController extends Controller
             ->latest()
             ->get();
 
-        // Get all media staff (for assignment dropdown)
-        // Ideally filter by role/permission, but here getting users who could be staff
-        // You might need to adjust the query based on your actual role structure
-        $staffMembers = User::all();
+        // Get users with media roles or Super Admin
+        $staffMembers = User::role(['Media Manager', 'Media Staff', 'Super Admin'])->get();
 
         return Inertia::render('Admin/Content/ManagerDashboard', [
             'requests' => $requests,
@@ -33,16 +31,18 @@ class ContentManagerController extends Controller
     public function assign(Request $request, ContentRequest $contentRequest)
     {
         $validated = $request->validate([
-            'assigned_to' => 'required|exists:users,id',
+            'assigned_to' => 'nullable|exists:users,id',
         ]);
+
+        $status = $validated['assigned_to'] ? 'Ditugaskan' : 'Menunggu Assign';
 
         $contentRequest->update([
             'assigned_to' => $validated['assigned_to'],
             'assigned_by' => Auth::id(),
-            'status' => 'Ditugaskan',
+            'status' => $status,
         ]);
 
-        return back()->with('success', 'Tugas berhasil di-assign ke staf.');
+        return back()->with('success', 'Penugasan berhasil diperbarui.');
     }
 
     // Manager can force update status

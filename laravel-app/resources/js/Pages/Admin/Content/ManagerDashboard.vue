@@ -125,10 +125,10 @@ const openDetail = (request) => {
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <select 
                                             @change="assignTask(request.id, $event.target.value)"
-                                            class="text-sm font-medium border-gray-300 dark:border-[#4e4d4a] rounded-md shadow-sm focus:border-[#d02e5c] focus:ring focus:ring-[#d02e5c] focus:ring-opacity-50 dark:bg-[#1a1918] dark:text-[#f2e8d5]"
-                                            :value="request.assigned_to"
+                                            class="text-sm font-medium border-gray-300 dark:border-[#4e4d4a] rounded-md shadow-sm focus:border-[#d02e5c] focus:ring focus:ring-[#d02e5c] focus:ring-opacity-50 dark:bg-[#1a1918] dark:text-[#f2e8d5] min-w-[150px]"
+                                            :value="request.assigned_to || ''"
                                         >
-                                            <option :value="null">-- Belum Diassign --</option>
+                                            <option value="">-- Belum Diassign --</option>
                                             <option v-for="staff in staffMembers" :key="staff.id" :value="staff.id">
                                                 {{ staff.name }}
                                             </option>
