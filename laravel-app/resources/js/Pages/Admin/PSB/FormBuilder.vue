@@ -46,8 +46,8 @@ const closeModal = () => {
 };
 
 const submitForm = () => {
-    // Process options if type is radio or checkbox
-    if (form.type === 'radio' || form.type === 'checkbox') {
+    // Process options if type is radio, checkbox, or select
+    if (form.type === 'radio' || form.type === 'checkbox' || form.type === 'select') {
         const parsedOptions = optionsString.value.split(',').map(s => s.trim()).filter(s => s !== '');
         form.options = parsedOptions.length > 0 ? parsedOptions : null;
     } else {
@@ -200,6 +200,7 @@ const saveReorder = (ids) => {
                                             <option value="textarea">Paragraf Panjang</option>
                                             <option value="radio">Pilihan Ganda (Satu)</option>
                                             <option value="checkbox">Checkbox (Banyak)</option>
+                                            <option value="select">Dropdown (Pilih Satu)</option>
                                             <option value="file">Upload File</option>
                                             <option value="date">Tanggal</option>
                                         </select>
@@ -213,7 +214,7 @@ const saveReorder = (ids) => {
                                     </div>
                                 </div>
 
-                                <div v-if="form.type === 'radio' || form.type === 'checkbox'" class="p-4 bg-amber-50 dark:bg-amber-900/10 rounded-xl border border-amber-200 dark:border-amber-900/50">
+                                <div v-if="form.type === 'radio' || form.type === 'checkbox' || form.type === 'select'" class="p-4 bg-amber-50 dark:bg-amber-900/10 rounded-xl border border-amber-200 dark:border-amber-900/50">
                                     <label class="block text-sm font-bold text-amber-900 dark:text-amber-500 mb-2">Pilihan (Pisahkan dengan Koma)</label>
                                     <input v-model="optionsString" type="text" class="w-full px-4 py-3 bg-white dark:bg-[#1a1918] border border-amber-200 dark:border-amber-900/50 rounded-xl text-[#161514] dark:text-[#f2e8d5] font-medium focus:ring-amber-500 focus:border-amber-500" placeholder="SMP, SMA, SMK, Lulusan Lain">
                                     <p class="text-xs text-amber-700 mt-2">Contoh pengisian: SMP, SMA, Lulusan Pondok</p>

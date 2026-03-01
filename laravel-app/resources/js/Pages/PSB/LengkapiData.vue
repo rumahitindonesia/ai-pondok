@@ -151,6 +151,18 @@ const provinces = [
                             <p v-if="question.is_required && form['question_' + question.id].length === 0" class="text-xs text-red-500 mt-1 font-medium">Beri centang pada minimal satu pilihan.</p>
                         </div>
 
+                        <!-- Select Dropdown -->
+                        <div v-else-if="question.type === 'select'" class="mt-2">
+                            <select 
+                                v-model="form['question_' + question.id]"
+                                :required="question.is_required"
+                                class="w-full px-4 py-3 sm:py-4 rounded-xl border border-[#ebeae8] bg-white text-[#161514] font-medium focus:outline-none focus:ring-2 focus:ring-[#d02e5c] focus:border-transparent transition-all shadow-sm appearance-none cursor-pointer"
+                            >
+                                <option value="" disabled selected>-- Pilih Salah Satu --</option>
+                                <option v-for="(opt, oIdx) in question.options" :key="oIdx" :value="opt">{{ opt }}</option>
+                            </select>
+                        </div>
+
                         <!-- File Upload -->
                         <div v-else-if="question.type === 'file'" class="mt-3">
                             <div class="relative items-center justify-center w-full">
