@@ -21,7 +21,7 @@ class FormBuilderController extends Controller
     {
         $validated = $request->validate([
             'question_text' => 'required|string|max:255',
-            'type' => 'required|in:text,textarea,radio,checkbox,file,date',
+            'type' => 'required|in:text,textarea,radio,checkbox,file,date,select',
             'options' => 'nullable|array',
             'is_required' => 'boolean',
         ]);
@@ -29,7 +29,7 @@ class FormBuilderController extends Controller
         $maxOrder = FormQuestion::max('order_num') ?? 0;
         $validated['order_num'] = $maxOrder + 1;
 
-        if ($validated['type'] !== 'radio' && $validated['type'] !== 'checkbox') {
+        if (!in_array($validated['type'], ['radio', 'checkbox', 'select'])) {
             $validated['options'] = null;
         }
 
@@ -42,12 +42,12 @@ class FormBuilderController extends Controller
     {
         $validated = $request->validate([
             'question_text' => 'required|string|max:255',
-            'type' => 'required|in:text,textarea,radio,checkbox,file,date',
+            'type' => 'required|in:text,textarea,radio,checkbox,file,date,select',
             'options' => 'nullable|array',
             'is_required' => 'boolean',
         ]);
 
-        if ($validated['type'] !== 'radio' && $validated['type'] !== 'checkbox') {
+        if (!in_array($validated['type'], ['radio', 'checkbox', 'select'])) {
             $validated['options'] = null;
         }
 
