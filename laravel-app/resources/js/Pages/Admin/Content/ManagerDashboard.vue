@@ -14,6 +14,7 @@ moment.locale('id');
 const props = defineProps({
     requests: Array,
     staffMembers: Array,
+    instagramAccount: Object,
 });
 
 const getStatusColor = (status) => {
@@ -59,6 +60,7 @@ const updateStatus = (requestId, newStatus) => {
 
 const showDetailModal = ref(false);
 const selectedRequest = ref(null);
+const syncLoading = ref(false);
 
 const metricsForm = useForm({
     published_at: '',
@@ -87,6 +89,37 @@ const saveMetrics = () => {
         }
     });
 };
+
+const connectToInstagram = () => {
+    window.location.href = route('social.instagram.redirect');
+};
+
+const disconnectInstagram = () => {
+    if (confirm('Apakah Anda yakin ingin memutuskan koneksi Instagram?')) {
+        router.delete(route('social.instagram.disconnect'));
+    }
+};
+
+const syncWithInstagram = () => {
+    syncLoading.value = true;
+    router.post(route('admin.social.instagram.sync', selectedRequest.value.id), {}, {
+        preserveScroll: true,
+        onSuccess: (page) => {
+            syncLoading.value = false;
+            // Update local ref from the newly passed flash message or re-fetch data
+            // Inertia will automatically update props.requests, so we just need to update selectedRequest
+            const updated = props.requests.find(r => r.id === selectedRequest.value.id);
+            if (updated) {
+                selectedRequest.value = updated;
+                metricsForm.reach_count = updated.reach_count || 0;
+                metricsForm.engagement_count = updated.engagement_count || 0;
+            }
+        },
+        onError: () => {
+            syncLoading.value = false;
+        }
+    });
+};
 </script>
 
 <template>
@@ -100,8 +133,30 @@ const saveMetrics = () => {
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
                 
+                <!-- Social Media Connection Card -->
+                <div class="bg-white dark:bg-[#1e1d1b] shadow-sm rounded-2xl border border-[#ebeae8] dark:border-[#3e3c3a] p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-amber-400 via-rose-500 to-purple-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.975.975 1.247 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.975.975-2.242 1.247-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.975-.975-1.247-2.242-1.308-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608.975-.975 2.242-1.247 3.608-1.308 1.266-.058 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-1.352.062-2.277.276-3.086.591-.837.325-1.546.759-2.251 1.464s-1.139 1.414-1.464 2.251c-.315.809-.529 1.734-.591 3.086-.058 1.28-.072 1.688-.072 4.947s.014 3.667.072 4.947c.062 1.352.276 2.277.591 3.086.726 1.868 2.193 3.335 4.061 4.061.809.315 1.734.529 3.086.591 1.28.058 1.688.072 4.947.072s3.667-.014 4.947-.072c1.352-.062 2.277-.276 3.086-.591 1.868-.726 3.335-2.193 4.061-4.061.315-.809.529-1.734.591-3.086.058-1.28.072-1.688.072-4.947s-.014-3.667-.072-4.947c-.062-1.352-.276-2.277-.591-3.086-.325-.837-.759-1.546-1.464-2.251s-1.414-1.139-2.251-1.464c-.809-.315-1.734-.529-3.086-.591-1.28-.058-1.688-.072-4.947-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.441s.645 1.441 1.441 1.441 1.441-.645 1.441-1.441-.645-1.441-1.441-1.441z"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-black text-[#161514] dark:text-[#f2e8d5]">Instagram Insights</h3>
+                            <p v-if="instagramAccount" class="text-sm text-gray-500 dark:text-gray-400">Terhubung sebagai <span class="font-bold text-[#d02e5c]">@{{ instagramAccount.instagram_username }}</span></p>
+                            <p v-else class="text-sm text-gray-500 dark:text-gray-400">Belum terhubung ke Instagram Business</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <RedwoodButton v-if="!instagramAccount" @click="connectToInstagram" class="bg-gradient-to-r from-rose-500 to-purple-600 border-none">
+                            Hubungkan Instagram
+                        </RedwoodButton>
+                        <button v-else @click="disconnectInstagram" class="text-xs font-bold text-gray-400 hover:text-red-500 transition-colors uppercase tracking-widest">
+                            Putuskan Koneksi
+                        </button>
+                    </div>
+                </div>
+
                 <div class="bg-white dark:bg-[#1e1d1b] shadow-sm rounded-2xl border border-[#ebeae8] dark:border-[#3e3c3a] overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-[#ebeae8] dark:divide-[#3e3c3a]">
@@ -236,9 +291,20 @@ const saveMetrics = () => {
                             </div>
                         </div>
                         <div class="border-t border-[#ebeae8] dark:border-[#3e3c3a] pt-6">
-                            <h4 class="text-sm font-black text-[#d02e5c] mb-4 uppercase tracking-widest flex items-center">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                                Hasil & Metrik Performa
+                            <h4 class="text-sm font-black text-[#d02e5c] mb-4 uppercase tracking-widest flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                                    Hasil & Metrik Performa
+                                </div>
+                                <button 
+                                    v-if="instagramAccount && selectedRequest.published_at"
+                                    @click="syncWithInstagram"
+                                    :disabled="syncLoading"
+                                    class="text-[10px] bg-gradient-to-r from-amber-400 to-rose-500 text-white px-3 py-1 rounded-full font-black shadow-md hover:shadow-lg transition-all disabled:opacity-50 flex items-center gap-1 uppercase"
+                                >
+                                    <svg v-if="syncLoading" class="animate-spin h-3 w-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                    {{ syncLoading ? 'Syncing...' : 'Sync from Instagram' }}
+                                </button>
                             </h4>
 
                             <div v-if="selectedRequest.published_at" class="space-y-4">
@@ -247,18 +313,26 @@ const saveMetrics = () => {
                                     <span class="font-bold">Published pada {{ moment(selectedRequest.published_at).format('DD MMMM YYYY, HH:mm') }} WIB</span>
                                 </div>
 
-                                <div class="grid grid-cols-3 gap-3">
-                                    <div class="bg-gray-50 dark:bg-[#1a1918] p-3 rounded-2xl border border-[#ebeae8] dark:border-[#3e3c3a] text-center">
-                                        <div class="text-[10px] font-black text-gray-400 uppercase tracking-tighter mb-1">Reach</div>
-                                        <div class="text-xl font-black text-[#161514] dark:text-[#f2e8d5]">{{ (selectedRequest.reach_count || 0).toLocaleString() }}</div>
+                                <div class="grid grid-cols-5 gap-2">
+                                    <div class="bg-gray-50 dark:bg-[#1a1918] p-2 rounded-xl border border-[#ebeae8] dark:border-[#3e3c3a] text-center">
+                                        <div class="text-[9px] font-black text-gray-400 uppercase tracking-tighter mb-1">Reach</div>
+                                        <div class="text-base font-black text-[#161514] dark:text-[#f2e8d5]">{{ (selectedRequest.reach_count || 0).toLocaleString() }}</div>
                                     </div>
-                                    <div class="bg-gray-50 dark:bg-[#1a1918] p-3 rounded-2xl border border-[#ebeae8] dark:border-[#3e3c3a] text-center">
-                                        <div class="text-[10px] font-black text-gray-400 uppercase tracking-tighter mb-1">Engagement</div>
-                                        <div class="text-xl font-black text-[#161514] dark:text-[#f2e8d5]">{{ (selectedRequest.engagement_count || 0).toLocaleString() }}</div>
+                                    <div class="bg-gray-50 dark:bg-[#1a1918] p-2 rounded-xl border border-[#ebeae8] dark:border-[#3e3c3a] text-center">
+                                        <div class="text-[9px] font-black text-gray-400 uppercase tracking-tighter mb-1">Engage</div>
+                                        <div class="text-base font-black text-[#161514] dark:text-[#f2e8d5]">{{ (selectedRequest.engagement_count || 0).toLocaleString() }}</div>
                                     </div>
-                                    <div class="bg-gray-50 dark:bg-[#1a1918] p-3 rounded-2xl border border-[#ebeae8] dark:border-[#3e3c3a] text-center">
-                                        <div class="text-[10px] font-black text-gray-400 uppercase tracking-tighter mb-1">Clicks</div>
-                                        <div class="text-xl font-black text-[#161514] dark:text-[#f2e8d5]">{{ (selectedRequest.link_clicks || 0).toLocaleString() }}</div>
+                                    <div class="bg-gray-50 dark:bg-[#1a1918] p-2 rounded-xl border border-[#ebeae8] dark:border-[#3e3c3a] text-center">
+                                        <div class="text-[9px] font-black text-gray-400 uppercase tracking-tighter mb-1">Impress</div>
+                                        <div class="text-base font-black text-[#161514] dark:text-[#f2e8d5]">{{ (selectedRequest.impressions_count || 0).toLocaleString() }}</div>
+                                    </div>
+                                    <div class="bg-gray-50 dark:bg-[#1a1918] p-2 rounded-xl border border-[#ebeae8] dark:border-[#3e3c3a] text-center">
+                                        <div class="text-[9px] font-black text-gray-400 uppercase tracking-tighter mb-1">Saved</div>
+                                        <div class="text-base font-black text-[#161514] dark:text-[#f2e8d5]">{{ (selectedRequest.saved_count || 0).toLocaleString() }}</div>
+                                    </div>
+                                    <div class="bg-gray-50 dark:bg-[#1a1918] p-2 rounded-xl border border-[#ebeae8] dark:border-[#3e3c3a] text-center">
+                                        <div class="text-[9px] font-black text-gray-400 uppercase tracking-tighter mb-1">Views</div>
+                                        <div class="text-base font-black text-[#161514] dark:text-[#f2e8d5]">{{ (selectedRequest.video_views_count || 0).toLocaleString() }}</div>
                                     </div>
                                 </div>
 

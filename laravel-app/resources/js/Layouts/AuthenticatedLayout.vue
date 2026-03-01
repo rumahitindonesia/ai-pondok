@@ -272,6 +272,20 @@ if (typeof window !== 'undefined') {
                 </Link>
 
                 <Link 
+                    v-if="$page.props.auth.user.permissions.includes('view content manager')"
+                    :href="route('admin.content.analytics.index')" 
+                    :class="[
+                        'group flex items-center rounded-xl transition-all hover:bg-[#ebeae8] dark:hover:bg-[#21201f]',
+                        isSidebarOpen || isMobileMenuOpen ? 'px-4 py-3 gap-4' : 'py-3 justify-center'
+                    ]"
+                >
+                    <svg class="w-5 h-5 transition-colors shrink-0" :class="route().current('admin.content.analytics.*') ? 'text-[#d02e5c]' : 'text-[#4e4b47] group-hover:text-[#d02e5c] dark:group-hover:text-[#f2e8d5]'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    <span v-if="isSidebarOpen || isMobileMenuOpen" class="font-bold whitespace-nowrap transition-all duration-300" :class="route().current('admin.content.analytics.*') ? 'text-[#d02e5c]' : 'text-[#4e4b47] dark:text-[#a8a196]'">Analytics Konten</span>
+                </Link>
+
+                <Link 
                     v-if="$page.props.auth.user.permissions.includes('view content staff')"
                     :href="route('media.tasks.index')" 
                     :class="[

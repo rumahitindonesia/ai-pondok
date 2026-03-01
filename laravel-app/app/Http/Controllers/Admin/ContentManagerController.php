@@ -20,10 +20,15 @@ class ContentManagerController extends Controller
 
         // Get users with media roles or Super Admin
         $staffMembers = User::role(['Media Manager', 'Media Staff', 'Super Admin'])->get();
+        
+        $instagramAccount = \App\Models\SocialAccount::where('user_id', Auth::id())
+            ->where('platform', 'instagram')
+            ->first();
 
         return Inertia::render('Admin/Content/ManagerDashboard', [
             'requests' => $requests,
             'staffMembers' => $staffMembers,
+            'instagramAccount' => $instagramAccount,
         ]);
     }
 

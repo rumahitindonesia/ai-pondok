@@ -28,8 +28,12 @@ class ContentRequest extends Model
         'assigned_by',
         'published_at',
         'published_url',
+        'ig_media_id',
         'reach_count',
+        'impressions_count',
         'engagement_count',
+        'saved_count',
+        'video_views_count',
         'link_clicks',
         'insight_notes',
     ];
@@ -42,7 +46,10 @@ class ContentRequest extends Model
         'include_phone' => 'boolean',
         'published_at' => 'datetime',
         'reach_count' => 'integer',
+        'impressions_count' => 'integer',
         'engagement_count' => 'integer',
+        'saved_count' => 'integer',
+        'video_views_count' => 'integer',
         'link_clicks' => 'integer',
     ];
 

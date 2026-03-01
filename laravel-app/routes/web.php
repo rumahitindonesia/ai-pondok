@@ -196,7 +196,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Admin / Manager Routes
     Route::middleware(['can:view content manager'])->group(function () {
+        // Social Media Integration
+        Route::get('/social/instagram/redirect', [\App\Http\Controllers\SocialAccountController::class, 'redirectToInstagram'])->name('social.instagram.redirect');
+        Route::get('/social/instagram/callback', [\App\Http\Controllers\SocialAccountController::class, 'handleInstagramCallback'])->name('social.instagram.callback');
+        Route::delete('/social/instagram/disconnect', [\App\Http\Controllers\SocialAccountController::class, 'disconnect'])->name('social.instagram.disconnect');
+        Route::post('/admin/content-manager/{contentRequest}/sync', [\App\Http\Controllers\SocialAccountController::class, 'syncMediaInsights'])->name('admin.social.instagram.sync');
+
         Route::get('/admin/content-manager', [\App\Http\Controllers\Admin\ContentManagerController::class, 'index'])->name('admin.content.manager.index');
+        Route::get('/admin/content-analytics', [\App\Http\Controllers\Admin\ContentAnalyticsController::class, 'index'])->name('admin.content.analytics.index');
         Route::put('/admin/content-manager/{contentRequest}/assign', [\App\Http\Controllers\Admin\ContentManagerController::class, 'assign'])->name('admin.content.manager.assign');
         Route::put('/admin/content-manager/{contentRequest}/status', [\App\Http\Controllers\Admin\ContentManagerController::class, 'updateStatus'])->name('admin.content.manager.status');
         Route::put('/admin/content-manager/{contentRequest}/metrics', [\App\Http\Controllers\Admin\ContentManagerController::class, 'updateMetrics'])->name('admin.content.manager.metrics');
