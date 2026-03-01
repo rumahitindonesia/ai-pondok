@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Santri; // Added for the santri relationship
 use App\Models\Jabatan;
+use App\Models\PsbRegistration;
 use Illuminate\Support\Str;
 
 class User extends Authenticatable
