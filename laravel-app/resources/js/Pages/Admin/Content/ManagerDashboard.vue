@@ -137,17 +137,26 @@ const saveMetrics = () => {
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <RedwoodSelect 
-                                            @change="updateStatus(request.id, $event.target.value)"
-                                            v-model="request.status"
-                                        >
-                                            <option value="Menunggu Assign">Menunggu Assign</option>
-                                            <option value="Ditugaskan">Ditugaskan</option>
-                                            <option value="Proses">Proses</option>
-                                            <option value="Revisi">Revisi</option>
-                                            <option value="Selesai">Selesai</option>
-                                            <option value="Batal">Batal</option>
-                                        </RedwoodSelect>
+                                        <div class="flex flex-col gap-1">
+                                            <select 
+                                                @change="updateStatus(request.id, $event.target.value)"
+                                                :class="['text-[10px] font-black rounded-full px-3 py-1 cursor-pointer outline-none appearance-none text-center', getStatusColor(request.status)]"
+                                                :value="request.status"
+                                            >
+                                                <option value="Menunggu Assign">Menunggu Assign</option>
+                                                <option value="Ditugaskan">Ditugaskan</option>
+                                                <option value="Proses">Proses</option>
+                                                <option value="Revisi">Revisi</option>
+                                                <option value="Selesai">Selesai</option>
+                                                <option value="Batal">Batal</option>
+                                            </select>
+                                            <div v-if="request.published_at" class="flex justify-center">
+                                                <span class="text-[10px] font-black bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-400 border border-sky-200 dark:border-sky-800 rounded-full px-2 py-0.5 flex items-center">
+                                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path></svg>
+                                                    Published
+                                                </span>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <RedwoodSelect 
