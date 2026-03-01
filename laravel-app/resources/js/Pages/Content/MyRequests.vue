@@ -1,5 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import RedwoodButton from '@/Components/RedwoodButton.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import moment from 'moment';
 import 'moment/dist/locale/id';
@@ -34,20 +35,29 @@ const getStatusColor = (status) => {
 
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex justify-between items-center">
-                <h2 class="font-extrabold text-2xl text-[#161514] dark:text-[#f2e8d5] leading-tight flex items-center">
-                    <svg class="w-8 h-8 mr-3 text-[#d02e5c]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                    Pengajuan Konten Saya
-                </h2>
-                <Link :href="route('content-requests.create')" class="inline-flex items-center px-4 py-2 bg-[#d02e5c] border border-transparent rounded-full font-bold text-xs text-white uppercase tracking-widest hover:bg-[#b0224a] focus:bg-[#b0224a] active:bg-[#911a3b] focus:outline-none focus:ring-2 focus:ring-[#d02e5c] focus:ring-offset-2 dark:focus:ring-offset-[#161514] transition ease-in-out duration-150 shadow-md">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                    Buat Baru
-                </Link>
-            </div>
+            <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
+                Pengajuan <span class="text-[#d02e5c]">Konten</span>
+            </h2>
         </template>
 
         <div class="pb-12 pt-6">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+
+                <!-- Action Row -->
+                <div class="flex justify-end">
+                    <RedwoodButton 
+                        as="Link"
+                        :href="route('content-requests.create')"
+                        variant="primary"
+                    >
+                        <template #icon>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </template>
+                        Buat Request Baru
+                    </RedwoodButton>
+                </div>
                 
                 <div v-if="requests.length === 0" class="bg-white dark:bg-[#1e1d1b] overflow-hidden shadow-sm sm:rounded-2xl border border-[#ebeae8] dark:border-[#3e3c3a] p-12 text-center">
                     <svg class="w-24 h-24 mx-auto text-gray-300 dark:text-[#3e3c3a] mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
