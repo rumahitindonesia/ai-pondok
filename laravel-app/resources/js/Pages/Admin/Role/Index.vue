@@ -1,8 +1,9 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import RedwoodButton from '@/Components/RedwoodButton.vue';
+import ConfirmModal from '@/Components/ConfirmModal.vue';
 
 const props = defineProps({
     roles: Array,
@@ -79,16 +80,22 @@ const addRole = () => {
     });
 };
 
+const confirmState = ref({ show: false, role: null });
+
 const deleteRole = (role) => {
-    if (confirm(`Apakah Anda yakin ingin menghapus role "${role.name}"?`)) {
-        router.delete(route('admin.roles.destroy', role.id), {
-            onSuccess: () => {
-                if (activeRoleId.value === role.id) {
-                    activeRoleId.value = props.roles[0]?.id || null;
-                }
-            },
-        });
-    }
+    confirmState.value = { show: true, role };
+};
+
+const executeDeleteRole = () => {
+    const role = confirmState.value.role;
+    router.delete(route('admin.roles.destroy', role.id), {
+        onSuccess: () => {
+            if (activeRoleId.value === role.id) {
+                activeRoleId.value = props.roles[0]?.id || null;
+            }
+        },
+    });
+    confirmState.value.show = false;
 };
 </script>
 
@@ -211,4 +218,13 @@ const deleteRole = (role) => {
             </div>
         </div>
     </AuthenticatedLayout>
+
+    <ConfirmModal
+        :show="confirmState.show"
+        :title="`Hapus Role: ${confirmState.role?.name}`"
+        message="Role ini akan dihapus permanen. Pastikan tidak ada user yang masih menggunakan role ini."
+        confirm-text="Ya, Hapus"
+        @confirm="executeDeleteRole"
+        @cancel="confirmState.show = false"
+    />
 </template>

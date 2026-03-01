@@ -2,6 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import ConfirmModal from '@/Components/ConfirmModal.vue';
 
 const props = defineProps({
     materis: Array
@@ -46,10 +47,15 @@ const submit = () => {
     }
 };
 
+const confirmState = ref({ show: false, id: null });
+
 const deleteMateri = (id) => {
-    if (confirm('Apakah Anda yakin ingin menghapus materi ini?')) {
-        form.delete(route('materi.destroy', id));
-    }
+    confirmState.value = { show: true, id };
+};
+
+const executeDelete = () => {
+    form.delete(route('materi.destroy', confirmState.value.id));
+    confirmState.value.show = false;
 };
 </script>
 
@@ -175,4 +181,13 @@ const deleteMateri = (id) => {
             </div>
         </div>
     </AuthenticatedLayout>
+
+    <ConfirmModal
+        :show="confirmState.show"
+        title="Hapus Materi"
+        message="Materi ini akan dihapus permanen dari kurikulum."
+        confirm-text="Ya, Hapus"
+        @confirm="executeDelete"
+        @cancel="confirmState.show = false"
+    />
 </template>
