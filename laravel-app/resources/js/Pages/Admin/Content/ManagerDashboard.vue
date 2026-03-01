@@ -240,46 +240,47 @@ const saveMetrics = () => {
                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                                 Hasil & Metrik Performa
                             </h4>
-                            
-                            <form @submit.prevent="saveMetrics" class="space-y-4">
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div class="space-y-1">
-                                        <InputLabel value="Tanggal & Waktu Publish" class="text-[10px] font-black uppercase text-[#a8a196]" />
-                                        <input type="datetime-local" v-model="metricsForm.published_at" class="w-full bg-[#fcf8f5] border-[#ebeae8] rounded-2xl p-4 text-[#161514] focus:ring-4 focus:ring-[#d02e5c]/10 focus:border-[#d02e5c] transition-all outline-none shadow-sm shadow-black/5 dark:bg-[#161514] dark:border-[#383736] dark:text-[#f2e8d5]" />
+
+                            <div v-if="selectedRequest.published_at" class="space-y-4">
+                                <div class="flex items-center gap-2 text-sm text-sky-700 dark:text-sky-400 bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-800 rounded-xl p-3">
+                                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path></svg>
+                                    <span class="font-bold">Published pada {{ moment(selectedRequest.published_at).format('DD MMMM YYYY, HH:mm') }} WIB</span>
+                                </div>
+
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div class="bg-gray-50 dark:bg-[#1a1918] p-3 rounded-2xl border border-[#ebeae8] dark:border-[#3e3c3a] text-center">
+                                        <div class="text-[10px] font-black text-gray-400 uppercase tracking-tighter mb-1">Reach</div>
+                                        <div class="text-xl font-black text-[#161514] dark:text-[#f2e8d5]">{{ (selectedRequest.reach_count || 0).toLocaleString() }}</div>
                                     </div>
-                                    <div class="space-y-1">
-                                        <InputLabel value="Link Publish (URL)" class="text-[10px] font-black uppercase text-[#a8a196]" />
-                                        <TextInput v-model="metricsForm.published_url" placeholder="https://..." />
+                                    <div class="bg-gray-50 dark:bg-[#1a1918] p-3 rounded-2xl border border-[#ebeae8] dark:border-[#3e3c3a] text-center">
+                                        <div class="text-[10px] font-black text-gray-400 uppercase tracking-tighter mb-1">Engagement</div>
+                                        <div class="text-xl font-black text-[#161514] dark:text-[#f2e8d5]">{{ (selectedRequest.engagement_count || 0).toLocaleString() }}</div>
+                                    </div>
+                                    <div class="bg-gray-50 dark:bg-[#1a1918] p-3 rounded-2xl border border-[#ebeae8] dark:border-[#3e3c3a] text-center">
+                                        <div class="text-[10px] font-black text-gray-400 uppercase tracking-tighter mb-1">Clicks</div>
+                                        <div class="text-xl font-black text-[#161514] dark:text-[#f2e8d5]">{{ (selectedRequest.link_clicks || 0).toLocaleString() }}</div>
                                     </div>
                                 </div>
 
-                                <div class="grid grid-cols-3 gap-4">
-                                    <div class="space-y-1">
-                                        <InputLabel value="Reach" class="text-[10px] font-black uppercase text-[#a8a196]" />
-                                        <TextInput type="number" v-model="metricsForm.reach_count" />
-                                    </div>
-                                    <div class="space-y-1">
-                                        <InputLabel value="Engagement" class="text-[10px] font-black uppercase text-[#a8a196]" />
-                                        <TextInput type="number" v-model="metricsForm.engagement_count" />
-                                    </div>
-                                    <div class="space-y-1">
-                                        <InputLabel value="Link Clicks" class="text-[10px] font-black uppercase text-[#a8a196]" />
-                                        <TextInput type="number" v-model="metricsForm.link_clicks" />
-                                    </div>
+                                <div v-if="selectedRequest.published_url">
+                                    <div class="text-[10px] font-black text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-[0.2em]">Link Publish</div>
+                                    <a :href="selectedRequest.published_url" target="_blank" class="text-blue-600 dark:text-blue-400 font-bold text-sm hover:underline break-all block p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-900/50">
+                                        {{ selectedRequest.published_url }}
+                                    </a>
                                 </div>
 
-                                <div class="space-y-1">
-                                    <InputLabel value="Catatan Insight / Evaluasi" class="text-[10px] font-black uppercase text-[#a8a196]" />
-                                    <textarea v-model="metricsForm.insight_notes" rows="3" class="w-full bg-[#fcf8f5] border-[#ebeae8] rounded-2xl p-4 text-[#161514] focus:ring-4 focus:ring-[#d02e5c]/10 focus:border-[#d02e5c] transition-all outline-none shadow-sm shadow-black/5 dark:bg-[#161514] dark:border-[#383736] dark:text-[#f2e8d5]" placeholder="Apa yang bisa diperbaiki untuk konten berikutnya?"></textarea>
+                                <div v-if="selectedRequest.insight_notes">
+                                    <div class="text-[10px] font-black text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-[0.2em]">Evaluasi / Insight</div>
+                                    <p class="text-emerald-800 dark:text-emerald-400 p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl border border-emerald-200 dark:border-emerald-900/50 text-sm italic">
+                                        "{{ selectedRequest.insight_notes }}"
+                                    </p>
                                 </div>
-
-                                <div class="pt-2">
-                                    <RedwoodButton type="submit" :disabled="metricsForm.processing" class="w-full justify-center">
-                                        {{ metricsForm.processing ? 'Menyimpan...' : 'Simpan Performa Konten' }}
-                                    </RedwoodButton>
-                                </div>
-                            </form>
+                            </div>
+                            <div v-else class="text-center py-6 text-gray-400 dark:text-gray-500 text-sm italic">
+                                Konten belum dipublish — requester akan mengisi metrik setelah posting ke medsos.
+                            </div>
                         </div>
+
                     </div>
                     <div class="bg-gray-50 dark:bg-[#1a1918] px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-[#ebeae8] dark:border-[#3e3c3a]">
                         <button @click="showDetailModal = false" type="button" class="w-full inline-flex justify-center rounded-full border border-gray-300 dark:border-[#4e4d4a] shadow-sm px-4 py-2 bg-white dark:bg-[#2d2c2a] text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#3e3c3a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#d02e5c] sm:ml-3 sm:w-auto sm:text-sm transition-colors font-bold">

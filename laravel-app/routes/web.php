@@ -190,6 +190,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::middleware(['can:create content request'])->group(function () {
             Route::get('/content-requests/create', [\App\Http\Controllers\ContentRequestController::class, 'create'])->name('content-requests.create');
             Route::post('/content-requests', [\App\Http\Controllers\ContentRequestController::class, 'store'])->name('content-requests.store');
+            Route::put('/content-requests/{contentRequest}/metrics', [\App\Http\Controllers\ContentRequestController::class, 'updateMetrics'])->name('content-requests.metrics');
         });
     });
 

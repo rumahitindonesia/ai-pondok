@@ -2,7 +2,9 @@
 import { ref } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import RedwoodButton from '@/Components/RedwoodButton.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import TextInput from '@/Components/TextInput.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import moment from 'moment';
 import 'moment/dist/locale/id';
 
@@ -17,7 +19,31 @@ const selectedRequest = ref(null);
 
 const openDetail = (request) => {
     selectedRequest.value = request;
+    // Populate metrics form with existing data
+    metricsForm.published_at = request.published_at ? moment(request.published_at).format('YYYY-MM-DDTHH:mm') : '';
+    metricsForm.published_url = request.published_url || '';
+    metricsForm.reach_count = request.reach_count || 0;
+    metricsForm.engagement_count = request.engagement_count || 0;
+    metricsForm.link_clicks = request.link_clicks || 0;
+    metricsForm.insight_notes = request.insight_notes || '';
     showDetailModal.value = true;
+};
+
+const metricsForm = useForm({
+    published_at: '',
+    published_url: '',
+    reach_count: 0,
+    engagement_count: 0,
+    link_clicks: 0,
+    insight_notes: '',
+});
+
+const saveMetrics = () => {
+    metricsForm.put(route('content-requests.metrics', selectedRequest.value.id), {
+        onSuccess: () => {
+            showDetailModal.value = false;
+        }
+    });
 };
 
 const getStatusColor = (status) => {
@@ -189,42 +215,52 @@ const getStatusColor = (status) => {
                             </div>
                         </div>
 
-                        <!-- Results / Metrics Section (if published) -->
-                        <div v-if="selectedRequest.published_at" class="border-t border-[#ebeae8] dark:border-[#3e3c3a] pt-6">
+                        <!-- Metrics / Publishing Section — editable by requester -->
+                        <div v-if="selectedRequest.status === 'Selesai'" class="border-t border-[#ebeae8] dark:border-[#3e3c3a] pt-6">
                             <h4 class="text-sm font-black text-[#d02e5c] mb-4 uppercase tracking-widest flex items-center">
                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                                Performa Konten
+                                Input Hasil & Metrik Performa
                             </h4>
-                            
-                            <div class="grid grid-cols-3 gap-4 mb-4">
-                                <div class="bg-gray-50 dark:bg-[#1a1918] p-3 rounded-2xl border border-[#ebeae8] dark:border-[#3e3c3a] text-center">
-                                    <div class="text-[10px] font-black text-gray-400 uppercase tracking-tighter mb-1">Reach</div>
-                                    <div class="text-lg font-black text-[#161514] dark:text-[#f2e8d5]">{{ selectedRequest.reach_count.toLocaleString() }}</div>
-                                </div>
-                                <div class="bg-gray-50 dark:bg-[#1a1918] p-3 rounded-2xl border border-[#ebeae8] dark:border-[#3e3c3a] text-center">
-                                    <div class="text-[10px] font-black text-gray-400 uppercase tracking-tighter mb-1">Engagement</div>
-                                    <div class="text-lg font-black text-[#161514] dark:text-[#f2e8d5]">{{ selectedRequest.engagement_count.toLocaleString() }}</div>
-                                </div>
-                                <div class="bg-gray-50 dark:bg-[#1a1918] p-3 rounded-2xl border border-[#ebeae8] dark:border-[#3e3c3a] text-center">
-                                    <div class="text-[10px] font-black text-gray-400 uppercase tracking-tighter mb-1">Clicks</div>
-                                    <div class="text-lg font-black text-[#161514] dark:text-[#f2e8d5]">{{ selectedRequest.link_clicks.toLocaleString() }}</div>
-                                </div>
-                            </div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Isi data ini setelah konten dipublikasikan ke media sosial.</p>
 
-                            <div v-if="selectedRequest.published_url" class="mb-4">
-                                <h4 class="text-[10px] font-black text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-[0.2em]">Link Publish</h4>
-                                <a :href="selectedRequest.published_url" target="_blank" class="text-blue-600 dark:text-blue-400 font-bold text-sm hover:underline break-all block p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-900/50">
-                                    {{ selectedRequest.published_url }}
-                                </a>
-                            </div>
+                            <form @submit.prevent="saveMetrics" class="space-y-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div class="space-y-1">
+                                        <InputLabel value="Tanggal & Waktu Publish" class="text-[10px] font-black uppercase text-[#a8a196]" />
+                                        <input type="datetime-local" v-model="metricsForm.published_at" class="w-full bg-[#fcf8f5] border border-[#ebeae8] rounded-2xl p-4 text-[#161514] focus:ring-4 focus:ring-[#d02e5c]/10 focus:border-[#d02e5c] transition-all outline-none shadow-sm dark:bg-[#161514] dark:border-[#383736] dark:text-[#f2e8d5]" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <InputLabel value="Link Publish (URL)" class="text-[10px] font-black uppercase text-[#a8a196]" />
+                                        <TextInput v-model="metricsForm.published_url" placeholder="https://instagram.com/p/..." />
+                                    </div>
+                                </div>
 
-                            <div v-if="selectedRequest.insight_notes">
-                                <h4 class="text-[10px] font-black text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-[0.2em]">Evaluasi / Insight</h4>
-                                <p class="text-emerald-800 dark:text-emerald-400 p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl border border-emerald-200 dark:border-emerald-900/50 text-sm italic">
-                                    "{{ selectedRequest.insight_notes }}"
-                                </p>
-                            </div>
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div class="space-y-1">
+                                        <InputLabel value="Reach" class="text-[10px] font-black uppercase text-[#a8a196]" />
+                                        <TextInput type="number" v-model="metricsForm.reach_count" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <InputLabel value="Engagement" class="text-[10px] font-black uppercase text-[#a8a196]" />
+                                        <TextInput type="number" v-model="metricsForm.engagement_count" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <InputLabel value="Link Clicks" class="text-[10px] font-black uppercase text-[#a8a196]" />
+                                        <TextInput type="number" v-model="metricsForm.link_clicks" />
+                                    </div>
+                                </div>
+
+                                <div class="space-y-1">
+                                    <InputLabel value="Catatan Insight / Evaluasi" class="text-[10px] font-black uppercase text-[#a8a196]" />
+                                    <textarea v-model="metricsForm.insight_notes" rows="3" class="w-full bg-[#fcf8f5] border border-[#ebeae8] rounded-2xl p-4 text-[#161514] focus:ring-4 focus:ring-[#d02e5c]/10 focus:border-[#d02e5c] transition-all outline-none shadow-sm dark:bg-[#161514] dark:border-[#383736] dark:text-[#f2e8d5]" placeholder="Apa yang berhasil? Apa yang bisa diperbaiki?"></textarea>
+                                </div>
+
+                                <RedwoodButton type="submit" :disabled="metricsForm.processing" class="w-full justify-center">
+                                    {{ metricsForm.processing ? 'Menyimpan...' : 'Simpan Hasil Konten' }}
+                                </RedwoodButton>
+                            </form>
                         </div>
+
                     </div>
 
                     <div class="bg-gray-50 dark:bg-[#1a1918] px-6 py-4 flex justify-end border-t border-[#ebeae8] dark:border-[#3e3c3a]">

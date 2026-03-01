@@ -58,4 +58,26 @@ class ContentRequestController extends Controller
             'requests' => $requests,
         ]);
     }
+
+    // Update publishing info and metrics (by requester)
+    public function updateMetrics(Request $request, ContentRequest $contentRequest)
+    {
+        // Only the original requester can update metrics
+        if ($contentRequest->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'published_at' => 'nullable|date',
+            'published_url' => 'nullable|url',
+            'reach_count' => 'nullable|integer|min:0',
+            'engagement_count' => 'nullable|integer|min:0',
+            'link_clicks' => 'nullable|integer|min:0',
+            'insight_notes' => 'nullable|string',
+        ]);
+
+        $contentRequest->update($validated);
+
+        return back()->with('success', 'Metrik performa konten berhasil disimpan!');
+    }
 }
