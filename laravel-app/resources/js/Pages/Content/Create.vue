@@ -12,7 +12,7 @@ const props = defineProps({
 
 const form = useForm({
     requester_name: props.user.name || '',
-    phone_number: props.user.phone || '',
+    phone_number: props.user.santri ? (props.user.santri.no_hp || props.user.phone_number || '') : (props.user.phone_number || ''),
     format: '',
     deadline_date: '',
     deadline_time: '',
