@@ -22,6 +22,7 @@ const form = useForm({
     entitas: props.santri.entitas,
     angkatan: props.santri.angkatan,
     bio: props.santri.bio || '',
+    no_hp: props.santri.no_hp || '',
     is_portfolio_featured: props.santri.is_portfolio_featured || false,
     foto: null,
 });
@@ -113,6 +114,12 @@ const submit = () => {
                                 <option value="P">Perempuan</option>
                             </select>
                             <div v-if="form.errors.jenis_kelamin" class="text-xs text-rose-500 font-medium">{{ form.errors.jenis_kelamin }}</div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-[#a8a196]">No. Telepon / WhatsApp</label>
+                            <input v-model="form.no_hp" type="text" class="w-full bg-[#fcf8f5] dark:bg-[#1a1918] border-[#ebeae8] dark:border-[#3e3c3a] rounded-2xl p-4 focus:ring-2 focus:ring-[#d02e5c] focus:border-transparent transition-all" placeholder="08...">
+                            <div v-if="form.errors.no_hp" class="text-xs text-rose-500 font-medium">{{ form.errors.no_hp }}</div>
                         </div>
 
                         <div class="space-y-2">
