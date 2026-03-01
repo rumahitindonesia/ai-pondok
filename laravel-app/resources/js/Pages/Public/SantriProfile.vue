@@ -168,8 +168,8 @@ const latestPayments = computed(() => {
                             </div>
                             <div>
                                 <p class="text-[9px] font-bold text-[#a8a196] uppercase tracking-[0.2em] mb-0.5 opacity-70">Jabatan Kepengurusan</p>
-                                <p class="text-lg font-bold text-[#161514] font-['Plus_Jakarta_Sans',sans-serif] tracking-tight">
-                                    {{ santri.jabatans && santri.jabatans.length > 0 ? santri.jabatans[0].nama : 'Santri' }}
+                                <p class="text-lg font-bold text-[#161514] font-['Plus_Jakarta_Sans',sans-serif] tracking-tight capitalize">
+                                    {{ santri.jabatans && santri.jabatans.length > 0 ? santri.jabatans[0].nama : santri.status }}
                                 </p>
                             </div>
                         </div>
