@@ -13,9 +13,9 @@ class JabatanController extends Controller
      */
     public function index()
     {
-        // Get all top-level jabatans (where parent_id is null) with their nested children
+        // Get all top-level jabatans with their children recursively (unlimited depth)
         $jabatans = Jabatan::whereNull('parent_id')
-            ->with('children.children.children') // eager load a few levels deep
+            ->with('childrenRecursive')
             ->get();
             
         // Get generic flat list for dropdowns (when creating a new child)

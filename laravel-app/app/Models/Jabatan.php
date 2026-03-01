@@ -22,6 +22,13 @@ class Jabatan extends Model
         return $this->hasMany(Jabatan::class, 'parent_id');
     }
 
+    // Recursively load all descendants to unlimited depth
+    public function childrenRecursive()
+    {
+        return $this->hasMany(Jabatan::class, 'parent_id')
+            ->with('childrenRecursive');
+    }
+
     // Pivot table relationship
     public function pengurus()
     {
