@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import RedwoodButton from '@/Components/RedwoodButton.vue';
+import RedwoodSelect from '@/Components/RedwoodSelect.vue';
 
 const props = defineProps({
     users: Array,
@@ -175,22 +176,22 @@ const deleteUser = (id) => {
                         <div class="grid grid-cols-2 gap-4">
                             <div class="space-y-1">
                                 <label class="text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196]">Role / Akses</label>
-                                <select v-model="form.role" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#d02e5c] transition-all" required>
+                                <RedwoodSelect v-model="form.role" required>
                                     <option value="" disabled>Pilih Role</option>
                                     <option v-for="role in roles" :key="role.id" :value="role.name">{{ role.name }}</option>
-                                </select>
+                                </RedwoodSelect>
                                 <p v-if="form.errors.role" class="text-xs text-rose-500 font-bold mt-1">{{ form.errors.role }}</p>
                             </div>
                             
                             <!-- Link to Santri Dropdown -->
                             <div class="space-y-1">
                                 <label class="text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196]">Hubungkan ke Santri (Opsional)</label>
-                                <select v-model="form.santri_id" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#d02e5c] transition-all">
+                                <RedwoodSelect v-model="form.santri_id">
                                     <option value="">-- Tidak Dihubungkan --</option>
                                     <option v-for="santri in santris" :key="santri.id" :value="santri.id">
                                         {{ santri.nama }} ({{ santri.nis }})
                                     </option>
-                                </select>
+                                </RedwoodSelect>
                                 <p v-if="form.errors.santri_id" class="text-xs text-rose-500 font-bold mt-1">{{ form.errors.santri_id }}</p>
                             </div>
                         </div>

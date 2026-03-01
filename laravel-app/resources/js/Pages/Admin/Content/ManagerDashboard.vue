@@ -4,6 +4,7 @@ import { Head, useForm, router } from '@inertiajs/vue3';
 import moment from 'moment';
 import 'moment/dist/locale/id';
 import { ref } from 'vue';
+import RedwoodSelect from '@/Components/RedwoodSelect.vue';
 
 moment.locale('id');
 
@@ -109,10 +110,9 @@ const openDetail = (request) => {
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <select 
+                                        <RedwoodSelect 
                                             @change="updateStatus(request.id, $event.target.value)"
-                                            :class="['text-xs font-bold rounded-full px-3 py-1 cursor-pointer outline-none appearance-none pr-8', getStatusColor(request.status)]"
-                                            :value="request.status"
+                                            v-model="request.status"
                                         >
                                             <option value="Menunggu Assign">Menunggu Assign</option>
                                             <option value="Ditugaskan">Ditugaskan</option>
@@ -120,19 +120,18 @@ const openDetail = (request) => {
                                             <option value="Revisi">Revisi</option>
                                             <option value="Selesai">Selesai</option>
                                             <option value="Batal">Batal</option>
-                                        </select>
+                                        </RedwoodSelect>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <select 
+                                        <RedwoodSelect 
                                             @change="assignTask(request.id, $event.target.value)"
-                                            class="text-sm font-medium border-gray-300 dark:border-[#4e4d4a] rounded-md shadow-sm focus:border-[#d02e5c] focus:ring focus:ring-[#d02e5c] focus:ring-opacity-50 dark:bg-[#1a1918] dark:text-[#f2e8d5] min-w-[150px]"
-                                            :value="request.assigned_to || ''"
+                                            v-model="request.assigned_to"
                                         >
                                             <option value="">-- Belum Diassign --</option>
                                             <option v-for="staff in staffMembers" :key="staff.id" :value="staff.id">
                                                 {{ staff.name }}
                                             </option>
-                                        </select>
+                                        </RedwoodSelect>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <button @click="openDetail(request)" class="text-[#d02e5c] hover:text-[#b0224a] font-bold">Detail Info</button>
