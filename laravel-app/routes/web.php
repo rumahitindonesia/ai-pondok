@@ -142,6 +142,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/admin/roles', [\App\Http\Controllers\RoleController::class, 'store'])->name('admin.roles.store');
         Route::patch('/admin/roles/{role}', [\App\Http\Controllers\RoleController::class, 'update'])->name('admin.roles.update');
     });
+
+    // --- CONTENT ASSIGNMENT MODULE ---
+    // User Routes
+    Route::get('/content-requests/create', [\App\Http\Controllers\ContentRequestController::class, 'create'])->name('content-requests.create');
+    Route::post('/content-requests', [\App\Http\Controllers\ContentRequestController::class, 'store'])->name('content-requests.store');
+    Route::get('/content-requests/my', [\App\Http\Controllers\ContentRequestController::class, 'myRequests'])->name('content-requests.my');
+
+    // Admin / Manager Routes
+    Route::middleware(['can:view content manager'])->group(function () {
+        Route::get('/admin/content-manager', [\App\Http\Controllers\Admin\ContentManagerController::class, 'index'])->name('admin.content.manager.index');
+        Route::put('/admin/content-manager/{contentRequest}/assign', [\App\Http\Controllers\Admin\ContentManagerController::class, 'assign'])->name('admin.content.manager.assign');
+        Route::put('/admin/content-manager/{contentRequest}/status', [\App\Http\Controllers\Admin\ContentManagerController::class, 'updateStatus'])->name('admin.content.manager.status');
+    });
+
+    // Staff / Executor Routes
+    Route::middleware(['can:view content staff'])->group(function () {
+        Route::get('/media-staff/tasks', [\App\Http\Controllers\MediaStaff\ContentTaskController::class, 'index'])->name('media.tasks.index');
+        Route::put('/media-staff/tasks/{contentTask}/status', [\App\Http\Controllers\MediaStaff\ContentTaskController::class, 'updateStatus'])->name('media.tasks.status');
+    });
 });
 
 Route::middleware('auth')->group(function () {
