@@ -37,6 +37,9 @@ class RoleAndPermissionSeeder extends Seeder
         $pengurus = Role::firstOrCreate(['name' => 'Pengurus']);
         $pengurus->syncPermissions(Permission::where('name', 'not like', '%users')->get());
 
+        Role::firstOrCreate(['name' => 'Media Manager']);
+        Role::firstOrCreate(['name' => 'Media Staff']);
+
         // Assign Super Admin to first user
         $user = User::first();
         if ($user) {
