@@ -2,8 +2,32 @@
 import { Head, Link } from '@inertiajs/vue3';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import RedwoodButton from '@/Components/RedwoodButton.vue';
-import { computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import heroBg from '../../images/homepage-hero.png';
+
+const isDark = ref(false);
+
+onMounted(() => {
+    // Check initial theme from localStorage or system preference
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        isDark.value = true;
+        document.documentElement.classList.add('dark');
+    } else {
+        isDark.value = false;
+        document.documentElement.classList.remove('dark');
+    }
+});
+
+const toggleTheme = () => {
+    isDark.value = !isDark.value;
+    if (isDark.value) {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+    }
+};
 
 const props = defineProps({
     canLogin: Boolean,
@@ -49,6 +73,16 @@ const tracks = computed(() => props.sections.tracks || {});
                     </div>
                     
                     <nav class="flex items-center gap-4">
+                        <button @click="toggleTheme" class="p-2 text-[#a8a196] hover:text-brand-rose dark:hover:text-brand-rose-vibrant transition-colors rounded-full relative overflow-hidden group">
+                            <span class="sr-only">Toggle dark mode</span>
+                            <!-- Sun icon for dark mode (click to switch to light) -->
+                            <svg v-if="isDark" class="w-5 h-5 text-amber-400 group-hover:rotate-90 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                            <!-- Moon icon for light mode (click to switch to dark) -->
+                            <svg v-else class="w-5 h-5 group-hover:-rotate-12 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                        </button>
+                        
+                        <div class="h-6 w-px bg-[#ebeae8] dark:bg-[#383736]"></div>
+
                         <Link v-if="$page.props.auth.user" :href="route('dashboard')" class="text-sm font-bold hover:text-brand-rose transition-colors">
                             Dashboard
                         </Link>
