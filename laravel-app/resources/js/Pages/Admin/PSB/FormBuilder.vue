@@ -122,7 +122,10 @@ const saveReorder = (ids) => {
                     <h3 class="text-lg font-black text-[#161514] dark:text-[#f2e8d5]">Konfigurasi Pertanyaan</h3>
                     <p class="text-xs font-medium text-[#a8a196] mt-1">Atur daftar pertanyaan dinamis untuk form registrasi Tahap 2.</p>
                 </div>
-                <RedwoodButton @click="openAddModal">
+                <RedwoodButton 
+                    v-if="$page.props.auth.user.permissions.includes('create psb')"
+                    @click="openAddModal"
+                >
                     <template #icon>
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
                     </template>
@@ -142,7 +145,7 @@ const saveReorder = (ids) => {
             >
                 <!-- Left: Order Controls & Icon -->
                 <div class="flex items-center gap-4">
-                    <div class="flex flex-col text-[#a8a196] opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div class="flex flex-col text-[#a8a196] opacity-0 group-hover:opacity-100 transition-opacity" v-if="$page.props.auth.user.permissions.includes('create psb')">
                         <button @click="moveUp(index)" :disabled="index === 0" class="hover:text-[#d02e5c] disabled:opacity-20"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" /></svg></button>
                         <button @click="moveDown(index)" :disabled="index === questions.length - 1" class="hover:text-[#d02e5c] disabled:opacity-20"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></button>
                     </div>
@@ -163,10 +166,20 @@ const saveReorder = (ids) => {
 
                 <!-- Right: Actions -->
                 <div class="flex items-center gap-2">
-                    <button @click="openEditModal(q)" class="p-2 text-[#a8a196] hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-xl transition-colors" title="Edit">
+                    <button 
+                        v-if="$page.props.auth.user.permissions.includes('update psb')"
+                        @click="openEditModal(q)" 
+                        class="p-2 text-[#a8a196] hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-xl transition-colors" 
+                        title="Edit"
+                    >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
                     </button>
-                    <button @click="deleteQuestion(q.id)" class="p-2 text-[#a8a196] hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-xl transition-colors" title="Hapus">
+                    <button 
+                        v-if="$page.props.auth.user.permissions.includes('delete psb')"
+                        @click="deleteQuestion(q.id)" 
+                        class="p-2 text-[#a8a196] hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-xl transition-colors" 
+                        title="Hapus"
+                    >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                     </button>
                 </div>

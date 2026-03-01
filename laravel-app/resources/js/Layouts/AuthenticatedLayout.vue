@@ -290,7 +290,7 @@ if (typeof window !== 'undefined') {
                 </div>
 
                 <Link 
-                    v-if="$page.props.auth.user.permissions.includes('view psb')"
+                    v-if="$page.props.auth.user.permissions.includes('view homepage')"
                     :href="route('admin.homepage.index')" 
                     :class="[
                         'group flex items-center rounded-xl transition-all hover:bg-[#ebeae8] dark:hover:bg-[#21201f]',

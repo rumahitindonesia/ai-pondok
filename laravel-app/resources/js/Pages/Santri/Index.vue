@@ -231,6 +231,7 @@ const applyBulkStatus = () => {
                     </div>
                     
                     <RedwoodButton 
+                        v-if="$page.props.auth.user.permissions.includes('create santri')"
                         as="Link"
                         :href="route('santri.create')"
                         variant="primary"
@@ -335,6 +336,7 @@ const applyBulkStatus = () => {
                                     Lihat
                                 </Link>
                                 <Link
+                                    v-if="$page.props.auth.user.permissions.includes('update santri')"
                                     :href="route('santri.edit', santri.id)"
                                     class="flex-1 flex flex-col items-center justify-center gap-1 bg-blue-500 text-white text-[10px] font-black uppercase hover:brightness-110 active:brightness-90 transition-all"
                                 >

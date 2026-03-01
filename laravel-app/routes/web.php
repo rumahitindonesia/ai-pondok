@@ -56,22 +56,33 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Data Santri
     Route::middleware(['can:view santri'])->group(function () {
         Route::get('/santri/settings', [SantriController::class, 'settings'])->name('santri.settings');
-        Route::post('/santri/bulk-status', [SantriController::class, 'bulkUpdateStatus'])->name('santri.bulk-status');
-        Route::resource('santri', SantriController::class);
+        Route::get('/santri', [SantriController::class, 'index'])->name('santri.index');
+        Route::get('/santri/{santri}', [SantriController::class, 'show'])->name('santri.show');
 
-        // Santri Attribute Management
-        Route::post('/admin/kelas', [KelasController::class, 'store'])->name('admin.kelas.store');
-        Route::delete('/admin/kelas/{kelas}', [KelasController::class, 'destroy'])->name('admin.kelas.destroy');
-        Route::post('/admin/kamars', [KamarController::class, 'store'])->name('admin.kamars.store');
-        Route::delete('/admin/kamars/{kamar}', [KamarController::class, 'destroy'])->name('admin.kamars.destroy');
+        Route::middleware(['can:create santri'])->group(function () {
+            Route::get('/santri/create', [SantriController::class, 'create'])->name('santri.create');
+            Route::post('/santri', [SantriController::class, 'store'])->name('santri.store');
+            Route::post('/admin/kelas', [KelasController::class, 'store'])->name('admin.kelas.store');
+            Route::post('/admin/kamars', [KamarController::class, 'store'])->name('admin.kamars.store');
+            Route::post('/santri/{santri}/achievements', [CapaianSantriController::class, 'store'])->name('santri.achievements.store');
+            Route::post('/santri/{santri}/portfolios', [PortfolioController::class, 'store'])->name('santri.portfolios.store');
+        });
 
-        // Achievement & Portfolio Management (tied to Santri)
-        Route::post('/santri/{santri}/achievements', [CapaianSantriController::class, 'store'])->name('santri.achievements.store');
-        Route::delete('/achievements/{achievement}', [CapaianSantriController::class, 'destroy'])->name('achievements.destroy');
-        
-        Route::post('/santri/{santri}/portfolios', [PortfolioController::class, 'store'])->name('santri.portfolios.store');
-        Route::put('/portfolios/{portfolio}', [PortfolioController::class, 'update'])->name('portfolios.update');
-        Route::delete('/portfolios/{portfolio}', [PortfolioController::class, 'destroy'])->name('portfolios.destroy');
+        Route::middleware(['can:update santri'])->group(function () {
+            Route::get('/santri/{santri}/edit', [SantriController::class, 'edit'])->name('santri.edit');
+            Route::put('/santri/{santri}', [SantriController::class, 'update'])->name('santri.update');
+            Route::patch('/santri/{santri}', [SantriController::class, 'update'])->name('santri.update');
+            Route::post('/santri/bulk-status', [SantriController::class, 'bulkUpdateStatus'])->name('santri.bulk-status');
+            Route::put('/portfolios/{portfolio}', [PortfolioController::class, 'update'])->name('portfolios.update');
+        });
+
+        Route::middleware(['can:delete santri'])->group(function () {
+            Route::delete('/santri/{santri}', [SantriController::class, 'destroy'])->name('santri.destroy');
+            Route::delete('/admin/kelas/{kelas}', [KelasController::class, 'destroy'])->name('admin.kelas.destroy');
+            Route::delete('/admin/kamars/{kamar}', [KamarController::class, 'destroy'])->name('admin.kamars.destroy');
+            Route::delete('/achievements/{achievement}', [CapaianSantriController::class, 'destroy'])->name('achievements.destroy');
+            Route::delete('/portfolios/{portfolio}', [PortfolioController::class, 'destroy'])->name('portfolios.destroy');
+        });
     });
 
     // Struktur Organisasi (Pengurus)
@@ -83,18 +94,35 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Admin PSB Management
     Route::middleware(['can:view psb'])->group(function () {
         Route::get('/admin/psb', [PSBController::class, 'adminIndex'])->name('admin.psb.index');
-        Route::patch('/admin/psb/{psb}/status', [PSBController::class, 'updateStatus'])->name('admin.psb.status');
+        
+        Route::middleware(['can:update psb'])->group(function () {
+            Route::patch('/admin/psb/{psb}/status', [PSBController::class, 'updateStatus'])->name('admin.psb.status');
+        });
         
         // Form Builder (Dynamic PSB Stage 2)
         Route::get('/admin/psb/form-builder', [\App\Http\Controllers\Admin\FormBuilderController::class, 'index'])->name('admin.psb.form-builder');
-        Route::post('/admin/psb/form-builder', [\App\Http\Controllers\Admin\FormBuilderController::class, 'store'])->name('admin.psb.form-builder.store');
-        Route::put('/admin/psb/form-builder/{question}', [\App\Http\Controllers\Admin\FormBuilderController::class, 'update'])->name('admin.psb.form-builder.update');
-        Route::delete('/admin/psb/form-builder/{question}', [\App\Http\Controllers\Admin\FormBuilderController::class, 'destroy'])->name('admin.psb.form-builder.destroy');
-        Route::post('/admin/psb/form-builder/reorder', [\App\Http\Controllers\Admin\FormBuilderController::class, 'reorder'])->name('admin.psb.form-builder.reorder');
+        
+        Route::middleware(['can:create psb'])->group(function () {
+            Route::post('/admin/psb/form-builder', [\App\Http\Controllers\Admin\FormBuilderController::class, 'store'])->name('admin.psb.form-builder.store');
+            Route::post('/admin/psb/form-builder/reorder', [\App\Http\Controllers\Admin\FormBuilderController::class, 'reorder'])->name('admin.psb.form-builder.reorder');
+        });
+        
+        Route::middleware(['can:update psb'])->group(function () {
+            Route::put('/admin/psb/form-builder/{question}', [\App\Http\Controllers\Admin\FormBuilderController::class, 'update'])->name('admin.psb.form-builder.update');
+        });
+        
+        Route::middleware(['can:delete psb'])->group(function () {
+            Route::delete('/admin/psb/form-builder/{question}', [\App\Http\Controllers\Admin\FormBuilderController::class, 'destroy'])->name('admin.psb.form-builder.destroy');
+        });
+    });
 
-        // Homepage Management
+    // Homepage Management
+    Route::middleware(['can:view homepage'])->group(function () {
         Route::get('/admin/homepage', [\App\Http\Controllers\Admin\HomepageController::class, 'index'])->name('admin.homepage.index');
-        Route::put('/admin/homepage/{section}', [\App\Http\Controllers\Admin\HomepageController::class, 'update'])->name('admin.homepage.update');
+        
+        Route::middleware(['can:update homepage'])->group(function () {
+            Route::put('/admin/homepage/{section}', [\App\Http\Controllers\Admin\HomepageController::class, 'update'])->name('admin.homepage.update');
+        });
     });
 
     // Finance Routes
@@ -137,13 +165,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // User & Role Management
     Route::middleware(['can:view users'])->group(function () {
         Route::get('/admin/users', [\App\Http\Controllers\UserController::class, 'index'])->name('admin.users.index');
-        Route::post('/admin/users', [\App\Http\Controllers\UserController::class, 'store'])->name('admin.users.store');
-        Route::patch('/admin/users/{user}', [\App\Http\Controllers\UserController::class, 'update'])->name('admin.users.update');
-        Route::delete('/admin/users/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('admin.users.destroy');
-        
         Route::get('/admin/roles', [\App\Http\Controllers\RoleController::class, 'index'])->name('admin.roles.index');
-        Route::post('/admin/roles', [\App\Http\Controllers\RoleController::class, 'store'])->name('admin.roles.store');
-        Route::patch('/admin/roles/{role}', [\App\Http\Controllers\RoleController::class, 'update'])->name('admin.roles.update');
+
+        Route::middleware(['can:create users'])->group(function () {
+            Route::post('/admin/users', [\App\Http\Controllers\UserController::class, 'store'])->name('admin.users.store');
+            Route::post('/admin/roles', [\App\Http\Controllers\RoleController::class, 'store'])->name('admin.roles.store');
+        });
+
+        Route::middleware(['can:update users'])->group(function () {
+            Route::patch('/admin/users/{user}', [\App\Http\Controllers\UserController::class, 'update'])->name('admin.users.update');
+            Route::patch('/admin/roles/{role}', [\App\Http\Controllers\RoleController::class, 'update'])->name('admin.roles.update');
+        });
+
+        Route::middleware(['can:delete users'])->group(function () {
+            Route::delete('/admin/users/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('admin.users.destroy');
+        });
     });
 
     // --- CONTENT ASSIGNMENT MODULE ---
