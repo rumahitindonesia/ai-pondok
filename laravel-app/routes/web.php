@@ -184,9 +184,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // --- CONTENT ASSIGNMENT MODULE ---
     // User Routes
-    Route::get('/content-requests/create', [\App\Http\Controllers\ContentRequestController::class, 'create'])->name('content-requests.create');
-    Route::post('/content-requests', [\App\Http\Controllers\ContentRequestController::class, 'store'])->name('content-requests.store');
-    Route::get('/content-requests/my', [\App\Http\Controllers\ContentRequestController::class, 'myRequests'])->name('content-requests.my');
+    Route::middleware(['can:view content request'])->group(function () {
+        Route::get('/content-requests/my', [\App\Http\Controllers\ContentRequestController::class, 'myRequests'])->name('content-requests.my');
+        
+        Route::middleware(['can:create content request'])->group(function () {
+            Route::get('/content-requests/create', [\App\Http\Controllers\ContentRequestController::class, 'create'])->name('content-requests.create');
+            Route::post('/content-requests', [\App\Http\Controllers\ContentRequestController::class, 'store'])->name('content-requests.store');
+        });
+    });
 
     // Admin / Manager Routes
     Route::middleware(['can:view content manager'])->group(function () {

@@ -23,6 +23,7 @@ const modules = [
     { title: 'Manajemen Homepage', key: 'homepage' },
     { title: 'Manajemen Planner (Content Manager)', key: 'content manager' },
     { title: 'Tugas Media (Content Staff)', key: 'content staff' },
+    { title: 'Request Konten (Ide/Materi)', key: 'content request' },
     { title: 'Manajemen User', key: 'users' },
 ];
 
