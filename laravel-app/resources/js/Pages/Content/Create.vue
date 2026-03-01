@@ -36,20 +36,20 @@ const submit = () => {
     <Head title="Request Konten Media" />
 
     <AuthenticatedLayout>
+        <template #header>
+            <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
+                Form <span class="text-[#d02e5c]">Pengajuan Konten</span>
+            </h2>
+        </template>
+
         <div class="py-12">
             <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+                
+                <div class="mb-6">
+                    <p class="text-gray-600 dark:text-gray-400 text-lg">Platform request desain & video ke tim Media Rumah IT.</p>
+                </div>
+
                 <div class="bg-white dark:bg-[#1e1d1b] overflow-hidden shadow-sm sm:rounded-2xl border border-[#ebeae8] dark:border-[#3e3c3a]">
-                    
-                    <!-- Header -->
-                    <div class="bg-gradient-to-r from-[#d02e5c] to-[#a32448] p-8 text-white relative overflow-hidden">
-                        <div class="relative z-10">
-                            <h2 class="text-3xl font-extrabold tracking-tight">Form Pengajuan Konten</h2>
-                            <p class="mt-2 text-rose-100 text-lg">Platform request desain & video ke tim Media Rumah IT.</p>
-                        </div>
-                        <div class="absolute -right-10 -top-10 text-white/10">
-                            <svg class="w-64 h-64" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                        </div>
-                    </div>
 
                     <form @submit.prevent="submit" class="p-8 space-y-8">
                         
