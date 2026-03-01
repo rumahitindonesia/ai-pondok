@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Santri; // Added for the santri relationship
+use App\Models\Jabatan;
 
 class User extends Authenticatable
 {
@@ -27,6 +28,7 @@ class User extends Authenticatable
         'role',
         'phone_number',
         'santri_id',
+        'jabatan_id',
         'referral_code',
     ];
 
@@ -71,6 +73,14 @@ class User extends Authenticatable
     public function santri()
     {
         return $this->belongsTo(Santri::class);
+    }
+
+    /**
+     * User profile linked to a Jabatan (role/position in organization).
+     */
+    public function jabatan()
+    {
+        return $this->belongsTo(Jabatan::class);
     }
 
     /**
