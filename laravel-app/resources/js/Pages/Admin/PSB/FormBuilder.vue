@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import RedwoodButton from '@/Components/RedwoodButton.vue';
+import ConfirmModal from '@/Components/ConfirmModal.vue';
 
 const props = defineProps({
     questions: Array
@@ -65,10 +66,15 @@ const submitForm = () => {
     }
 };
 
+const confirmState = ref({ show: false, id: null });
+
 const deleteQuestion = (id) => {
-    if (confirm('Yakin ingin menghapus pertanyaan ini? Seluruh jawaban terkait (jika ada) akan ikut terhapus.')) {
-        router.delete(route('admin.psb.form-builder.destroy', id));
-    }
+    confirmState.value = { show: true, id };
+};
+
+const executeDelete = () => {
+    router.delete(route('admin.psb.form-builder.destroy', confirmState.value.id));
+    confirmState.value.show = false;
 };
 
 const getOptionsList = (form) => {
@@ -249,4 +255,13 @@ const saveReorder = (ids) => {
         </div>
 
     </AuthenticatedLayout>
+
+    <ConfirmModal
+        :show="confirmState.show"
+        title="Hapus Pertanyaan"
+        message="Pertanyaan ini akan dihapus permanen beserta seluruh jawaban yang sudah ada."
+        confirm-text="Ya, Hapus"
+        @confirm="executeDelete"
+        @cancel="confirmState.show = false"
+    />
 </template>
