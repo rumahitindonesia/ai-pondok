@@ -25,6 +25,17 @@ const submit = () => {
         forceFormData: true,
     });
 };
+
+const provinces = [
+    'Nanggroe Aceh Darussalam', 'Sumatera Utara', 'Sumatera Barat', 'Riau', 'Kepulauan Riau', 
+    'Jambi', 'Bengkulu', 'Sumatera Selatan', 'Kepulauan Bangka Belitung', 'Lampung', 
+    'Banten', 'DKI Jakarta', 'Jawa Barat', 'Jawa Tengah', 'DI Yogyakarta', 'Jawa Timur', 
+    'Bali', 'Nusa Tenggara Barat', 'Nusa Tenggara Timur', 'Kalimantan Barat', 'Kalimantan Tengah', 
+    'Kalimantan Selatan', 'Kalimantan Timur', 'Kalimantan Utara', 'Sulawesi Utara', 'Gorontalo', 
+    'Sulawesi Tengah', 'Sulawesi Barat', 'Sulawesi Selatan', 'Sulawesi Tenggara', 'Maluku', 
+    'Maluku Utara', 'Papua Barat', 'Papua', 'Papua Tengah', 'Papua Pegunungan', 'Papua Selatan', 
+    'Papua Barat Daya'
+];
 </script>
 
 <template>
@@ -65,9 +76,20 @@ const submit = () => {
                             <span v-if="question.is_required" class="text-red-500 ml-1 text-xl leading-none">*</span>
                         </label>
                         
-                        <!-- Text Input -->
+                        <!-- Text Input / Select Dropdown for Provinsi -->
                         <div v-if="question.type === 'text'" class="mt-2">
+                            <select 
+                                v-if="question.question_text.toLowerCase().includes('provinsi')"
+                                v-model="form['question_' + question.id]"
+                                :required="question.is_required"
+                                class="w-full px-4 py-3 sm:py-4 rounded-xl border border-[#ebeae8] bg-white text-[#161514] font-medium focus:outline-none focus:ring-2 focus:ring-[#d02e5c] focus:border-transparent transition-all shadow-sm appearance-none cursor-pointer"
+                            >
+                                <option value="" disabled>Pilih Provinsi</option>
+                                <option v-for="prov in provinces" :key="prov" :value="prov">{{ prov }}</option>
+                            </select>
+                            
                             <input 
+                                v-else
                                 type="text" 
                                 v-model="form['question_' + question.id]" 
                                 :required="question.is_required"
