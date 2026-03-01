@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm, router } from '@inertiajs/vue3';
+import { Head, useForm, router, usePage } from '@inertiajs/vue3';
 import moment from 'moment';
 import 'moment/dist/locale/id';
 import { ref } from 'vue';
@@ -8,7 +8,6 @@ import RedwoodSelect from '@/Components/RedwoodSelect.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import RedwoodButton from '@/Components/RedwoodButton.vue';
-import { usePage } from '@inertiajs/vue3';
 
 moment.locale('id');
 
