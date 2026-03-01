@@ -16,8 +16,8 @@ class PublicProfileController extends Controller
      */
     public function show($nis)
     {
-        // Fetch Santri and eager load relationships
         $santri = Santri::with([
+            'jabatans',
             'wali',
             'absensis.jenisAbsensi',
             'pelanggarans',

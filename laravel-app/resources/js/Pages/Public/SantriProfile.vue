@@ -164,11 +164,13 @@ const latestPayments = computed(() => {
                         
                         <div class="flex items-center gap-4">
                             <div class="w-12 h-12 bg-[#2d2a26]/5 text-[#2d2a26] rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                             </div>
                             <div>
-                                <p class="text-[9px] font-bold text-[#a8a196] uppercase tracking-[0.2em] mb-0.5 opacity-70">Kelas Akademik</p>
-                                <p class="text-lg font-bold text-[#161514] font-['Plus_Jakarta_Sans',sans-serif] tracking-tight">{{ santri.kelas?.nama_kelas || '-' }}</p>
+                                <p class="text-[9px] font-bold text-[#a8a196] uppercase tracking-[0.2em] mb-0.5 opacity-70">Jabatan Kepengurusan</p>
+                                <p class="text-lg font-bold text-[#161514] font-['Plus_Jakarta_Sans',sans-serif] tracking-tight">
+                                    {{ santri.jabatans && santri.jabatans.length > 0 ? santri.jabatans[0].nama_jabatan : 'Santri' }}
+                                </p>
                             </div>
                         </div>
                     </div>
