@@ -13,52 +13,57 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Fetch real stats directly from the database
         $stats = [
-            'total_santri' => \App\Models\Santri::count(),
-            'active_santri' => \App\Models\Santri::where('status', 'Santri Aktif')->count(),
-            'new_registrations' => \App\Models\PsbRegistration::whereMonth('created_at', Carbon::now()->month)
-                                    ->whereYear('created_at', Carbon::now()->year)
-                                    ->count(),
-            'monthly_revenue' => [], // Keeping for structure, filled dynamically later if needed
+            'total_santri' => 0,
+            'active_santri' => 0,
+            'new_registrations' => 0,
+            'monthly_revenue' => [],
+            'daily_payments' => [],
         ];
 
-        // Add daily payments for current month
-        $now = Carbon::now();
-        $daysInMonth = $now->daysInMonth;
-        
-        // 1. Create a base array with all days of the month defaulting to 0
-        $dailyData = [];
-        for ($i = 1; $i <= $daysInMonth; $i++) {
-            $dateObj = clone $now;
-            $dateObj->day = $i;
-            $formattedDate = $dateObj->format('d M');
-            $dailyData[$formattedDate] = [
-                'date' => $formattedDate,
-                'total' => 0
-            ];
+        try {
+            $stats['total_santri'] = \App\Models\Santri::count();
+            $stats['active_santri'] = \App\Models\Santri::where('status', 'Santri Aktif')->count();
+            $stats['new_registrations'] = \App\Models\PsbRegistration::whereMonth('created_at', Carbon::now()->month)
+                ->whereYear('created_at', Carbon::now()->year)
+                ->count();
+        } catch (\Exception $e) {
+            \Log::warning('Dashboard stats query failed: ' . $e->getMessage());
         }
 
-        // 2. Fetch actual payment data from the database
-        $actualPayments = Pembayaran::whereMonth('tanggal_bayar', $now->month)
-            ->whereYear('tanggal_bayar', $now->year)
-            ->select(DB::raw('DATE(tanggal_bayar) as date'), DB::raw('SUM(jumlah_bayar) as total'))
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
+        try {
+            $now = Carbon::now();
+            $daysInMonth = $now->daysInMonth;
 
-        // 3. Overlay the actual totals onto the base array
-        foreach ($actualPayments as $payment) {
-            $formattedDate = Carbon::parse($payment->date)->format('d M');
-            if (isset($dailyData[$formattedDate])) {
-                $dailyData[$formattedDate]['total'] = (float) $payment->total;
+            $dailyData = [];
+            for ($i = 1; $i <= $daysInMonth; $i++) {
+                $dateObj = $now->copy()->day($i);
+                $formattedDate = $dateObj->format('d M');
+                $dailyData[$formattedDate] = ['date' => $formattedDate, 'total' => 0];
             }
-        }
 
-        $stats['daily_payments'] = array_values($dailyData);
+            $actualPayments = Pembayaran::whereMonth('tanggal_bayar', $now->month)
+                ->whereYear('tanggal_bayar', $now->year)
+                ->select(DB::raw('DATE(tanggal_bayar) as date'), DB::raw('SUM(jumlah_bayar) as total'))
+                ->groupBy('date')
+                ->orderBy('date')
+                ->get();
+
+            foreach ($actualPayments as $payment) {
+                $formattedDate = Carbon::parse($payment->date)->format('d M');
+                if (isset($dailyData[$formattedDate])) {
+                    $dailyData[$formattedDate]['total'] = (float) $payment->total;
+                }
+            }
+
+            $stats['daily_payments'] = array_values($dailyData);
+        } catch (\Exception $e) {
+            \Log::warning('Dashboard payments query failed: ' . $e->getMessage());
+        }
 
         return Inertia::render('Dashboard', [
             'stats' => $stats
         ]);
     }
 }
+
