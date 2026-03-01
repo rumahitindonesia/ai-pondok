@@ -2,6 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import ConfirmModal from '@/Components/ConfirmModal.vue';
 import RedwoodButton from '@/Components/RedwoodButton.vue';
 import RedwoodSelect from '@/Components/RedwoodSelect.vue';
 
@@ -59,10 +60,15 @@ const closeModal = () => {
     form.reset();
 };
 
+const confirmState = ref({ show: false, id: null });
+
 const deleteUser = (id) => {
-    if (confirm('Apakah Anda yakin ingin menghapus user ini?')) {
-        form.delete(route('admin.users.destroy', id));
-    }
+    confirmState.value = { show: true, id };
+};
+
+const executeDelete = () => {
+    form.delete(route('admin.users.destroy', confirmState.value.id));
+    confirmState.value.show = false;
 };
 </script>
 
@@ -219,4 +225,13 @@ const deleteUser = (id) => {
             </div>
         </div>
     </AuthenticatedLayout>
+
+    <ConfirmModal
+        :show="confirmState.show"
+        title="Hapus User"
+        message="User ini akan dihapus permanen beserta semua data yang terkait."
+        confirm-text="Ya, Hapus"
+        @confirm="executeDelete"
+        @cancel="confirmState.show = false"
+    />
 </template>

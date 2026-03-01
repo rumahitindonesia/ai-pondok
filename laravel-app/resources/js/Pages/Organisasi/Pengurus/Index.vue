@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import RedwoodButton from '@/Components/RedwoodButton.vue';
+import ConfirmModal from '@/Components/ConfirmModal.vue';
 
 const props = defineProps({
     pengurusList: Array,
@@ -53,12 +54,17 @@ const closeModal = () => {
     form.reset();
 };
 
+const confirmState = ref({ show: false, id: null });
+
 const deletePengurus = (id) => {
-    if (confirm('Apakah Anda yakin ingin menghapus data menjabat ini?')) {
-        useForm({}).delete(route('organisasi.pengurus.destroy', id), {
-            preserveScroll: true
-        });
-    }
+    confirmState.value = { show: true, id };
+};
+
+const executeDelete = () => {
+    useForm({}).delete(route('organisasi.pengurus.destroy', confirmState.value.id), {
+        preserveScroll: true
+    });
+    confirmState.value.show = false;
 };
 </script>
 
@@ -195,4 +201,13 @@ const deletePengurus = (id) => {
             </div>
         </div>
     </AuthenticatedLayout>
+
+    <ConfirmModal
+        :show="confirmState.show"
+        title="Hapus Data Pengurus"
+        message="Apakah Anda yakin ingin menghapus data jabatan pengurus ini?"
+        confirm-text="Ya, Hapus"
+        @confirm="executeDelete"
+        @cancel="confirmState.show = false"
+    />
 </template>

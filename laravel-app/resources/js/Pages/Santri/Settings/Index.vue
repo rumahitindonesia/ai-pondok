@@ -1,7 +1,9 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import RedwoodButton from '@/Components/RedwoodButton.vue';
+import ConfirmModal from '@/Components/ConfirmModal.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
 const props = defineProps({
     kelas: Array,
@@ -34,20 +36,20 @@ const submitKamar = () => {
     });
 };
 
+const confirmState = ref({ show: false, id: null, type: null, message: '' });
+
 const deleteKelas = (id) => {
-    if (confirm('Hapus data kelas ini?')) {
-        router.delete(route('admin.kelas.destroy', id), {
-            preserveScroll: true
-        });
-    }
+    confirmState.value = { show: true, id, type: 'kelas', message: 'Data kelas ini akan dihapus permanen.' };
 };
 
 const deleteKamar = (id) => {
-    if (confirm('Hapus data kamar ini?')) {
-        router.delete(route('admin.kamars.destroy', id), {
-            preserveScroll: true
-        });
-    }
+    confirmState.value = { show: true, id, type: 'kamar', message: 'Data kamar ini akan dihapus permanen.' };
+};
+
+const executeDelete = () => {
+    const routeName = confirmState.value.type === 'kelas' ? 'admin.kelas.destroy' : 'admin.kamars.destroy';
+    router.delete(route(routeName, confirmState.value.id), { preserveScroll: true });
+    confirmState.value.show = false;
 };
 </script>
 
@@ -180,4 +182,13 @@ const deleteKamar = (id) => {
             </div>
         </div>
     </AuthenticatedLayout>
+
+    <ConfirmModal
+        :show="confirmState.show"
+        :title="confirmState.type === 'kelas' ? 'Hapus Data Kelas' : 'Hapus Data Kamar'"
+        :message="confirmState.message"
+        confirm-text="Ya, Hapus"
+        @confirm="executeDelete"
+        @cancel="confirmState.show = false"
+    />
 </template>

@@ -1,7 +1,9 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import RedwoodButton from '@/Components/RedwoodButton.vue';
+import ConfirmModal from '@/Components/ConfirmModal.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
 const props = defineProps({
     activities: Array
@@ -20,10 +22,15 @@ const submit = () => {
     });
 };
 
+const confirmState = ref({ show: false, id: null });
+
 const deleteActivity = (id) => {
-    if (confirm('Hapus jenis kegiatan ini? Data absensi yang sudah ada mungkin akan terpengaruh.')) {
-        router.delete(route('records.attendance.types.destroy', id));
-    }
+    confirmState.value = { show: true, id };
+};
+
+const executeDelete = () => {
+    router.delete(route('records.attendance.types.destroy', confirmState.value.id));
+    confirmState.value.show = false;
 };
 </script>
 
@@ -108,4 +115,13 @@ const deleteActivity = (id) => {
             </div>
         </div>
     </AuthenticatedLayout>
+
+    <ConfirmModal
+        :show="confirmState.show"
+        title="Hapus Jenis Kegiatan"
+        message="Data absensi yang terkait dengan kegiatan ini mungkin akan terpengaruh."
+        confirm-text="Ya, Hapus"
+        @confirm="executeDelete"
+        @cancel="confirmState.show = false"
+    />
 </template>

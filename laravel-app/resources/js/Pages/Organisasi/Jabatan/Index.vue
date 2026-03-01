@@ -4,6 +4,7 @@ import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import RedwoodButton from '@/Components/RedwoodButton.vue';
 import JabatanTreeNode from '@/Components/JabatanTreeNode.vue';
+import ConfirmModal from '@/Components/ConfirmModal.vue';
 
 const props = defineProps({
     jabatansTree: Array,
@@ -53,10 +54,19 @@ const closeModal = () => {
     form.reset();
 };
 
+const confirmState = ref({ show: false, id: null, message: '' });
+
 const deleteJabatan = (id) => {
-    if (confirm('Apakah Anda yakin ingin menghapus jabatan ini? Penghapusan akan gagal jika masih memiliki bawahan atau pengurus aktif.')) {
-        form.delete(route('organisasi.jabatan.destroy', id));
-    }
+    confirmState.value = {
+        show: true,
+        id,
+        message: 'Penghapusan akan gagal jika jabatan masih memiliki bawahan atau pengurus aktif.'
+    };
+};
+
+const executeDelete = () => {
+    form.delete(route('organisasi.jabatan.destroy', confirmState.value.id));
+    confirmState.value.show = false;
 };
 </script>
 
@@ -156,4 +166,14 @@ const deleteJabatan = (id) => {
             </div>
         </div>
     </AuthenticatedLayout>
+
+    <!-- Confirm Delete Modal -->
+    <ConfirmModal
+        :show="confirmState.show"
+        title="Hapus Jabatan"
+        :message="confirmState.message"
+        confirm-text="Ya, Hapus"
+        @confirm="executeDelete"
+        @cancel="confirmState.show = false"
+    />
 </template>

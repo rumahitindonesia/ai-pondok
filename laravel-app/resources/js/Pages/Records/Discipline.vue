@@ -1,16 +1,23 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import RedwoodButton from '@/Components/RedwoodButton.vue';
+import ConfirmModal from '@/Components/ConfirmModal.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
 const props = defineProps({
     pelanggarans: Array
 });
 
+const confirmState = ref({ show: false, id: null });
+
 const deleteRecord = (id) => {
-    if (confirm('Hapus catatan pelanggaran ini?')) {
-        router.delete(route('records.discipline.destroy', id));
-    }
+    confirmState.value = { show: true, id };
+};
+
+const executeDelete = () => {
+    router.delete(route('records.discipline.destroy', confirmState.value.id));
+    confirmState.value.show = false;
 };
 </script>
 
@@ -83,4 +90,20 @@ const deleteRecord = (id) => {
             </div>
         </div>
     </AuthenticatedLayout>
+
+    <ConfirmModal
+        :show="confirmState.show"
+        title="Hapus Catatan Pelanggaran"
+        message="Catatan pelanggaran ini akan dihapus permanen dan tidak bisa dikembalikan."
+        confirm-text="Ya, Hapus"
+        @confirm="executeDelete"
+        @cancel="confirmState.show = false"
+    />
 </template>
+
+
+const props = defineProps({
+    pelanggarans: Array
+});
+
+const deleteRecord = (id) => {

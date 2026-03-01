@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import RedwoodButton from '@/Components/RedwoodButton.vue';
+import ConfirmModal from '@/Components/ConfirmModal.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
@@ -29,12 +30,16 @@ const startEdit = (jenis) => {
 const cancelEdit = () => { editingId.value = null; editForm.reset(); };
 const saveEdit = (id) => editForm.patch(route('finance.jenis.update', id), { onSuccess: () => { editingId.value = null; } });
 
-// --- Delete ---
+const confirmState = ref({ show: false, id: null });
+
 const deleteJenis = (id) => {
     swipedId.value = null;
-    if (confirm('Hapus jenis pembayaran ini?')) {
-        router.delete(route('finance.jenis.destroy', id), { preserveScroll: true });
-    }
+    confirmState.value = { show: true, id };
+};
+
+const executeDelete = () => {
+    router.delete(route('finance.jenis.destroy', confirmState.value.id), { preserveScroll: true });
+    confirmState.value.show = false;
 };
 
 // --- Swipe to Reveal ---
@@ -265,4 +270,13 @@ const formatCurrency = (v) => v ? new Intl.NumberFormat('id-ID', { style: 'curre
             </div>
         </div>
     </AuthenticatedLayout>
+
+    <ConfirmModal
+        :show="confirmState.show"
+        title="Hapus Jenis Pembayaran"
+        message="Jenis pembayaran ini akan dihapus permanen. Data tagihan yang sudah ada mungkin akan terpengaruh."
+        confirm-text="Ya, Hapus"
+        @confirm="executeDelete"
+        @cancel="confirmState.show = false"
+    />
 </template>
