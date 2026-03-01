@@ -71,7 +71,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::middleware(['can:update santri'])->group(function () {
             Route::get('/santri/{santri}/edit', [SantriController::class, 'edit'])->name('santri.edit');
             Route::put('/santri/{santri}', [SantriController::class, 'update'])->name('santri.update');
-            Route::patch('/santri/{santri}', [SantriController::class, 'update'])->name('santri.update');
+            Route::patch('/santri/{santri}', [SantriController::class, 'update']);
             Route::post('/santri/bulk-status', [SantriController::class, 'bulkUpdateStatus'])->name('santri.bulk-status');
             Route::put('/portfolios/{portfolio}', [PortfolioController::class, 'update'])->name('portfolios.update');
         });
