@@ -42,4 +42,20 @@ class RoleController extends Controller
 
         return redirect()->back()->with('success', 'Hak akses role berhasil diperbarui.');
     }
+
+    public function destroy(Role $role)
+    {
+        if ($role->name === 'Super Admin') {
+            return redirect()->back()->with('error', 'Role Super Admin tidak dapat dihapus.');
+        }
+
+        // Optional: Check if role is in use
+        if ($role->users()->exists()) {
+            return redirect()->back()->with('error', 'Role masih digunakan oleh beberapa user. Hapus atau pindahkan user terlebih dahulu.');
+        }
+
+        $role->delete();
+
+        return redirect()->back()->with('success', 'Role berhasil dihapus.');
+    }
 }

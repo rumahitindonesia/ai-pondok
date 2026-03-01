@@ -62,6 +62,33 @@ const savePermissions = () => {
 const isPermitted = (action, module) => {
     return form.permissions.includes(`${action} ${module}`);
 };
+
+const newRoleForm = useForm({
+    name: '',
+});
+
+const isAddingRole = ref(false);
+
+const addRole = () => {
+    newRoleForm.post(route('admin.roles.store'), {
+        onSuccess: () => {
+            isAddingRole.value = false;
+            newRoleForm.reset();
+        },
+    });
+};
+
+const deleteRole = (role) => {
+    if (confirm(`Apakah Anda yakin ingin menghapus role "${role.name}"?`)) {
+        router.delete(route('admin.roles.destroy', role.id), {
+            onSuccess: () => {
+                if (activeRoleId.value === role.id) {
+                    activeRoleId.value = props.roles[0]?.id || null;
+                }
+            },
+        });
+    }
+};
 </script>
 
 <template>
@@ -77,7 +104,13 @@ const isPermitted = (action, module) => {
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
             <!-- Sidebar: Roles List -->
             <div class="lg:col-span-1 space-y-4">
-                <p class="text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196] px-2 mb-4">Daftar Role</p>
+                <div class="flex items-center justify-between px-2 mb-4">
+                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196]">Daftar Role</p>
+                    <button @click="isAddingRole = true" class="text-[#d02e5c] hover:text-[#b0224a] transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                    </button>
+                </div>
+
                 <button v-for="role in roles" :key="role.id" 
                         @click="selectRole(role)"
                         :class="[
@@ -93,7 +126,16 @@ const isPermitted = (action, module) => {
                             {{ role.permissions.length }} Hak Akses Aktif
                         </p>
                     </div>
-                    <svg class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-all" :class="activeRoleId === role.id ? 'opacity-100' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-all" :class="activeRoleId === role.id ? 'opacity-100' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+                        <button 
+                            v-if="role.name !== 'Super Admin'"
+                            @click.stop="deleteRole(role)"
+                            class="p-1 text-[#a8a196] hover:text-rose-500 transition-colors opacity-0 group-hover:opacity-100"
+                        >
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                        </button>
+                    </div>
                 </button>
             </div>
 
@@ -146,6 +188,25 @@ const isPermitted = (action, module) => {
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Add Role Modal -->
+        <div v-if="isAddingRole" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="isAddingRole = false"></div>
+            <div class="relative bg-white dark:bg-[#161514] w-full max-w-md rounded-[40px] shadow-2xl border border-[#ebeae8] dark:border-[#3e3c3a] overflow-hidden p-8 lg:p-12">
+                <h3 class="text-2xl font-black text-[#161514] dark:text-[#f2e8d5] mb-8">Tambah Role Baru</h3>
+                <form @submit.prevent="addRole" class="space-y-6">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black uppercase tracking-[0.2em] text-[#a8a196]">Nama Role</label>
+                        <input v-model="newRoleForm.name" type="text" class="w-full bg-[#f5f4f2] dark:bg-[#262524] border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-[#d02e5c] transition-all" placeholder="Misal: Staff Keuangan" required />
+                        <p v-if="newRoleForm.errors.name" class="text-xs text-rose-500 font-bold mt-1">{{ newRoleForm.errors.name }}</p>
+                    </div>
+                    <div class="flex items-center justify-end gap-4 mt-8">
+                        <button type="button" @click="isAddingRole = false" class="text-sm font-black uppercase tracking-widest text-[#a8a196] transition-colors">Batal</button>
+                        <RedwoodButton type="submit" :disabled="newRoleForm.processing">Buat Role</RedwoodButton>
+                    </div>
+                </form>
             </div>
         </div>
     </AuthenticatedLayout>
