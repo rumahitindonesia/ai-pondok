@@ -56,4 +56,22 @@ class ContentManagerController extends Controller
 
         return back()->with('success', 'Status berhasil diperbarui.');
     }
+
+    // Update publishing info and metrics
+    public function updateMetrics(Request $request, ContentRequest $contentRequest)
+    {
+        $validated = $request->validate([
+            'published_at' => 'nullable|date',
+            'published_url' => 'nullable|url',
+            'reach_count' => 'nullable|integer|min:0',
+            'engagement_count' => 'nullable|integer|min:0',
+            'link_clicks' => 'nullable|integer|min:0',
+            'insight_notes' => 'nullable|string',
+            'status' => 'nullable|string|in:Menunggu Assign,Ditugaskan,Proses,Revisi,Selesai,Batal',
+        ]);
+
+        $contentRequest->update($validated);
+
+        return back()->with('success', 'Metrik performa konten berhasil diperbarui.');
+    }
 }

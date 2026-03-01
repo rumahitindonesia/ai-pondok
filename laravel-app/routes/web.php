@@ -198,6 +198,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/admin/content-manager', [\App\Http\Controllers\Admin\ContentManagerController::class, 'index'])->name('admin.content.manager.index');
         Route::put('/admin/content-manager/{contentRequest}/assign', [\App\Http\Controllers\Admin\ContentManagerController::class, 'assign'])->name('admin.content.manager.assign');
         Route::put('/admin/content-manager/{contentRequest}/status', [\App\Http\Controllers\Admin\ContentManagerController::class, 'updateStatus'])->name('admin.content.manager.status');
+        Route::put('/admin/content-manager/{contentRequest}/metrics', [\App\Http\Controllers\Admin\ContentManagerController::class, 'updateMetrics'])->name('admin.content.manager.metrics');
     });
 
     // Staff / Executor Routes

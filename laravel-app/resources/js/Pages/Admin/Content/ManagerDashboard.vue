@@ -5,6 +5,10 @@ import moment from 'moment';
 import 'moment/dist/locale/id';
 import { ref } from 'vue';
 import RedwoodSelect from '@/Components/RedwoodSelect.vue';
+import TextInput from '@/Components/TextInput.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import RedwoodButton from '@/Components/RedwoodButton.vue';
+import { usePage } from '@inertiajs/vue3';
 
 moment.locale('id');
 
@@ -57,9 +61,32 @@ const updateStatus = (requestId, newStatus) => {
 const showDetailModal = ref(false);
 const selectedRequest = ref(null);
 
+const metricsForm = useForm({
+    published_at: '',
+    published_url: '',
+    reach_count: 0,
+    engagement_count: 0,
+    link_clicks: 0,
+    insight_notes: '',
+});
+
 const openDetail = (request) => {
     selectedRequest.value = request;
+    metricsForm.published_at = request.published_at ? moment(request.published_at).format('YYYY-MM-DDTHH:mm') : '';
+    metricsForm.published_url = request.published_url || '';
+    metricsForm.reach_count = request.reach_count || 0;
+    metricsForm.engagement_count = request.engagement_count || 0;
+    metricsForm.link_clicks = request.link_clicks || 0;
+    metricsForm.insight_notes = request.insight_notes || '';
     showDetailModal.value = true;
+};
+
+const saveMetrics = () => {
+    metricsForm.put(route('admin.content.manager.metrics', selectedRequest.value.id), {
+        onSuccess: () => {
+            showDetailModal.value = false;
+        }
+    });
 };
 </script>
 
@@ -200,9 +227,54 @@ const openDetail = (request) => {
                                 <span v-if="!selectedRequest.include_logo && !selectedRequest.include_website && !selectedRequest.include_social_media && !selectedRequest.include_phone" class="text-gray-400 italic text-sm">Tidak ada</span>
                             </div>
                         </div>
+                        <div class="border-t border-[#ebeae8] dark:border-[#3e3c3a] pt-6">
+                            <h4 class="text-sm font-black text-[#d02e5c] mb-4 uppercase tracking-widest flex items-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                                Hasil & Metrik Performa
+                            </h4>
+                            
+                            <form @submit.prevent="saveMetrics" class="space-y-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div class="space-y-1">
+                                        <InputLabel value="Tanggal & Waktu Publish" class="text-[10px] font-black uppercase text-[#a8a196]" />
+                                        <input type="datetime-local" v-model="metricsForm.published_at" class="w-full bg-[#fcf8f5] border-[#ebeae8] rounded-2xl p-4 text-[#161514] focus:ring-4 focus:ring-[#d02e5c]/10 focus:border-[#d02e5c] transition-all outline-none shadow-sm shadow-black/5 dark:bg-[#161514] dark:border-[#383736] dark:text-[#f2e8d5]" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <InputLabel value="Link Publish (URL)" class="text-[10px] font-black uppercase text-[#a8a196]" />
+                                        <TextInput v-model="metricsForm.published_url" placeholder="https://..." />
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div class="space-y-1">
+                                        <InputLabel value="Reach" class="text-[10px] font-black uppercase text-[#a8a196]" />
+                                        <TextInput type="number" v-model="metricsForm.reach_count" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <InputLabel value="Engagement" class="text-[10px] font-black uppercase text-[#a8a196]" />
+                                        <TextInput type="number" v-model="metricsForm.engagement_count" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <InputLabel value="Link Clicks" class="text-[10px] font-black uppercase text-[#a8a196]" />
+                                        <TextInput type="number" v-model="metricsForm.link_clicks" />
+                                    </div>
+                                </div>
+
+                                <div class="space-y-1">
+                                    <InputLabel value="Catatan Insight / Evaluasi" class="text-[10px] font-black uppercase text-[#a8a196]" />
+                                    <textarea v-model="metricsForm.insight_notes" rows="3" class="w-full bg-[#fcf8f5] border-[#ebeae8] rounded-2xl p-4 text-[#161514] focus:ring-4 focus:ring-[#d02e5c]/10 focus:border-[#d02e5c] transition-all outline-none shadow-sm shadow-black/5 dark:bg-[#161514] dark:border-[#383736] dark:text-[#f2e8d5]" placeholder="Apa yang bisa diperbaiki untuk konten berikutnya?"></textarea>
+                                </div>
+
+                                <div class="pt-2">
+                                    <RedwoodButton type="submit" :disabled="metricsForm.processing" class="w-full justify-center">
+                                        {{ metricsForm.processing ? 'Menyimpan...' : 'Simpan Performa Konten' }}
+                                    </RedwoodButton>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     <div class="bg-gray-50 dark:bg-[#1a1918] px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-[#ebeae8] dark:border-[#3e3c3a]">
-                        <button @click="showDetailModal = false" type="button" class="w-full inline-flex justify-center rounded-full border border-gray-300 dark:border-[#4e4d4a] shadow-sm px-4 py-2 bg-white dark:bg-[#2d2c2a] text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#3e3c3a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#d02e5c] sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+                        <button @click="showDetailModal = false" type="button" class="w-full inline-flex justify-center rounded-full border border-gray-300 dark:border-[#4e4d4a] shadow-sm px-4 py-2 bg-white dark:bg-[#2d2c2a] text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#3e3c3a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#d02e5c] sm:ml-3 sm:w-auto sm:text-sm transition-colors font-bold">
                             Tutup
                         </button>
                     </div>

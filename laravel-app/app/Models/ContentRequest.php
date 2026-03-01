@@ -26,6 +26,12 @@ class ContentRequest extends Model
         'status',
         'assigned_to',
         'assigned_by',
+        'published_at',
+        'published_url',
+        'reach_count',
+        'engagement_count',
+        'link_clicks',
+        'insight_notes',
     ];
 
     protected $casts = [
@@ -34,6 +40,10 @@ class ContentRequest extends Model
         'include_website' => 'boolean',
         'include_social_media' => 'boolean',
         'include_phone' => 'boolean',
+        'published_at' => 'datetime',
+        'reach_count' => 'integer',
+        'engagement_count' => 'integer',
+        'link_clicks' => 'integer',
     ];
 
     public function requester()
