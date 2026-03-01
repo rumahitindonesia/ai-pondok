@@ -20,7 +20,7 @@ class RoleAndPermissionSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         // Create permissions
-        $modules = ['santri', 'finance', 'psb', 'materi', 'attendance', 'discipline', 'users', 'organisasi'];
+        $modules = ['santri', 'finance', 'psb', 'materi', 'attendance', 'discipline', 'users', 'organisasi', 'homepage', 'content manager', 'content staff'];
         $actions = ['view', 'create', 'update', 'delete'];
 
         foreach ($modules as $module) {

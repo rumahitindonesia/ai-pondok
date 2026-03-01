@@ -19,6 +19,10 @@ const modules = [
     { title: 'Kurikulum', key: 'materi' },
     { title: 'Absensi', key: 'attendance' },
     { title: 'Kedisiplinan', key: 'discipline' },
+    { title: 'Struktur & Pengurus', key: 'organisasi' },
+    { title: 'Manajemen Homepage', key: 'homepage' },
+    { title: 'Manajemen Planner (Content Manager)', key: 'content manager' },
+    { title: 'Tugas Media (Content Staff)', key: 'content staff' },
     { title: 'Manajemen User', key: 'users' },
 ];
 
