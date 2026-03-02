@@ -15,13 +15,19 @@ const props = defineProps({
     instagramAccount: Object,
 });
 
-// Fix type differences between Vue (number) and MySQL (string)
+// Fix type differences and Laravel relation object serialization
 const requestsData = ref([]);
 watchEffect(() => {
-    requestsData.value = props.requests.map(req => ({
-        ...req,
-        assigned_to: req.assigned_to ? String(req.assigned_to) : ''
-    }));
+    requestsData.value = props.requests.map(req => {
+        let assignedId = '';
+        if (req.assigned_to) {
+            assignedId = typeof req.assigned_to === 'object' ? String(req.assigned_to.id) : String(req.assigned_to);
+        }
+        return {
+            ...req,
+            assigned_to: assignedId
+        };
+    });
 });
 
 const getStatusColor = (status) => {
