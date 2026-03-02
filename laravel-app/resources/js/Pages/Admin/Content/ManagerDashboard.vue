@@ -113,10 +113,12 @@ const syncWithInstagram = () => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
-                Manajemen <span class="text-[#d02e5c]">Planner</span>
-            </h2>
-            <p class="text-sm text-gray-500 mt-1 font-medium italic">Atur, tugaskan, dan pantau progres seluruh konten media pesantren.</p>
+            <div>
+                <h2 class="text-xl md:text-3xl font-black tracking-tight text-[#161514] dark:text-[#f2e8d5]">
+                    Manajemen <span class="text-[#d02e5c]">Planner</span>
+                </h2>
+                <p class="text-xs md:text-sm text-gray-500 mt-1 font-medium italic">Atur, tugaskan, dan pantau progres seluruh konten media pesantren.</p>
+            </div>
         </template>
 
         <div class="py-12">
@@ -241,7 +243,7 @@ const syncWithInstagram = () => {
                                         <div class="relative w-full group">
                                             <select 
                                                 @change="assignTask(request.id, $event.target.value)"
-                                                v-model="request.assigned_to"
+                                                :value="request.assigned_to"
                                                 class="w-full bg-[#fcf8f5] dark:bg-[#161514] border-2 border-[#ebeae8] dark:border-[#383736] rounded-2xl p-2.5 pr-8 text-[#161514] dark:text-[#f2e8d5] focus:border-[#d02e5c] focus:ring-4 focus:ring-[#d02e5c]/10 transition-all outline-none appearance-none cursor-pointer font-bold text-xs shadow-sm hover:border-gray-300"
                                             >
                                                 <option value="">-- Belum Diassign --</option>
