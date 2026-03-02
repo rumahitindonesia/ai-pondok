@@ -57,7 +57,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(['can:view santri'])->group(function () {
         Route::get('/santri/settings', [SantriController::class, 'settings'])->name('santri.settings');
         Route::get('/santri', [SantriController::class, 'index'])->name('santri.index');
-        Route::get('/santri/{santri}', [SantriController::class, 'show'])->name('santri.show');
+        Route::get('/santri/{santri}', [SantriController::class, 'show'])->name('santri.show')->where('santri', '[0-9]+');
 
         Route::middleware(['can:create santri'])->group(function () {
             Route::get('/santri/create', [SantriController::class, 'create'])->name('santri.create');
