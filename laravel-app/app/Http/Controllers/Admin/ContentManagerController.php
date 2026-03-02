@@ -18,8 +18,8 @@ class ContentManagerController extends Controller
             ->latest()
             ->get();
 
-        // Get users with media roles or Super Admin
-        $staffMembers = User::role(['Media Manager', 'Media Staff', 'Super Admin'])->get();
+        // Get all users so manager can assign to anyone for now
+        $staffMembers = User::orderBy('name')->get();
         
         $instagramAccount = \App\Models\SocialAccount::where('user_id', Auth::id())
             ->where('platform', 'instagram')
